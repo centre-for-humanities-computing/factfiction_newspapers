@@ -1,0 +1,2 @@
+2025-04-28 10:55:11,792 - INFO - Cleaning the feuilleton data, removing texts < 50 words.
+2025-04-28 10:55:15,250 - INFO - Cleaning the feuilleton data, removing texts < 50 words.

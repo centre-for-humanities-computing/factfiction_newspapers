@@ -1,0 +1,14 @@
+2025-05-05 14:16:34,390 - INFO - get_mfw: created stylistics dataframe. Saved to data/stylistics.csv.
+2025-05-06 09:39:21,957 - INFO - Cleaning done. Removed 506 texts.
+2025-05-06 09:39:21,962 - INFO - Removed 0 rows of invalid embeddings.
+2025-05-06 09:39:41,645 - INFO - Cleaning done. Removed 506 texts.
+2025-05-06 09:39:47,667 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
+2025-05-06 09:39:47,668 - INFO - Features used: Index(['nominal_verb_ratio', 'noun_ttr', 'verb_ttr', 'avg_word_length',
+       'avg_sentence_length', 'msttr', 'ndd_mean', 'ndd_std', 'bzip',
+       'sa_score', 'sa_std'],
+      dtype='object')
+2025-05-06 09:39:54,418 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
+2025-05-06 09:39:54,419 - INFO - Features used: Index(['nominal_verb_ratio', 'noun_ttr', 'verb_ttr', 'avg_word_length',
+       'avg_sentence_length', 'msttr', 'ndd_mean', 'ndd_std', 'bzip',
+       'sa_score', 'sa_std'],
+      dtype='object')

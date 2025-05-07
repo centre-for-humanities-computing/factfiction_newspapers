@@ -8,17 +8,9 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 import spacy
 from transformers import pipeline, AutoTokenizer
-
-from feats_functions import get_spacy_of_text
-from feats_functions import get_pos_derived_features
-from feats_functions import avg_sentlen, avg_wordlen
-from feats_functions import calculate_dependency_distances
-from feats_functions import compressrat
-from feats_functions import get_sentiment
-from lexical_diversity import lex_div as ld
-
 from datasets import load_dataset
 import logging
+from tqdm import tqdm
 
 # %%
 
@@ -95,8 +87,17 @@ tfidf_df['article_id'] = df['article_id']
 tfidf_df.to_csv("data/tfidf_5000.csv", sep="\t")
 logging.info(f"get_mfw: created tfidf_5000 dataframe. Saved to data/tfidf_5000.csv.")
 
+
+
 # %%
-# 3. get stylistic features
+# 3. get stylistics
+
+from functions import process_text
+from functions import compressrat
+from functions import get_pos_derived_features
+from functions import avg_sentlen, avg_wordlen
+from functions import calculate_dependency_distances
+from functions import get_sentiment
 
 # define model
 model_name = "MiMe-MeMo/MeMo-BERT-SA"
@@ -105,80 +106,71 @@ xlm_model = pipeline("text-classification", model=model_name)
 # & tokenizer
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-# to save stuff
-stylistics_data = []
+# make progress bar
+tqdm.pandas(desc="Processing texts")
 
-# loop to get stylistics
-for i, row in df.iterrows():
+stylistics_features = []
+
+for i, row in tqdm(df.iterrows(), total=len(df), desc="Processing texts"):
     text_id = row['article_id']
-    # get the spacy
-    spacy_df = get_spacy_of_text(text=row["text"], out_dir="data", text_id=text_id)
+    text = row["text"]
+    
+    process_text(text, text_id)
 
-    # get words and sentences
-    # words
-    words_list = spacy_df[~spacy_df["token_pos_"].isin(["SPACE", "NUM"])]
-    words = words_list["token_text"].tolist()
-    # sentences
-    sentence_list = spacy_df.groupby("sent_id")
-    sentences = [" ".join(group["token_text"].tolist()) for _, group in sentence_list]
+    features = {}
 
-    # get nominal verb ratio, ttr of nouns, and noun count
-    nominal_verb_ratio, num_nouns, noun_ttr, verb_ttr, personal_pronoun_ratio = get_pos_derived_features(text_id)
-    # get the avg word length
-    wordlen = avg_wordlen(text_id)
-    # get the avg sentence length
-    sentlen, num_sentences = avg_sentlen(text_id)
-    # msttr (window len 100) (we use the words from the spacy_df)
-    msttr = ld.msttr(words, window_length=40)
-    # # dependency distances
-    ndd_mean, ndd_std, dd_mean, dd_std = calculate_dependency_distances(text_id)
-    # compression ratio
-    bzip = compressrat(text_id)
+    # POS and morph features
+    features.update(get_pos_derived_features(text_id))
 
-    # SA
-    # get the sentiment
-    sentiments = get_sentiment(text_id, xlm_model, tokenizer)
-    if sentiments:  # Check if sentiments is not empty
-        sa_score = np.mean(sentiments)
-        sa_std = np.std(sentiments)
+    # Average word length
+    features["avg_wordlen"] = avg_wordlen(text_id)
+
+    # Average sentence length and number of sentences
+    features["avg_sentlen"], features["num_sents"] = avg_sentlen(text_id)
+
+    # Dependency distance metrics
+    features.update(calculate_dependency_distances(text_id))
+
+    # Compression ratio
+    features["compression_ratio"] = compressrat(text_id)
+
+    # Sentiment analysis
+    features["sentiment"] = get_sentiment(text_id, xlm_model, tokenizer)
+
+    if features["sentiment"] is not None and len(features["sentiment"]) > 1:
+        features["sentiment_mean"] = np.mean(features["sentiment"])
+        features["sentiment_std"] = np.std(features["sentiment"])
     else:
-        sa_score = np.nan
-        sa_std = np.nan
+        features["sentiment_mean"] = np.nan
+        features["sentiment_std"] = np.nan
+    # Add feuilleton and article IDs
+    features["feuilleton_id"] = row["feuilleton_id"]
+    features["article_id"] = row["article_id"]
+    # Add the label
+    features["label"] = row["label"]
 
-    # save all
-    stylistics_data.append({
-        "article_id": text_id,
-        "nominal_verb_ratio": nominal_verb_ratio,
-        #"num_nouns_per_sent": num_nouns/num_sentences,
-        "noun_ttr": noun_ttr,
-        "verb_ttr": verb_ttr,
-        "personal_pronoun_ratio": personal_pronoun_ratio,
-        "avg_word_length": wordlen,
-        "avg_sentence_length": sentlen,
-        "msttr": msttr,
-        "ndd_mean": ndd_mean,
-        "ndd_std": ndd_std,
-        "bzip": bzip,
-        "is_feuilleton": row["label"],
-        "feuilleton_id": row["feuilleton_id"],
-        "article_id": row["article_id"],
-        "sa_score": sa_score,
-        "sa_std": sa_std,
-    })
+    # Add the features to the list
+    stylistics_features.append(features)
 
-# Create the final DataFrame after the loop
-stylistics_df = pd.DataFrame.from_dict(stylistics_data)
+# just print colnames to check
+print("stylistics_features columns:")
+print(stylistics_features[0].keys())
+# Create a DataFrame from the list of dictionaries
+stylistics_df = pd.DataFrame(stylistics_features)
+# Save the DataFrame to a CSV file
+stylistics_df.to_csv("data/stylistics_new_way.csv", sep="\t", index=False)
 
-# save
-stylistics_df.to_csv("data/stylistics.csv", sep="\t", index=False)
-logging.info(f"get_mfw: created stylistics dataframe. Saved to data/stylistics.csv.")
+# log it
+logging.info(f"Created stylistic features. Colnames: {stylistics_features[0].keys()}")
+logging.info(f"stylistics_df shape: {stylistics_df.shape}")
+
+
 
 # %%
 
 # get embeddings
 
 from datasets import load_from_disk
-from datasets import Dataset
 # %%
 
 # Load the dataset from arrow

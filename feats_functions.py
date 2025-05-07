@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 import spacy
 import bz2
-from collections import Counter
-import re
 
 
 # SYNTACTICS
@@ -235,34 +233,34 @@ def compressrat(text_id):
     return bzipr
 
 
-def cal_entropy(base, log_n, transform_prob):
-    entropy = 0
-    for count in transform_prob.values():
-        if count > 0:  # Avoid log of zero
-            probability = count / sum(transform_prob.values())
-            entropy -= probability * (log(probability, base) - log_n)
-    return entropy
+# def cal_entropy(base, log_n, transform_prob):
+#     entropy = 0
+#     for count in transform_prob.values():
+#         if count > 0:  # Avoid log of zero
+#             probability = count / sum(transform_prob.values())
+#             entropy -= probability * (log(probability, base) - log_n)
+#     return entropy
 
 
-def text_entropy(words, base=2, asprob=True):
-    total_len = len(words) - 1
-    bigram_transform_prob = Counter()
-    word_transform_prob = Counter()
+# def text_entropy(words, base=2, asprob=True):
+#     total_len = len(words) - 1
+#     bigram_transform_prob = Counter()
+#     word_transform_prob = Counter()
 
-    # Loop through each word and calculate the probabilities
-    for i, word in enumerate(words):
-        if i > 0:
-            bigram_transform_prob[(words[i-1], word)] += 1
-            word_transform_prob[word] += 1
+#     # Loop through each word and calculate the probabilities
+#     for i, word in enumerate(words):
+#         if i > 0:
+#             bigram_transform_prob[(words[i-1], word)] += 1
+#             word_transform_prob[word] += 1
 
-    if asprob:
-        return word_transform_prob, bigram_transform_prob
+#     if asprob:
+#         return word_transform_prob, bigram_transform_prob
 
-    log_n = log(total_len, base)
-    bigram_entropy = cal_entropy(base, log_n, bigram_transform_prob)
-    word_entropy = cal_entropy(base, log_n, word_transform_prob)
+#     log_n = log(total_len, base)
+#     bigram_entropy = cal_entropy(base, log_n, bigram_transform_prob)
+#     word_entropy = cal_entropy(base, log_n, word_transform_prob)
 
-    return bigram_entropy / total_len, word_entropy / total_len
+#     return bigram_entropy / total_len, word_entropy / total_len
 
 
 # SA functions
@@ -345,7 +343,7 @@ def get_sentiment(text_id, model, tokenizer):
     # Load spaCy-parsed sentences
     spacy_df = pd.read_csv(f"data/spacy_books/{text_id}_spacy.csv")
     sentences_df = spacy_df.groupby("sent_id")
-    sents = list(sentences_df["token_text"].apply(lambda x: " ".join(x)))
+    sents = list(sentences_df["token_text"].apply(lambda x: " ".join(str(token) for token in x)))
 
     if not sents:
         print(f"Warning: No sentences found for text: '{text_id}'. Skipping.")

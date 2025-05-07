@@ -36,7 +36,8 @@ mfw_500_df = pd.read_csv("data/mfw_500.csv", sep="\t")
 # get the tfidf
 tfidf_df = pd.read_csv("data/tfidf_5000.csv", sep="\t")
 # get the stylistics
-stylistics = pd.read_csv("data/stylistics.csv", sep="\t")
+#stylistics = pd.read_csv("data/stylistics.csv", sep="\t")
+stylistics = pd.read_csv("data/stylistics_new_way.csv", sep="\t")
 # embeddings from parquet
 embeddings = pd.read_parquet("data/embeddings_jina.parquet")
 
@@ -105,15 +106,25 @@ else:
 # finally, remove "article_ID" from use_df
 use_df = use_df.drop(columns=["article_id"])
 # final check
-print("Number of datapoints in each category: All:", len(use_df), "; nonfic:", len(use_df.loc[use_df['is_feuilleton'] == 'n']), "; fiction:", len(use_df.loc[use_df['is_feuilleton'] == 'y']))
+print("Number of datapoints in each category: All:", len(use_df), "; nonfic:", len(use_df.loc[use_df['label'] == 'non-fiction']), "; fiction:", len(use_df.loc[use_df['label'] == 'fiction']))
 use_df.head()
+
+# %%
+drop_cols = ['num_sents', 'sentiment', 'avg_mdd', 'std_mdd', 'noun_count']
+# drop the columns that are not needed
+for col in drop_cols:
+    if col in use_df.columns:
+        use_df = use_df.drop(columns=[col])
+        print(f"Dropped column: {col}")
+    else:
+        print(f"Column {col} not found in DataFrame.")
 
 # %%
 
 def balance_classes(df):
     # Separate the dataframe into two classes
-    df_fiction = df[df["is_feuilleton"] == "y"]
-    df_nonfiction = df[df["is_feuilleton"] == "n"]
+    df_fiction = df[df["label"] == "fiction"]
+    df_nonfiction = df[df["label"] == "non-fiction"]
 
     # Undersample the nonfiction class to balance with fiction
     df_nonfiction_undersampled = resample(df_nonfiction, 
@@ -143,7 +154,7 @@ def get_features(df):
         print("features used: embedding")
         logging.info(f"Features used: EMBEDDING")
     else:
-        X = df.drop(columns=['is_feuilleton','feuilleton_id'])
+        X = df.drop(columns=['label','feuilleton_id'])
         print("features used:", X.columns)
         logging.info(f"Features used: {X.columns}")
     return X
@@ -151,7 +162,7 @@ def get_features(df):
 X = get_features(balanced_df)
 
 # Define target
-y = balanced_df["is_feuilleton"]
+y = balanced_df["label"]
 
 # Split data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -171,7 +182,6 @@ print(f"Accuracy: {accuracy:.2f}")
 print(classification_report(y_test, y_pred))
 
 
-
 # %%
 # Stratified Group K-Fold Cross-Validation
 
@@ -188,7 +198,7 @@ balanced_df = balance_classes(use_df)
 # Define features
 X = get_features(balanced_df)
 # Define target
-y = balanced_df["is_feuilleton"]
+y = balanced_df["label"]
 
 # we want to make sure we have no feuilletons of the same ID in train and testsets
 # first we give dummyIDs to the ones missing IDs
@@ -236,14 +246,14 @@ for train_index, test_index in sgkf.split(X, y, groups):
     report = classification_report(y_test, y_pred, output_dict=True)
     
     # For 'y' (fiction class)
-    precisions_y.append(report['y']['precision'])
-    recalls_y.append(report['y']['recall'])
-    f1_scores_y.append(report['y']['f1-score'])
+    precisions_y.append(report['fiction']['precision'])
+    recalls_y.append(report['fiction']['recall'])
+    f1_scores_y.append(report['fiction']['f1-score'])
     
     # For 'n' (nonfiction class)
-    precisions_n.append(report['n']['precision'])
-    recalls_n.append(report['n']['recall'])
-    f1_scores_n.append(report['n']['f1-score'])
+    precisions_n.append(report['non-fiction']['precision'])
+    recalls_n.append(report['non-fiction']['recall'])
+    f1_scores_n.append(report['non-fiction']['f1-score'])
 
     # save importances
     importances.append(clf.feature_importances_)

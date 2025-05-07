@@ -4,7 +4,9 @@ import spacy
 import numpy as np
 import bz2
 from lexical_diversity import lex_div as ld
+from antropy import app_entropy
 
+# %%
 
 DATA_DIR = Path("data")
 SPACY_DIR = DATA_DIR / "spacy_books"
@@ -154,6 +156,15 @@ def compressrat(text_id):
 
 
 # --- SENTIMENT ANALYSIS ---
+
+def get_apen(sentiment_list):
+    """
+    Computes the approximate entropy of a list of sentiment scores.
+    """
+    if len(sentiment_list) < 10: # should probably be 20
+        return np.nan
+    return app_entropy(sentiment_list, order=2)
+
 
 # to convert transformer scores to the same scale as the dictionary-based scores
 def conv_scores(label, score, spec_lab):  # single label and score

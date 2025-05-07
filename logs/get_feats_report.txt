@@ -1,1 +1,322 @@
-2025-05-07 23:26:43,727 - INFO - get_mfw: created mfw_100 and mfw_500 dataframes. Saved to data/mfw_100.csv and data/mfw_500.csv.
+2025-05-08 00:19:03,058 - INFO - Created stylistic features. Colnames: dict_keys(['nominal_verb_ratio', 'noun_count', 'msttr', 'noun_ttr', 'verb_ttr', 'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio', 'that_ratio', 'past_tense_ratio', 'present_tense_ratio', 'passive_ratio', 'active_ratio', 'avg_wordlen', 'avg_sentlen', 'num_sents', 'avg_ndd', 'std_ndd', 'avg_mdd', 'std_mdd', 'compression_ratio', 'sentiment', 'sentiment_mean', 'sentiment_std', 'apen_sentiment', 'feuilleton_id', 'article_id', 'label'])
+2025-05-08 00:19:03,058 - INFO - stylistics_df shape: (1459, 28)
+2025-05-08 00:19:03,058 - INFO - stylistics_df nominal_verb_ratio missing values: 12
+2025-05-08 00:19:03,062 - INFO - stylistics_df nominal_verb_ratio distribution: count    1447.000000
+mean        3.393248
+std         2.464430
+min         0.333333
+25%         2.166667
+50%         2.727273
+75%         3.571429
+max        23.000000
+Name: nominal_verb_ratio, dtype: float64
+2025-05-08 00:19:03,062 - INFO - 
+
+2025-05-08 00:19:03,063 - INFO - stylistics_df noun_count missing values: 0
+2025-05-08 00:19:03,064 - INFO - stylistics_df noun_count distribution: count    1459.000000
+mean       67.697738
+std        75.093932
+min         1.000000
+25%        18.000000
+50%        41.000000
+75%        88.000000
+max       590.000000
+Name: noun_count, dtype: float64
+2025-05-08 00:19:03,064 - INFO - 
+
+2025-05-08 00:19:03,065 - INFO - stylistics_df msttr missing values: 0
+2025-05-08 00:19:03,066 - INFO - stylistics_df msttr distribution: count    1459.000000
+mean        0.805587
+std         0.079875
+min         0.420000
+25%         0.765000
+50%         0.793333
+75%         0.837209
+max         1.000000
+Name: msttr, dtype: float64
+2025-05-08 00:19:03,067 - INFO - 
+
+2025-05-08 00:19:03,067 - INFO - stylistics_df noun_ttr missing values: 0
+2025-05-08 00:19:03,068 - INFO - stylistics_df noun_ttr distribution: count    1459.000000
+mean        0.900888
+std         0.091241
+min         0.385542
+25%         0.845245
+50%         0.915254
+75%         1.000000
+max         1.000000
+Name: noun_ttr, dtype: float64
+2025-05-08 00:19:03,068 - INFO - 
+
+2025-05-08 00:19:03,068 - INFO - stylistics_df verb_ttr missing values: 12
+2025-05-08 00:19:03,068 - INFO - stylistics_df verb_ttr distribution: count    1447.000000
+mean        0.915206
+std         0.095490
+min         0.333333
+25%         0.857143
+50%         0.937500
+75%         1.000000
+max         1.000000
+Name: verb_ttr, dtype: float64
+2025-05-08 00:19:03,068 - INFO - 
+
+2025-05-08 00:19:03,069 - INFO - stylistics_df personal_pronoun_ratio missing values: 0
+2025-05-08 00:19:03,069 - INFO - stylistics_df personal_pronoun_ratio distribution: count    1459.000000
+mean        0.048119
+std         0.037120
+min         0.000000
+25%         0.020000
+50%         0.043103
+75%         0.070888
+max         0.266667
+Name: personal_pronoun_ratio, dtype: float64
+2025-05-08 00:19:03,069 - INFO - 
+
+2025-05-08 00:19:03,069 - INFO - stylistics_df function_word_ratio missing values: 0
+2025-05-08 00:19:03,070 - INFO - stylistics_df function_word_ratio distribution: count    1459.000000
+mean        0.199768
+std         0.046815
+min         0.000000
+25%         0.179693
+50%         0.204225
+75%         0.228261
+max         0.363636
+Name: function_word_ratio, dtype: float64
+2025-05-08 00:19:03,070 - INFO - 
+
+2025-05-08 00:19:03,070 - INFO - stylistics_df of_ratio missing values: 0
+2025-05-08 00:19:03,071 - INFO - stylistics_df of_ratio distribution: count    1459.000000
+mean        0.016046
+std         0.015438
+min         0.000000
+25%         0.005814
+50%         0.013359
+75%         0.021555
+max         0.117647
+Name: of_ratio, dtype: float64
+2025-05-08 00:19:03,071 - INFO - 
+
+2025-05-08 00:19:03,071 - INFO - stylistics_df that_ratio missing values: 0
+2025-05-08 00:19:03,071 - INFO - stylistics_df that_ratio distribution: count    1459.000000
+mean        0.008181
+std         0.009573
+min         0.000000
+25%         0.000000
+50%         0.006211
+75%         0.012743
+max         0.071429
+Name: that_ratio, dtype: float64
+2025-05-08 00:19:03,071 - INFO - 
+
+2025-05-08 00:19:03,071 - INFO - stylistics_df past_tense_ratio missing values: 65
+2025-05-08 00:19:03,072 - INFO - stylistics_df past_tense_ratio distribution: count    1394.000000
+mean        0.504349
+std         0.193275
+min         0.025000
+25%         0.363636
+50%         0.500000
+75%         0.624887
+max         1.000000
+Name: past_tense_ratio, dtype: float64
+2025-05-08 00:19:03,072 - INFO - 
+
+2025-05-08 00:19:03,072 - INFO - stylistics_df present_tense_ratio missing values: 173
+2025-05-08 00:19:03,073 - INFO - stylistics_df present_tense_ratio distribution: count    1286.000000
+mean        0.281352
+std         0.178366
+min         0.018868
+25%         0.154990
+50%         0.250000
+75%         0.357143
+max         1.000000
+Name: present_tense_ratio, dtype: float64
+2025-05-08 00:19:03,073 - INFO - 
+
+2025-05-08 00:19:03,073 - INFO - stylistics_df passive_ratio missing values: 26
+2025-05-08 00:19:03,074 - INFO - stylistics_df passive_ratio distribution: count    1433.000000
+mean        0.882025
+std         0.164175
+min         0.000000
+25%         0.839506
+50%         0.933333
+75%         1.000000
+max         1.000000
+Name: passive_ratio, dtype: float64
+2025-05-08 00:19:03,074 - INFO - 
+
+2025-05-08 00:19:03,074 - INFO - stylistics_df active_ratio missing values: 26
+2025-05-08 00:19:03,075 - INFO - stylistics_df active_ratio distribution: count    1433.000000
+mean        0.117975
+std         0.164175
+min         0.000000
+25%         0.000000
+50%         0.066667
+75%         0.160494
+max         1.000000
+Name: active_ratio, dtype: float64
+2025-05-08 00:19:03,075 - INFO - 
+
+2025-05-08 00:19:03,075 - INFO - stylistics_df avg_wordlen missing values: 0
+2025-05-08 00:19:03,076 - INFO - stylistics_df avg_wordlen distribution: count    1459.000000
+mean        5.078148
+std         0.534368
+min         3.272727
+25%         4.768673
+50%         5.049563
+75%         5.363827
+max        11.333333
+Name: avg_wordlen, dtype: float64
+2025-05-08 00:19:03,076 - INFO - 
+
+2025-05-08 00:19:03,076 - INFO - stylistics_df avg_sentlen missing values: 0
+2025-05-08 00:19:03,076 - INFO - stylistics_df avg_sentlen distribution: count    1459.000000
+mean       25.525440
+std        14.500989
+min         2.142857
+25%        16.803828
+50%        23.444444
+75%        31.066239
+max       233.000000
+Name: avg_sentlen, dtype: float64
+2025-05-08 00:19:03,076 - INFO - 
+
+2025-05-08 00:19:03,076 - INFO - stylistics_df num_sents missing values: 0
+2025-05-08 00:19:03,077 - INFO - stylistics_df num_sents distribution: count    1459.000000
+mean       13.505826
+std        14.633865
+min         1.000000
+25%         4.000000
+50%         9.000000
+75%        18.000000
+max       132.000000
+Name: num_sents, dtype: float64
+2025-05-08 00:19:03,077 - INFO - 
+
+2025-05-08 00:19:03,077 - INFO - stylistics_df avg_ndd missing values: 1
+2025-05-08 00:19:03,078 - INFO - stylistics_df avg_ndd distribution: count    1458.000000
+mean        1.280264
+std         0.302095
+min         0.162856
+25%         1.117028
+50%         1.275224
+75%         1.429934
+max         2.667513
+Name: avg_ndd, dtype: float64
+2025-05-08 00:19:03,078 - INFO - 
+
+2025-05-08 00:19:03,078 - INFO - stylistics_df std_ndd missing values: 1
+2025-05-08 00:19:03,078 - INFO - stylistics_df std_ndd distribution: count    1458.000000
+mean        0.401931
+std         0.206903
+min         0.000000
+25%         0.292274
+50%         0.433551
+75%         0.534208
+max         1.054788
+Name: std_ndd, dtype: float64
+2025-05-08 00:19:03,078 - INFO - 
+
+2025-05-08 00:19:03,078 - INFO - stylistics_df avg_mdd missing values: 0
+2025-05-08 00:19:03,079 - INFO - stylistics_df avg_mdd distribution: count    1459.000000
+mean        2.278672
+std         0.622237
+min         0.000000
+25%         1.957059
+50%         2.307529
+75%         2.608297
+max         5.305502
+Name: avg_mdd, dtype: float64
+2025-05-08 00:19:03,079 - INFO - 
+
+2025-05-08 00:19:03,079 - INFO - stylistics_df std_mdd missing values: 0
+2025-05-08 00:19:03,087 - INFO - stylistics_df std_mdd distribution: count    1459.000000
+mean        0.886425
+std         0.457114
+min         0.000000
+25%         0.627864
+50%         0.928016
+75%         1.179667
+max         3.906284
+Name: std_mdd, dtype: float64
+2025-05-08 00:19:03,087 - INFO - 
+
+2025-05-08 00:19:03,087 - INFO - stylistics_df compression_ratio missing values: 0
+2025-05-08 00:19:03,088 - INFO - stylistics_df compression_ratio distribution: count    1459.000000
+mean        1.771952
+std         0.421013
+min         0.569767
+25%         1.503484
+50%         1.808765
+75%         2.090336
+max         3.162162
+Name: compression_ratio, dtype: float64
+2025-05-08 00:19:03,089 - INFO - 
+
+2025-05-08 00:19:03,089 - INFO - stylistics_df sentiment missing values: 0
+2025-05-08 00:19:03,119 - INFO - stylistics_df sentiment distribution: count      1459
+unique     1328
+top       [0.0]
+freq         31
+Name: sentiment, dtype: object
+2025-05-08 00:19:03,119 - INFO - 
+
+2025-05-08 00:19:03,119 - INFO - stylistics_df sentiment_mean missing values: 114
+2025-05-08 00:19:03,120 - INFO - stylistics_df sentiment_mean distribution: count    1.345000e+03
+mean    -1.835790e-01
+std      3.588536e-01
+min     -9.999894e-01
+25%     -4.211007e-01
+50%     -1.622588e-01
+75%      4.371007e-07
+max      9.999831e-01
+Name: sentiment_mean, dtype: float64
+2025-05-08 00:19:03,120 - INFO - 
+
+2025-05-08 00:19:03,120 - INFO - stylistics_df sentiment_std missing values: 114
+2025-05-08 00:19:03,121 - INFO - stylistics_df sentiment_std distribution: count    1345.000000
+mean        0.525821
+std         0.260906
+min         0.000000
+25%         0.421317
+50%         0.512693
+75%         0.728373
+max         0.999986
+Name: sentiment_std, dtype: float64
+2025-05-08 00:19:03,121 - INFO - 
+
+2025-05-08 00:19:03,121 - INFO - stylistics_df apen_sentiment missing values: 777
+2025-05-08 00:19:03,122 - INFO - stylistics_df apen_sentiment distribution: count    682.000000
+mean       0.467344
+std        0.212419
+min       -0.002259
+25%        0.331316
+50%        0.477318
+75%        0.622656
+max        0.972619
+Name: apen_sentiment, dtype: float64
+2025-05-08 00:19:03,122 - INFO - 
+
+2025-05-08 00:19:03,122 - INFO - stylistics_df feuilleton_id missing values: 768
+2025-05-08 00:19:03,122 - INFO - stylistics_df feuilleton_id distribution: count                       691
+unique                      180
+top       thi_mester-hoffmann_b
+freq                         22
+Name: feuilleton_id, dtype: object
+2025-05-08 00:19:03,122 - INFO - 
+
+2025-05-08 00:19:03,123 - INFO - stylistics_df article_id missing values: 1
+2025-05-08 00:19:03,124 - INFO - stylistics_df article_id distribution: count           1458
+unique          1458
+top       thi_000004
+freq               1
+Name: article_id, dtype: object
+2025-05-08 00:19:03,124 - INFO - 
+
+2025-05-08 00:19:03,124 - INFO - stylistics_df label missing values: 0
+2025-05-08 00:19:03,124 - INFO - stylistics_df label distribution: count            1459
+unique              2
+top       non-fiction
+freq              809
+Name: label, dtype: object
+2025-05-08 00:19:03,124 - INFO - 
+

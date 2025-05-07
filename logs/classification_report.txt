@@ -1,52 +1,55 @@
-2025-05-07 23:19:35,271 - INFO - Starting classification script.
-2025-05-07 23:19:35,769 - INFO - Cleaning done. Removed 506 texts.
-2025-05-07 23:19:47,214 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
-2025-05-07 23:19:47,215 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+2025-05-08 00:20:01,817 - INFO - Starting classification script.
+2025-05-08 00:20:02,712 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-08 00:20:02,713 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
        'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
-       'that_ratio', 'active_ratio', 'passive_ratio', 'past_tense_ratio',
-       'present_tense_ratio', 'avg_wordlen', 'avg_sentlen', 'avg_ndd',
-       'std_ndd', 'compression_ratio', 'sentiment_mean', 'sentiment_std'],
+       'that_ratio', 'past_tense_ratio', 'present_tense_ratio',
+       'passive_ratio', 'active_ratio', 'avg_wordlen', 'avg_sentlen',
+       'avg_ndd', 'std_ndd', 'compression_ratio', 'sentiment_mean',
+       'sentiment_std', 'apen_sentiment'],
       dtype='object')
-2025-05-07 23:20:04,147 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
-2025-05-07 23:20:04,148 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+2025-05-08 00:20:03,246 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-08 00:20:03,248 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
        'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
-       'that_ratio', 'active_ratio', 'passive_ratio', 'past_tense_ratio',
-       'present_tense_ratio', 'avg_wordlen', 'avg_sentlen', 'avg_ndd',
-       'std_ndd', 'compression_ratio', 'sentiment_mean', 'sentiment_std'],
+       'that_ratio', 'past_tense_ratio', 'present_tense_ratio',
+       'passive_ratio', 'active_ratio', 'avg_wordlen', 'avg_sentlen',
+       'avg_ndd', 'std_ndd', 'compression_ratio', 'sentiment_mean',
+       'sentiment_std', 'apen_sentiment'],
       dtype='object')
-2025-05-07 23:20:04,839 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+2025-05-08 00:20:04,356 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
        'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
-       'that_ratio', 'active_ratio', 'passive_ratio', 'past_tense_ratio',
-       'present_tense_ratio', 'avg_wordlen', 'avg_sentlen', 'avg_ndd',
-       'std_ndd', 'compression_ratio', 'sentiment_mean', 'sentiment_std'],
+       'that_ratio', 'past_tense_ratio', 'present_tense_ratio',
+       'passive_ratio', 'active_ratio', 'avg_wordlen', 'avg_sentlen',
+       'avg_ndd', 'std_ndd', 'compression_ratio', 'sentiment_mean',
+       'sentiment_std', 'apen_sentiment'],
       dtype='object')
-2025-05-07 23:20:04,839 - INFO - Overall performance across all folds:
-2025-05-07 23:20:04,840 - INFO - Average Accuracy: 0.83
-2025-05-07 23:20:04,840 - INFO - Average Precision for 'y' (fiction): 0.83
-2025-05-07 23:20:04,840 - INFO - Average Recall for 'y' (fiction): 0.85
-2025-05-07 23:20:04,840 - INFO - Average F1 Score for 'y' (fiction): 0.84
-2025-05-07 23:20:04,840 - INFO - Average Precision for 'n' (nonfiction): 0.85
-2025-05-07 23:20:04,840 - INFO - Average Recall for 'n' (nonfiction): 0.82
-2025-05-07 23:20:04,840 - INFO - Average F1 Score for 'n' (nonfiction): 0.83
-2025-05-07 23:20:04,840 - INFO - 
+2025-05-08 00:20:04,356 - INFO - Overall performance across all folds:
+2025-05-08 00:20:04,356 - INFO - Average Accuracy: 0.81
+2025-05-08 00:20:04,356 - INFO - Average Precision for 'y' (fiction): 0.80
+2025-05-08 00:20:04,356 - INFO - Average Recall for 'y' (fiction): 0.84
+2025-05-08 00:20:04,356 - INFO - Average F1 Score for 'y' (fiction): 0.82
+2025-05-08 00:20:04,356 - INFO - Average Precision for 'n' (nonfiction): 0.83
+2025-05-08 00:20:04,356 - INFO - Average Recall for 'n' (nonfiction): 0.78
+2025-05-08 00:20:04,356 - INFO - Average F1 Score for 'n' (nonfiction): 0.81
+2025-05-08 00:20:04,358 - INFO - 
 Top 20 Features by Average Importance:
-2025-05-07 23:20:04,840 - INFO - personal_pronoun_ratio    0.182964
-nominal_verb_ratio        0.110861
-active_ratio              0.102847
-avg_wordlen               0.093329
-sentiment_std             0.068980
-passive_ratio             0.057975
-present_tense_ratio       0.046782
-past_tense_ratio          0.046460
-sentiment_mean            0.038745
-function_word_ratio       0.030960
-avg_sentlen               0.030556
-that_ratio                0.029109
-std_ndd                   0.028013
-compression_ratio         0.024150
-avg_ndd                   0.023822
-noun_ttr                  0.022234
-of_ratio                  0.021893
-verb_ttr                  0.020869
-msttr                     0.019451
+2025-05-08 00:20:04,358 - INFO - personal_pronoun_ratio    0.157242
+nominal_verb_ratio        0.107825
+avg_wordlen               0.075752
+present_tense_ratio       0.069206
+active_ratio              0.062259
+sentiment_std             0.059312
+passive_ratio             0.058551
+past_tense_ratio          0.052758
+sentiment_mean            0.045362
+function_word_ratio       0.038933
+avg_sentlen               0.035229
+compression_ratio         0.035043
+avg_ndd                   0.033133
+of_ratio                  0.030703
+std_ndd                   0.029900
+msttr                     0.029575
+that_ratio                0.021914
+apen_sentiment            0.021108
+noun_ttr                  0.020183
+verb_ttr                  0.016012
 dtype: float64

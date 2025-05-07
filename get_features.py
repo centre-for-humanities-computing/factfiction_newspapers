@@ -98,6 +98,7 @@ from functions import get_pos_derived_features
 from functions import avg_sentlen, avg_wordlen
 from functions import calculate_dependency_distances
 from functions import get_sentiment
+from functions import get_apen
 
 # define model
 model_name = "MiMe-MeMo/MeMo-BERT-SA"
@@ -140,6 +141,7 @@ for i, row in tqdm(df.iterrows(), total=len(df), desc="Processing texts"):
     if features["sentiment"] is not None and len(features["sentiment"]) > 1:
         features["sentiment_mean"] = np.mean(features["sentiment"])
         features["sentiment_std"] = np.std(features["sentiment"])
+        features["apen_sentiment"] = get_apen(features["sentiment"])
     else:
         features["sentiment_mean"] = np.nan
         features["sentiment_std"] = np.nan
@@ -160,7 +162,7 @@ stylistics_df = pd.DataFrame(stylistics_features)
 # Save the DataFrame to a CSV file
 stylistics_df.to_csv("data/stylistics_new_way.csv", sep="\t", index=False)
 
-# %%
+
 # log it
 logging.info(f"Created stylistic features. Colnames: {stylistics_features[0].keys()}")
 logging.info(f"stylistics_df shape: {stylistics_df.shape}")

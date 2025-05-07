@@ -6,7 +6,6 @@ from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 
-import spacy
 from transformers import pipeline, AutoTokenizer
 from datasets import load_dataset
 import logging

@@ -64,6 +64,10 @@ def get_pos_derived_features(text_id):
     words = df[~df["token_pos_"].isin(["PUNCT", "SPACE", "NUM"])]
     nouns = df[pos == "NOUN"]
     verbs = df[pos == "VERB"]
+    active_verbs = df[(pos == "VERB") & (morph.str.contains("Voice=Act"))]
+    passive_verbs = df[(pos == "VERB") & (morph.str.contains("Voice=Pass"))]
+    past_tense_verbs = df[(pos == "VERB") & (morph.str.contains("Tense=Past"))]
+    present_tense_verbs = df[(pos == "VERB") & (morph.str.contains("Tense=Pres"))]
     nominals = df[pos.isin(["PROPN", "ADJ"])]
     propn_pers = df[(pos == "PRON") & morph.str.contains("PronType=Prs")]
     function_words = df[pos.isin(["ADP", "CCONJ", "SCONJ", "AUX", "PART"])]
@@ -80,6 +84,10 @@ def get_pos_derived_features(text_id):
         "function_word_ratio": len(function_words) / len(df) if len(df) else np.nan,
         "of_ratio": len(of_like) / len(df) if len(df) else np.nan,
         "that_ratio": len(that_like) / len(df) if len(df) else np.nan,
+        "active_ratio": len(active_verbs) / len(verbs) if len(passive_verbs) else np.nan,
+        "passive_ratio": len(passive_verbs) / len(verbs) if len(passive_verbs) else np.nan,
+        "past_tense_ratio": len(past_tense_verbs) / len(verbs) if len(past_tense_verbs) else np.nan,
+        "present_tense_ratio": len(present_tense_verbs) / len(verbs) if len(present_tense_verbs) else np.nan,
     }
 
 

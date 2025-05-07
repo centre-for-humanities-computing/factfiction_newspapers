@@ -64,8 +64,9 @@ def get_pos_derived_features(text_id):
     words = df[~df["token_pos_"].isin(["PUNCT", "SPACE", "NUM"])]
     nouns = df[pos == "NOUN"]
     verbs = df[pos == "VERB"]
-    active_verbs = df[(pos == "VERB") & (morph.str.contains("Voice=Act"))]
+    passive_and_active_verbs = df[(pos == "VERB") & (morph.str.contains("Voice=Act") | morph.str.contains("Voice=Pass"))]
     passive_verbs = df[(pos == "VERB") & (morph.str.contains("Voice=Pass"))]
+    active_verbs = df[(pos == "VERB") & (morph.str.contains("Voice=Act"))]
     past_tense_verbs = df[(pos == "VERB") & (morph.str.contains("Tense=Past"))]
     present_tense_verbs = df[(pos == "VERB") & (morph.str.contains("Tense=Pres"))]
     nominals = df[pos.isin(["PROPN", "ADJ"])]
@@ -77,17 +78,19 @@ def get_pos_derived_features(text_id):
     return {
         "nominal_verb_ratio": (len(nominals) + len(nouns)) / len(verbs) if len(verbs) else np.nan,
         "noun_count": len(nouns),
-        "msttr": ld.msttr(words["token_text"].tolist(), window_length=40),
+        "msttr": ld.msttr(words["token_text"].tolist(), window_length=100),
         "noun_ttr": nouns["token_lemma_"].nunique() / len(nouns) if len(nouns) else np.nan,
         "verb_ttr": verbs["token_lemma_"].nunique() / len(verbs) if len(verbs) else np.nan,
         "personal_pronoun_ratio": len(propn_pers) / len(df) if len(df) else np.nan,
         "function_word_ratio": len(function_words) / len(df) if len(df) else np.nan,
         "of_ratio": len(of_like) / len(df) if len(df) else np.nan,
         "that_ratio": len(that_like) / len(df) if len(df) else np.nan,
-        "active_ratio": len(active_verbs) / len(verbs) if len(passive_verbs) else np.nan,
-        "passive_ratio": len(passive_verbs) / len(verbs) if len(passive_verbs) else np.nan,
+        # "active_ratio": len(active_verbs) / len(verbs) if len(passive_verbs) else np.nan,
+        # "passive_ratio": len(passive_verbs) / len(verbs) if len(passive_verbs) else np.nan,
         "past_tense_ratio": len(past_tense_verbs) / len(verbs) if len(past_tense_verbs) else np.nan,
         "present_tense_ratio": len(present_tense_verbs) / len(verbs) if len(present_tense_verbs) else np.nan,
+        "passive_ratio": len(active_verbs) / len(passive_and_active_verbs) if len(passive_and_active_verbs) else np.nan,
+        "active_ratio": len(passive_verbs) / len(passive_and_active_verbs) if len(passive_and_active_verbs) else np.nan,
     }
 
 

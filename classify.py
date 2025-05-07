@@ -26,8 +26,11 @@ logging.basicConfig(
     filename='logs/classification_report.txt',           # Output file
     filemode='w',                    # 'w' to overwrite each run; use 'a' to append
     format='%(asctime)s - %(levelname)s - %(message)s',  # Log format
-    level=logging.INFO               # Minimum level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    level=logging.INFO,               # Minimum level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    force=True
 )
+
+logging.info("Starting classification script.")
 
 # GET DATA
 # get the mfws
@@ -111,13 +114,10 @@ use_df.head()
 
 # %%
 drop_cols = ['num_sents', 'sentiment', 'avg_mdd', 'std_mdd', 'noun_count']
-# drop the columns that are not needed
-for col in drop_cols:
-    if col in use_df.columns:
-        use_df = use_df.drop(columns=[col])
-        print(f"Dropped column: {col}")
-    else:
-        print(f"Column {col} not found in DataFrame.")
+use_df = use_df.drop(columns=drop_cols)
+# check for NaN values
+print("NaN values in use_df:")
+print(use_df.isna().sum())
 
 # %%
 
@@ -269,6 +269,9 @@ for train_index, test_index in sgkf.split(X, y, groups):
 
     print("-------")
 
+# log features used
+logging.info(f"Features used: {X.columns}")
+
 # Calculate overall (mean) performance across all folds
 print("\nOverall performance across all folds:")
 print(f"Average Accuracy: {np.mean(accuracies):.2f}")
@@ -278,39 +281,31 @@ print(f"Average F1 Score for 'y' (fiction): {np.mean(f1_scores_y):.2f}")
 print(f"Average Precision for 'n' (nonfiction): {np.mean(precisions_n):.2f}")
 print(f"Average Recall for 'n' (nonfiction): {np.mean(recalls_n):.2f}")
 print(f"Average F1 Score for 'n' (nonfiction): {np.mean(f1_scores_n):.2f}")
+# log it
+logging.info(f"Overall performance across all folds:")
+logging.info(f"Average Accuracy: {np.mean(accuracies):.2f}")
+logging.info(f"Average Precision for 'y' (fiction): {np.mean(precisions_y):.2f}")
+logging.info(f"Average Recall for 'y' (fiction): {np.mean(recalls_y):.2f}")
+logging.info(f"Average F1 Score for 'y' (fiction): {np.mean(f1_scores_y):.2f}")
+logging.info(f"Average Precision for 'n' (nonfiction): {np.mean(precisions_n):.2f}")
+logging.info(f"Average Recall for 'n' (nonfiction): {np.mean(recalls_n):.2f}")
+logging.info(f"Average F1 Score for 'n' (nonfiction): {np.mean(f1_scores_n):.2f}")
 
 # only do this if not only using embeddings
 if "embedding" not in balanced_df.columns:
     # Print feature importances
     # Convert to DataFrame for easier handling
     importances_df = pd.DataFrame(importances, columns=X.columns)
-
     # Average across folds
     mean_importances = importances_df.mean().sort_values(ascending=False)
-
     # Print top features by importance
     print("\nTop 20 Features by Average Importance:")
     print(mean_importances.head(20))
+    # log it
+    logging.info("\nTop 20 Features by Average Importance:")
+    logging.info(mean_importances.head(20))
 
 # %%
-# Visualize Partial Dependence for top features by importance
-# Plot Partial Dependence for the top 3 features with the highest importance
-# Plot the top 3 features by mean importance
-top_features = mean_importances.head(10).index
-
-sns.set_style("whitegrid")
-plt.figure(figsize=(20, 12))
-PartialDependenceDisplay.from_estimator(
-    clf,
-    X_train,  # Use training set to avoid test set leakage
-    features=[X.columns.get_loc(feat) for feat in top_features],  # Convert names to indices
-    feature_names=X.columns.tolist(),
-    kind='average',  # 'individual' for ICE, 'both' for both ICE and PDP
-    grid_resolution=50
-)
-plt.suptitle('Partial Dependence of Top Features Across Last Fold')
-plt.show()
-
 
 
 # %%

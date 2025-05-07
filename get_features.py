@@ -20,7 +20,8 @@ logging.basicConfig(
     filename='logs/get_feats_report.txt',           # Output file
     filemode='w',                    # 'w' to overwrite each run; use 'a' to append
     format='%(asctime)s - %(levelname)s - %(message)s',  # Log format
-    level=logging.INFO               # Minimum level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    level=logging.INFO,              # Minimum level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    force=True,                # Force logging even if already configured
 )
 
 # get data
@@ -159,11 +160,16 @@ stylistics_df = pd.DataFrame(stylistics_features)
 # Save the DataFrame to a CSV file
 stylistics_df.to_csv("data/stylistics_new_way.csv", sep="\t", index=False)
 
+# %%
 # log it
 logging.info(f"Created stylistic features. Colnames: {stylistics_features[0].keys()}")
 logging.info(f"stylistics_df shape: {stylistics_df.shape}")
-
-
+for col in stylistics_features[0].keys():
+    # log the number of missing values
+    logging.info(f"stylistics_df {col} missing values: {stylistics_df[col].isnull().sum()}")
+    # print the distribution of the column
+    logging.info(f"stylistics_df {col} distribution: {stylistics_df[col].describe()}")
+    logging.info("\n")
 
 # %%
 

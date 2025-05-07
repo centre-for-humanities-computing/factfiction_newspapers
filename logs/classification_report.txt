@@ -1,29 +1,52 @@
-2025-05-06 14:41:49,275 - INFO - Cleaning done. Removed 506 texts.
-2025-05-06 14:41:51,550 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
-2025-05-06 14:41:51,551 - INFO - Features used: Index(['nominal_verb_ratio', 'noun_ttr', 'verb_ttr', 'avg_word_length',
-       'avg_sentence_length', 'msttr', 'ndd_mean', 'ndd_std', 'bzip',
-       'sa_score', 'sa_std'],
+2025-05-07 23:19:35,271 - INFO - Starting classification script.
+2025-05-07 23:19:35,769 - INFO - Cleaning done. Removed 506 texts.
+2025-05-07 23:19:47,214 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
+2025-05-07 23:19:47,215 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
+       'that_ratio', 'active_ratio', 'passive_ratio', 'past_tense_ratio',
+       'present_tense_ratio', 'avg_wordlen', 'avg_sentlen', 'avg_ndd',
+       'std_ndd', 'compression_ratio', 'sentiment_mean', 'sentiment_std'],
       dtype='object')
-2025-05-06 14:42:11,965 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
-2025-05-06 14:42:11,966 - INFO - Features used: Index(['nominal_verb_ratio', 'noun_ttr', 'verb_ttr', 'avg_word_length',
-       'avg_sentence_length', 'msttr', 'ndd_mean', 'ndd_std', 'bzip',
-       'sa_score', 'sa_std'],
+2025-05-07 23:20:04,147 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
+2025-05-07 23:20:04,148 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
+       'that_ratio', 'active_ratio', 'passive_ratio', 'past_tense_ratio',
+       'present_tense_ratio', 'avg_wordlen', 'avg_sentlen', 'avg_ndd',
+       'std_ndd', 'compression_ratio', 'sentiment_mean', 'sentiment_std'],
       dtype='object')
-2025-05-06 14:42:17,551 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
-2025-05-06 14:42:17,552 - INFO - Features used: Index(['nominal_verb_ratio', 'noun_ttr', 'verb_ttr', 'avg_word_length',
-       'avg_sentence_length', 'msttr', 'ndd_mean', 'ndd_std', 'bzip',
-       'sa_score', 'sa_std'],
+2025-05-07 23:20:04,839 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
+       'that_ratio', 'active_ratio', 'passive_ratio', 'past_tense_ratio',
+       'present_tense_ratio', 'avg_wordlen', 'avg_sentlen', 'avg_ndd',
+       'std_ndd', 'compression_ratio', 'sentiment_mean', 'sentiment_std'],
       dtype='object')
-2025-05-06 14:43:03,762 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
-2025-05-06 14:43:03,763 - INFO - Features used: Index(['nominal_verb_ratio', 'noun_ttr', 'verb_ttr', 'avg_word_length',
-       'avg_sentence_length', 'msttr', 'ndd_mean', 'ndd_std', 'bzip',
-       'sa_score', 'sa_std'],
-      dtype='object')
-2025-05-06 14:43:08,754 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
-2025-05-06 14:43:08,754 - INFO - Features used: Index(['nominal_verb_ratio', 'noun_ttr', 'verb_ttr', 'avg_word_length',
-       'avg_sentence_length', 'msttr', 'ndd_mean', 'ndd_std', 'bzip',
-       'sa_score', 'sa_std'],
-      dtype='object')
-2025-05-06 20:42:05,776 - INFO - PyTorch version 2.6.0 available.
-2025-05-07 14:00:57,138 - INFO - get_mfw: created mfw_100 and mfw_500 dataframes. Saved to data/mfw_100.csv and data/mfw_500.csv.
-2025-05-07 14:01:10,473 - INFO - get_mfw: created tfidf_5000 dataframe. Saved to data/tfidf_5000.csv.
+2025-05-07 23:20:04,839 - INFO - Overall performance across all folds:
+2025-05-07 23:20:04,840 - INFO - Average Accuracy: 0.83
+2025-05-07 23:20:04,840 - INFO - Average Precision for 'y' (fiction): 0.83
+2025-05-07 23:20:04,840 - INFO - Average Recall for 'y' (fiction): 0.85
+2025-05-07 23:20:04,840 - INFO - Average F1 Score for 'y' (fiction): 0.84
+2025-05-07 23:20:04,840 - INFO - Average Precision for 'n' (nonfiction): 0.85
+2025-05-07 23:20:04,840 - INFO - Average Recall for 'n' (nonfiction): 0.82
+2025-05-07 23:20:04,840 - INFO - Average F1 Score for 'n' (nonfiction): 0.83
+2025-05-07 23:20:04,840 - INFO - 
+Top 20 Features by Average Importance:
+2025-05-07 23:20:04,840 - INFO - personal_pronoun_ratio    0.182964
+nominal_verb_ratio        0.110861
+active_ratio              0.102847
+avg_wordlen               0.093329
+sentiment_std             0.068980
+passive_ratio             0.057975
+present_tense_ratio       0.046782
+past_tense_ratio          0.046460
+sentiment_mean            0.038745
+function_word_ratio       0.030960
+avg_sentlen               0.030556
+that_ratio                0.029109
+std_ndd                   0.028013
+compression_ratio         0.024150
+avg_ndd                   0.023822
+noun_ttr                  0.022234
+of_ratio                  0.021893
+verb_ttr                  0.020869
+msttr                     0.019451
+dtype: float64

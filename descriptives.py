@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+from datasets import load_dataset
+
 
 # and significance testing
 from scipy import stats
@@ -15,15 +17,18 @@ from sklearn.metrics import mutual_info_score
 # Some descriptive statistics for the dataset (fiction vs. nonfiction)
 
 # get the stylistics
-df = pd.read_csv("data/stylistics.csv", sep="\t")
+df = pd.read_csv("data/stylistics_new_way.csv", sep="\t")
 df.head()
 
-# get the cleaned feuilleton data
-df_cleaned = pd.read_csv("data/cleaned_feuilleton.csv", sep="\t")
-df_cleaned = df_cleaned[["article_id", "text"]]
+# load it from HF
+dataset = load_dataset("chcaa/feuilleton_dataset")
+# get the train split
+text_df = dataset["train"].to_pandas()
+text_df = text_df[["article_id", "text"]]
+text_df.head()
 
 # merge the two dataframes
-df = pd.merge(df, df_cleaned, on="article_id", how="left")
+df = pd.merge(df, text_df, on="article_id", how="left")
 df.head()
 
 # %%
@@ -35,8 +40,8 @@ threshold = 20
 df = df[df["text_len"] > threshold]
 
 # we split the data into two groups: fiction and nonfiction
-df_fiction = df[df["is_feuilleton"] == 'y']
-df_nonfiction = df[df["is_feuilleton"] == 'n']
+df_fiction = df[df["label"] == 'fiction']
+df_nonfiction = df[df["label"] == 'non-fiction']
 
 # get the number of texts in each group
 print("Number of fiction texts:", len(df_fiction))
@@ -55,8 +60,9 @@ print("Std text length nonfiction:", std_nonfiction)
 # %%
 
 # get the mean and std of the stylistics features
-stylistics_features = ["nominal_verb_ratio", "noun_ttr", "verb_ttr", "avg_word_length", "avg_sentence_length", "msttr", 
-                       "ndd_mean", "ndd_std", "bzip", "sa_score", "sa_std"]
+cols_to_drop = ["article_id", "text", "text_len", "feuilleton_id", "is_feuilleton", "label"]
+stylistics_features = [col for col in df.columns if col not in cols_to_drop]
+
 # get the mean and std of the stylistics features
 def get_mean_std(df, features):
     means = {}

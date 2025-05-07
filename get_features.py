@@ -105,7 +105,6 @@ xlm_model = pipeline("text-classification", model=model_name)
 # & tokenizer
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-
 # to save stuff
 stylistics_data = []
 
@@ -113,7 +112,7 @@ stylistics_data = []
 for i, row in df.iterrows():
     text_id = row['article_id']
     # get the spacy
-    spacy_df = get_spacy_of_text(row["text"], model_name="da_core_news_sm", out_dir="data", text_id=text_id)
+    spacy_df = get_spacy_of_text(text=row["text"], out_dir="data", text_id=text_id)
 
     # get words and sentences
     # words
@@ -134,18 +133,17 @@ for i, row in df.iterrows():
     # # dependency distances
     ndd_mean, ndd_std, dd_mean, dd_std = calculate_dependency_distances(text_id)
     # compression ratio
-    bzip = compressrat(sentences)
+    bzip = compressrat(text_id)
 
     # SA
-    sent_scores = []
-
-    for sent in sentences:
-        # get the sentiment
-        sent_scores.append(get_sentiment(sent, xlm_model, tokenizer))
-    # get the mean and std of the sentiment scores
-    sa_score = np.mean(sent_scores)
-    # get the std of the sentiment scores
-    sa_std = np.std(sent_scores)
+    # get the sentiment
+    sentiments = get_sentiment(text_id, xlm_model, tokenizer)
+    if sentiments:  # Check if sentiments is not empty
+        sa_score = np.mean(sentiments)
+        sa_std = np.std(sentiments)
+    else:
+        sa_score = np.nan
+        sa_std = np.nan
 
     # save all
     stylistics_data.append({

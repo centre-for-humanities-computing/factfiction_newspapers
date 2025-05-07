@@ -4,6 +4,7 @@ import numpy as np
 import spacy
 import bz2
 from collections import Counter
+import re
 
 
 # SYNTACTICS
@@ -56,22 +57,33 @@ def save_spacy_df(spacy_df, filename, out_dir) -> None:
     spacy_df.to_csv(f"{out_dir}/spacy_books/{filename}_spacy.csv")
 
 
-# PARENT function
-def get_spacy_of_text(text, text_id, out_dir, model_name="da_core_news_sm"):
-    nlp = spacy.load(model_name)
+nlp = spacy.load("da_core_news_sm")
+
+def get_spacy_of_text(text, text_id, out_dir):
+    # Check if text is empty
+    if not text:
+        raise ValueError(f"Text with ID {text_id} is empty!")
+
+    # Process text with spacy
     doc = nlp(text)
 
-    doc_attributes = []
+    # Initialize sentence id and document attributes
     sent_id = 0
-    # we define sentence boundaries by full stops
-    for token in doc:
-        doc_attributes.append(get_spacy_attributes(token, sent_id))
-        if token.text == ".":
-            sent_id += 1
+    doc_attributes = []
 
+    # Use Spacy's built-in sentence segmentation
+    for sent in doc.sents:
+        for token in sent:
+            doc_attributes.append(get_spacy_attributes(token, sent_id))
+        sent_id += 1  # Increment sentence id after each sentence
+
+    # Create a DataFrame from the parsed attributes
     spacy_df = create_spacy_df(doc_attributes)
+
+    # Save the DataFrame to a file
     save_spacy_df(spacy_df, filename=text_id, out_dir=out_dir)
 
+    # Return the DataFrame for further use
     return spacy_df
 
 # STYLISTICS
@@ -80,27 +92,29 @@ def get_spacy_of_text(text, text_id, out_dir, model_name="da_core_news_sm"):
 
 # get nominal verb ratio, ttr of nouns, and noun count
 def get_pos_derived_features(text_id):
-    # get spacy book for id
-    spacy_df = pd.read_csv(f"data/spacy_books/{text_id}_spacy.csv")
-    # Filter by POS
-    nouns = spacy_df[spacy_df["token_pos_"] == "NOUN"]
-    verbs = spacy_df[spacy_df["token_pos_"] == "VERB"]
-    nominals = spacy_df[spacy_df["token_pos_"].isin(["PROPN", "ADJ"])]
-    # also get propn == Prs
-    propn_pers = spacy_df[(spacy_df["token_pos_"] == "PRON") & (spacy_df["token_morph"].str.contains("PronType=Prs", na=False))]
+    df = pd.read_csv(f"data/spacy_books/{text_id}_spacy.csv")
 
-    # Counts
-    num_verb = len(verbs)
-    num_nominal = len(nominals)
-    num_nouns = len(nouns)
-    num_personal_pronouns = len(propn_pers)
+    # Pre-filter
+    pos = df["token_pos_"]
+    morph = df["token_morph"].fillna("")
 
-    # Get derived scores
-    nominal_verb_ratio = (num_nominal + num_nouns) / num_verb if num_verb > 0 else 0
-    noun_ttr = len(set(nouns)) / num_nouns if num_nouns > 0 else 0
-    verb_ttr = len(set(verbs)) / num_verb if num_verb > 0 else 0
-    # Get the ratio of personal pronouns to nouns
-    personal_pronoun_ratio = num_personal_pronouns / len(spacy_df) if len(spacy_df) > 0 else 0
+    nouns = df[pos == "NOUN"]
+    verbs = df[pos == "VERB"]
+    nominals = df[pos.isin(["PROPN", "ADJ"])]
+    propn_pers = df[(pos == "PRON") & morph.str.contains("PronType=Prs")]
+
+    # Pre-compute counts
+    num_nouns = nouns.shape[0]
+    num_verbs = verbs.shape[0]
+    num_nominals = nominals.shape[0]
+    num_pronouns = propn_pers.shape[0]
+    total_tokens = df.shape[0]
+
+    # Ratios
+    nominal_verb_ratio = (num_nominals + num_nouns) / num_verbs if num_verbs else np.nan
+    noun_ttr = nouns["token_lemma_"].nunique() / num_nouns if num_nouns else np.nan
+    verb_ttr = verbs["token_lemma_"].nunique() / num_verbs if num_verbs else np.nan
+    personal_pronoun_ratio = num_pronouns / total_tokens if total_tokens else np.nan
 
     return nominal_verb_ratio, num_nouns, noun_ttr, verb_ttr, personal_pronoun_ratio
 
@@ -137,7 +151,7 @@ def avg_sentlen(text_id) -> float:
     # Calculate sentence lengths
     sent_lengths = [len(group) for _, group in sentence_groups]
     if not sent_lengths:
-        return 0
+        return np.nan
     
     # get the number of sentences
     num_sentences = len(sent_lengths)
@@ -181,67 +195,12 @@ def calculate_dependency_distances(text_id):
                         ndd = abs(np.log(mdd / np.sqrt(root_sentence_product)))
                         normalized_dependency_distances.append(ndd)
 
-    average_ndd = np.mean(normalized_dependency_distances) if normalized_dependency_distances else None
-    std_ndd = np.std(normalized_dependency_distances) if normalized_dependency_distances else None
-    avg_mdd = np.mean(dependency_distances) if dependency_distances else None
-    std_mdd = np.std(dependency_distances) if dependency_distances else None
+    average_ndd = np.mean(normalized_dependency_distances) if normalized_dependency_distances else np.nan
+    std_ndd = np.std(normalized_dependency_distances) if normalized_dependency_distances else np.nan
+    avg_mdd = np.mean(dependency_distances) if dependency_distances else np.nan
+    std_mdd = np.std(dependency_distances) if dependency_distances else np.nan
 
     return average_ndd, std_ndd, avg_mdd, std_mdd
-
-# full_stop_indices = spacy_df[spacy_df['token_text'].str.strip() == '.'].index
-# # Adding the last index of the DataFrame to handle the last sentence
-# full_stop_indices = list(full_stop_indices) + [spacy_df.index[-1]]
-
-# # dependency distance
-# def calculate_dependency_distances(df, full_stop_indices):
-
-#     dependency_distances = []
-#     normalized_dependency_distances = []
-#     start_idx = 0
-
-#     for stop_idx in full_stop_indices:
-#         # Extract each sentence based on full stops
-#         sentence_df = df.loc[start_idx:stop_idx].copy()
-#         sentence_df_filtered = sentence_df[~sentence_df['token_is_punct'] & (sentence_df['token_pos_'] != 'SPACE')].copy()
-
-#         if not sentence_df_filtered.empty:
-#             # Find the root by using 'ROOT' in 'token_dep_' column
-#             root_token_row = sentence_df_filtered[sentence_df_filtered['token_dep_'] == 'ROOT']
-
-#             if not root_token_row.empty:
-
-#                 root_idx = root_token_row['token_i'].iloc[0]
-
-#                 # Calculating the root distance relative to the start of the sentence
-#                 sentence_start_idx = sentence_df_filtered['token_i'].min()
-
-#                 root_distance = root_idx - sentence_start_idx  # Adjusted root distance
-
-#                 # Calculate MDD for the sentence
-#                 sentence_df_filtered['dependency_distance'] = np.abs(sentence_df_filtered['token_i'] - sentence_df_filtered['token_head_i'])
-#                 mdd = sentence_df_filtered['dependency_distance'].mean()
-
-#                 dependency_distances.append(mdd)
-
-#                 # Calculate sentence length excluding punctuation
-#                 sentence_length = len(sentence_df_filtered)
-
-#                 # Calculate NDD using the formula, avoiding division by zero or negative numbers
-#                 if mdd > 0 and sentence_length > 0 and root_distance >= 0:
-#                     root_sentence_product = (root_distance + 1) * sentence_length  # +1 to avoid zero distance issue
-#                     if root_sentence_product > 0:
-#                         ndd = abs(np.log(mdd / np.sqrt(root_sentence_product)))
-#                         normalized_dependency_distances.append(ndd)
-
-#         # Move to the next sentence
-#         start_idx = stop_idx + 1
-
-#     # Calculate average NDD across all sentences
-#     average_ndd = np.mean(normalized_dependency_distances) if normalized_dependency_distances else None
-#     std_ndd = np.std(normalized_dependency_distances) if normalized_dependency_distances else None
-
-#     return average_ndd, std_ndd, np.mean(dependency_distances), np.std(dependency_distances)
-
 
 
 # Entropy & compressibility
@@ -378,163 +337,45 @@ def split_text_to_chunks(text, tokenizer) -> list:
     return parts
 
 
-# get SA scores from xlm-roberta
+# get SA scores from model
 def get_sentiment(text_id, model, tokenizer):
     """
     Gets the sentiment score per sentence in a text, including splitting long sentences into chunks if needed.
     """
-    
-    # split into sentences
-    # get the sents
+    # Load spaCy-parsed sentences
     spacy_df = pd.read_csv(f"data/spacy_books/{text_id}_spacy.csv")
-    # get the sentences
     sentences_df = spacy_df.groupby("sent_id")
     sents = list(sentences_df["token_text"].apply(lambda x: " ".join(x)))
 
-    # Check if the sentences are empty
     if not sents:
         print(f"Warning: No sentences found for text: '{text_id}'. Skipping.")
         return None
-    
-    # check if is string
-    if not isinstance(sents, str):
-        print(f"Warning: Sentences are not strings for text: '{text_id}'. Skipping.")
-        return None
 
-    for sent in sents:
-        chunks = split_text_to_chunks(sent, tokenizer)
-        if len(chunks) == 0:
-            print(f"Warning: No chunks created for text: '{text_id}'. Skipping.")
-            return None
-        elif len(chunks) == 1:
-            # If the sentence is short enough, just use it as is
-            chunks = [sent]
-        else:
-            # If the sentence is split into chunks, print a warning
-            print(f"Warning: Sentence split into {len(chunks)} chunks for text: '{text_id}'.")
-
-    # Loop through the chunks and get sentiment scores for each
     sentiment_scores = []
 
-    # now chunks should contain the non-split and split sentences
-    for chunk in chunks:
-        # Get sentiment from the model
-        sent = model(chunk)
-        model_label = sent[0].get("label")
-        model_score = sent[0].get("score")
+    for sent in sents:
+        # check empty
+        if not sent:
+            print(f"Warning: Empty sentence found in '{text_id}'. Skipping.")
+            continue
 
-        # Transform score to continuous scale
-        converted_score = conv_scores(model_label, model_score, ["positive", "neutral", "negative"])
-        # make sure the score is a float
-        converted_score = float(converted_score)
-        sentiment_scores.append(converted_score)
+        chunks = split_text_to_chunks(sent, tokenizer)
+
+        if len(chunks) == 0:
+            print(f"Warning: No chunks created for a sentence in '{text_id}'. Skipping.")
+            continue
+        elif len(chunks) > 1:
+            print(f"Warning: Sentence split into {len(chunks)} chunks for text: '{text_id}'.")
+
+        for chunk in chunks:
+            result = model(chunk)
+            if not result:
+                continue
+
+            model_label = result[0].get("label")
+            model_score = result[0].get("score")
+
+            converted_score = conv_scores(model_label, model_score, ["positive", "neutral", "negative"])
+            sentiment_scores.append(float(converted_score))
 
     return sentiment_scores
-
-# # to convert transformer scores to the same scale as the dictionary-based scores
-# def conv_scores(label, score, spec_lab):  # single label and score
-#     """
-#     Converts transformer-based sentiment scores to a uniform scale based on specified labels.
-#     """
-#     if len(spec_lab) == 2:
-#         if label == spec_lab[0]:  # "positive"
-#             return score
-#         elif label == spec_lab[1]:  # "negative"
-#             return -score  # return negative score
-
-#     elif len(spec_lab) == 3:
-#         if label == spec_lab[0]:  # "positive"
-#             return score
-#         elif label == spec_lab[1]:  # "neutral"
-#             return 0  # return 0 for neutral
-#         elif label == spec_lab[2]:  # "negative"
-#             return -score  # return negative score
-
-#     else:
-#         raise ValueError("spec_lab must contain either 2 or 3 labels.")
-
-
-# # Function to find the maximum allowed tokens for the model
-# def find_max_tokens(tokenizer):
-#     """
-#     Determines the maximum token length for the tokenizer, ensuring it doesn't exceed a reasonable limit.
-#     """
-#     max_length = tokenizer.model_max_length
-#     if max_length > 2000:  # sometimes, they default to ridiculously high values, so we set a max
-#         max_length = 512
-#     return max_length
-
-
-# # split long sentences into chunks
-# def split_long_sentence(text, tokenizer) -> list:
-#     """
-#     Splits long sentences into chunks if their token length exceeds the model's maximum length.
-#     """
-#     words = text.split()
-#     parts = []
-#     current_part = []
-#     current_length = 0
-
-#     max_length = find_max_tokens(tokenizer)
-
-#     for word in words:
-#         # Encode word and get the token length
-#         tokens = tokenizer.encode(word)
-#         seq_len = len(tokens)
-
-#         # Check if adding this word would exceed max length
-#         if current_length + seq_len > max_length:
-#             parts.append(" ".join(current_part))  # Append the current part as a chunk
-#             current_part = [word]  # Start a new part with the current word
-#             current_length = seq_len  # Reset the current length to the length of the current word
-#         else:
-#             current_part.append(word)  # Add the word to the current chunk
-#             current_length += seq_len  # Update the current length
-
-#     # Append any remaining part as a chunk
-#     if current_part:
-#         parts.append(" ".join(current_part))
-
-#     return parts
-
-
-# # get SA scores from xlm-roberta
-# def get_sentiment(text, model, tokenizer):
-#     """
-#     Gets the sentiment score for a given text, including splitting long sentences into chunks if needed.
-#     """
-#     # Check that the text is a string
-#     if not isinstance(text, str):
-#         print(f"Warning: Text is not a string for text: '{text}'. Skipping.")
-#         return None
-
-#     # Split the sentence into chunks if it's too long
-#     chunks = split_long_sentence(text, tokenizer)
-
-#     if len(chunks) == 0:
-#         print(f"Warning: No chunks created for text: '{text}'. Skipping.")
-#         return None
-
-#     elif len(chunks) == 1:
-#         # If the sentence is short enough, just use it as is
-#         chunks = [text]
-
-#     # Loop through the chunks and get sentiment scores for each
-#     sentiment_scores = []
-
-#     for chunk in chunks:
-#         # Get sentiment from the model
-#         sent = model(chunk)
-#         xlm_label = sent[0].get("label")
-#         xlm_score = sent[0].get("score")
-
-#         # Transform score to continuous scale
-#         xlm_converted_score = conv_scores(xlm_label, xlm_score, ["positive", "neutral", "negative"])
-#         sentiment_scores.append(xlm_converted_score)
-
-#     # Calculate the mean sentiment score from the chunks
-#     mean_score = sum(sentiment_scores) / len(sentiment_scores)
-
-#     return mean_score
-
-

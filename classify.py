@@ -46,7 +46,7 @@ df = pd.read_csv("data/cleaned_feuilleton.csv", sep="\t")
 
 # --- CLEANING CONFIG ---
 MIN_LENGTH = 100
-CLEAN = True
+CLEAN = False
 
 # option to clean away very short texts
 def clean_short_texts(df, min_length=MIN_LENGTH):

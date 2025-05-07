@@ -41,7 +41,7 @@ df.head()
 
 # %%
 # get the embeddings from dataset
-path = "data/pooled/2025-04-30_embs_jina"#"data/pooled/2025-04-30_embs_memo" #"data/pooled/2025-04-29_embs_e5"
+path = "data/pooled/2025-04-30_embs_jina" #"data/pooled/2025-04-30_embs_memo" #"data/pooled/2025-04-29_embs_e5"
 dataset = load_from_disk(path)
 # to a pandas DataFrame
 embs = dataset.to_pandas()

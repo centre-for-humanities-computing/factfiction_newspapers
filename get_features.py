@@ -10,13 +10,14 @@ import spacy
 from transformers import pipeline, AutoTokenizer
 
 from feats_functions import get_spacy_of_text
-from feats_functions import get_nominal_verb_ratio_from_saved
+from feats_functions import get_pos_derived_features
 from feats_functions import avg_sentlen, avg_wordlen
 from feats_functions import calculate_dependency_distances
 from feats_functions import compressrat
 from feats_functions import get_sentiment
 from lexical_diversity import lex_div as ld
 
+from datasets import load_dataset
 import logging
 
 # %%
@@ -32,7 +33,10 @@ logging.basicConfig(
 )
 
 # get data
-df = pd.read_csv("data/cleaned_feuilleton.csv", sep="\t")
+# load it from HF
+dataset = load_dataset("chcaa/feuilleton_dataset")
+# get the train split
+df = dataset["train"].to_pandas()
 df.head()
 
 # %%
@@ -57,9 +61,9 @@ def get_mfw(df, number_of_mfws=100):
     return mfw_df
 
 mfw_100_df = get_mfw(df, 100)
-# add the is_feuilleton column
+# add the label column
 mfw_100_df["feuilleton_id"] = df["feuilleton_id"]
-mfw_100_df["is_feuilleton"] = df["is_feuilleton"]
+mfw_100_df["label"] = df["label"]
 mfw_100_df["article_id"] = df["article_id"]
 # save
 mfw_100_df.to_csv("data/mfw_100.csv", sep="\t")
@@ -67,7 +71,7 @@ mfw_100_df.to_csv("data/mfw_100.csv", sep="\t")
 mfw_500_df = get_mfw(df, 500)
 # add the is_feuilleton column
 mfw_500_df["feuilleton_id"] = df["feuilleton_id"]
-mfw_500_df["is_feuilleton"] = df["is_feuilleton"]
+mfw_500_df["label"] = df["label"]
 mfw_500_df["article_id"] = df["article_id"]
 # save
 mfw_500_df.to_csv("data/mfw_500.csv", sep="\t")
@@ -83,7 +87,7 @@ X_tfidf = tfidf_vectorizer.fit_transform(df["text"]).toarray()
 
 # make TF-IDF matrix df
 tfidf_df = pd.DataFrame(X_tfidf, columns=tfidf_vectorizer.get_feature_names_out(), index=df.index)
-tfidf_df['is_feuilleton'] = df['is_feuilleton']
+tfidf_df['label'] = df['label']
 tfidf_df['feuilleton_id'] = df['feuilleton_id']
 tfidf_df['article_id'] = df['article_id']
 
@@ -95,7 +99,7 @@ logging.info(f"get_mfw: created tfidf_5000 dataframe. Saved to data/tfidf_5000.c
 # 3. get stylistic features
 
 # define model
-model_name = "cardiffnlp/twitter-xlm-roberta-base-sentiment-multilingual"
+model_name = "MiMe-MeMo/MeMo-BERT-SA"
 # load SA model
 xlm_model = pipeline("text-classification", model=model_name)
 # & tokenizer
@@ -120,18 +124,15 @@ for i, row in df.iterrows():
     sentences = [" ".join(group["token_text"].tolist()) for _, group in sentence_list]
 
     # get nominal verb ratio, ttr of nouns, and noun count
-    nominal_verb_ratio, num_nouns, noun_ttr, verb_ttr = get_nominal_verb_ratio_from_saved(text_id)
+    nominal_verb_ratio, num_nouns, noun_ttr, verb_ttr, personal_pronoun_ratio = get_pos_derived_features(text_id)
     # get the avg word length
     wordlen = avg_wordlen(text_id)
     # get the avg sentence length
     sentlen, num_sentences = avg_sentlen(text_id)
     # msttr (window len 100) (we use the words from the spacy_df)
     msttr = ld.msttr(words, window_length=40)
-    # dependency distances
-    full_stop_indices = spacy_df[spacy_df['token_text'].str.strip() == '.'].index
-    # Adding the last index of the DataFrame to handle the last sentence
-    full_stop_indices = list(full_stop_indices) + [spacy_df.index[-1]]
-    ndd_mean, ndd_std, dd_mean, dd_std = calculate_dependency_distances(spacy_df, full_stop_indices)
+    # # dependency distances
+    ndd_mean, ndd_std, dd_mean, dd_std = calculate_dependency_distances(text_id)
     # compression ratio
     bzip = compressrat(sentences)
 
@@ -153,13 +154,14 @@ for i, row in df.iterrows():
         #"num_nouns_per_sent": num_nouns/num_sentences,
         "noun_ttr": noun_ttr,
         "verb_ttr": verb_ttr,
+        "personal_pronoun_ratio": personal_pronoun_ratio,
         "avg_word_length": wordlen,
         "avg_sentence_length": sentlen,
         "msttr": msttr,
         "ndd_mean": ndd_mean,
         "ndd_std": ndd_std,
         "bzip": bzip,
-        "is_feuilleton": row["is_feuilleton"],
+        "is_feuilleton": row["label"],
         "feuilleton_id": row["feuilleton_id"],
         "article_id": row["article_id"],
         "sa_score": sa_score,

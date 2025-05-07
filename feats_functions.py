@@ -214,7 +214,7 @@ def compressrat(text_id):
     spacy_df = pd.read_csv(f"data/spacy_books/{text_id}_spacy.csv")
     # get the sentences
     sentences_df = spacy_df.groupby("sent_id")
-    sents = list(sentences_df["token_text"].apply(lambda x: " ".join(x)))
+    sents = list(sentences_df["token_text"].apply(lambda x: " ".join([str(t) for t in x if isinstance(t, str)])))
 
     # hopefully skipping the first few that can be noisy
     if len(sents) > 50:

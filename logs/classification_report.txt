@@ -1,37 +1,37 @@
-2025-05-12 12:58:22,455 - INFO - Starting classification script.
-2025-05-12 12:58:22,455 - INFO - DF_NAME: stylistics
-2025-05-12 12:58:22,455 - INFO - MIN_LENGTH: 100, filtering: False
-2025-05-12 12:58:25,367 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
-2025-05-12 12:58:25,369 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+2025-05-13 15:00:29,689 - INFO - Starting classification script.
+2025-05-13 15:00:29,689 - INFO - DF_NAME: stylistics
+2025-05-13 15:00:29,689 - INFO - MIN_LENGTH: 100, filtering: False
+2025-05-13 15:00:35,768 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-13 15:00:35,771 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
        'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
        'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
        'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
        'sentiment_mean', 'sentiment_std'],
       dtype='object')
-2025-05-12 12:58:25,930 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
-2025-05-12 12:58:25,933 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+2025-05-13 15:00:36,622 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-13 15:00:36,624 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
        'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
        'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
        'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
        'sentiment_mean', 'sentiment_std'],
       dtype='object')
-2025-05-12 12:58:26,892 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+2025-05-13 15:00:37,755 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
        'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
        'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
        'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
        'sentiment_mean', 'sentiment_std'],
       dtype='object')
-2025-05-12 12:58:26,892 - INFO - Overall performance across all folds:
-2025-05-12 12:58:26,892 - INFO - Average Accuracy: 0.81
-2025-05-12 12:58:26,892 - INFO - Average Precision for 'y' (fiction): 0.79
-2025-05-12 12:58:26,892 - INFO - Average Recall for 'y' (fiction): 0.84
-2025-05-12 12:58:26,892 - INFO - Average F1 Score for 'y' (fiction): 0.82
-2025-05-12 12:58:26,892 - INFO - Average Precision for 'n' (nonfiction): 0.83
-2025-05-12 12:58:26,892 - INFO - Average Recall for 'n' (nonfiction): 0.78
-2025-05-12 12:58:26,893 - INFO - Average F1 Score for 'n' (nonfiction): 0.80
-2025-05-12 12:58:26,893 - INFO - 
+2025-05-13 15:00:37,755 - INFO - Overall performance across all folds:
+2025-05-13 15:00:37,755 - INFO - Average Accuracy: 0.81
+2025-05-13 15:00:37,755 - INFO - Average Precision for 'y' (fiction): 0.79
+2025-05-13 15:00:37,756 - INFO - Average Recall for 'y' (fiction): 0.84
+2025-05-13 15:00:37,756 - INFO - Average F1 Score for 'y' (fiction): 0.82
+2025-05-13 15:00:37,756 - INFO - Average Precision for 'n' (nonfiction): 0.83
+2025-05-13 15:00:37,756 - INFO - Average Recall for 'n' (nonfiction): 0.78
+2025-05-13 15:00:37,756 - INFO - Average F1 Score for 'n' (nonfiction): 0.80
+2025-05-13 15:00:37,758 - INFO - 
 Top 20 Features by Average Importance:
-2025-05-12 12:58:26,893 - INFO - personal_pronoun_ratio    0.190041
+2025-05-13 15:00:37,758 - INFO - personal_pronoun_ratio    0.190041
 nominal_verb_ratio        0.116035
 avg_wordlen               0.072741
 sentiment_std             0.067120

@@ -206,30 +206,6 @@ def conv_scores(label, score):
         return -score
 
 
-# # to convert transformer scores to the same scale as the dictionary-based scores
-# def conv_scores(label, score, spec_lab):  # single label and score
-#     """
-#     Converts transformer-based sentiment scores to a uniform scale based on specified labels.
-#     We need to lowercase since sometimes, a model will have as label "Neutral" or "neutral" or "NEUTRAL"
-#     """
-#     if len(spec_lab) == 2:
-#         if label.lower() == spec_lab[0]:  # "positive"
-#             return score
-#         elif label.lower() == spec_lab[1]:  # "negative"
-#             return -score  # return negative score
-
-#     elif len(spec_lab) == 3:
-#         if label.lower() == spec_lab[0]:  # "positive"
-#             return score
-#         elif label.lower() == spec_lab[1]:  # "neutral"
-#             return 0  # return 0 for neutral
-#         elif label.lower() == spec_lab[2]:  # "negative"
-#             return -score  # return negative score
-
-#     else:
-#         raise ValueError("spec_lab must contain either 2 or 3 labels.")
-
-
 # Function to find the maximum allowed tokens for the model
 def find_max_tokens(tokenizer):
     """
@@ -298,12 +274,6 @@ def get_sentiment(text_id, pipe, tokenizer):
 
         chunks = split_text_to_chunks(sent, tokenizer)
 
-        # if len(chunks) == 0:
-        #     print(f"Warning: No chunks created for a sentence in '{text_id}'. Skipping.")
-        #     continue
-        # elif len(chunks) > 1:
-        #     print(f"Note: Sentence split into {len(chunks)} chunks for text: '{text_id}'.")
-
         if not chunks:
             print(f"Warning: No chunks created for text: '{text_id}'. Skipping.")
             return None
@@ -329,8 +299,6 @@ def get_sentiment(text_id, pipe, tokenizer):
             xlm_converted_score = float(conv_scores(model_label, model_score))
             sentiment_scores.append(xlm_converted_score)
 
-            # converted_score = conv_scores(model_label, model_score, ["positive", "neutral", "negative"])
-            # sentiment_scores.append(float(converted_score))
 
     return sentiment_scores
 

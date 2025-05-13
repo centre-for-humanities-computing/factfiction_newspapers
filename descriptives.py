@@ -17,7 +17,7 @@ from sklearn.metrics import mutual_info_score
 # Some descriptive statistics for the dataset (fiction vs. nonfiction)
 
 # get the stylistics
-df = pd.read_csv("data/stylistics_new_way.csv", sep="\t")
+df = pd.read_csv("data/stylistics.csv", sep="\t")
 df.head()
 
 # load it from HF
@@ -36,7 +36,7 @@ df.head()
 df['text_len'] = df['text'].apply(lambda x: len(str(x).split()))
 
 # remove very short texts
-threshold = 20
+threshold =100
 df = df[df["text_len"] > threshold]
 
 # we split the data into two groups: fiction and nonfiction
@@ -60,7 +60,8 @@ print("Std text length nonfiction:", std_nonfiction)
 # %%
 
 # get the mean and std of the stylistics features
-cols_to_drop = ["article_id", "text", "text_len", "feuilleton_id", "is_feuilleton", "label"]
+cols_to_drop = ["article_id", "text", "text_len", "feuilleton_id", "is_feuilleton", "label", 
+                "sentiment", "past_tense_ratio", "present_tense_ratio", "num_sents", "avg_mdd", "std_mdd", "apen_sentiment"]
 stylistics_features = [col for col in df.columns if col not in cols_to_drop]
 
 # get the mean and std of the stylistics features
@@ -109,8 +110,8 @@ p_values_df
 
 # drop outlier in sentence length
 threshold = 100
-df_fiction = df_fiction[df_fiction["avg_sentence_length"] < threshold]
-df_nonfiction = df_nonfiction[df_nonfiction["avg_sentence_length"] < threshold]
+df_fiction = df_fiction[df_fiction["avg_sentlen"] < threshold]
+df_nonfiction = df_nonfiction[df_nonfiction["avg_sentlen"] < threshold]
 
 # and outlier in noun_ttr
 threshold = 6
@@ -124,10 +125,14 @@ print("Number of nonfiction texts after dropping outliers:", len(df_nonfiction))
 # lets do sns histplot of the features
 sns.set(style="whitegrid")
 for feature in stylistics_features:
-    plt.figure(figsize=(10, 5))
+    if feature == "nominal_verb_ratio":
+        # remove the values above 13
+        df_fiction = df_fiction[df_fiction[feature] < 12]
+        df_nonfiction = df_nonfiction[df_nonfiction[feature] < 12]
+
+    plt.figure(figsize=(7, 3))
     sns.histplot(df_fiction[feature], color='blue', label='Fiction', alpha=0.5, stat='density')
     sns.histplot(df_nonfiction[feature], color='red', label='Nonfiction', alpha=0.5, stat='density')
-    plt.title(f"{feature}")
     plt.xlabel(feature)
     plt.ylabel("Frequency")
     plt.legend()

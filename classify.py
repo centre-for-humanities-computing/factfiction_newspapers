@@ -15,6 +15,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+from datasets import load_dataset
 import logging
 
 # %%
@@ -30,94 +31,103 @@ logging.basicConfig(
     force=True
 )
 
-logging.info("Starting classification script.")
-
-# GET DATA
-# get the mfws
-mfw_df = pd.read_csv("data/mfw_100.csv", sep="\t")
-mfw_500_df = pd.read_csv("data/mfw_500.csv", sep="\t")
-# get the tfidf
-tfidf_df = pd.read_csv("data/tfidf_5000.csv", sep="\t")
-# get the stylistics
-#stylistics = pd.read_csv("data/stylistics.csv", sep="\t")
-stylistics = pd.read_csv("data/stylistics_new_way.csv", sep="\t")
-# embeddings from parquet
-embeddings = pd.read_parquet("data/embeddings_jina.parquet")
-
-# get the original feuilleton data
-df = pd.read_csv("data/cleaned_feuilleton.csv", sep="\t")
-
+# %%
+# --- DATA CONFIG ---
+DF_NAME = "stylistics"#"mfw_100" # "mfw_500", "tfidf_5000", "embeddings", "stylistics"
 
 # --- CLEANING CONFIG ---
 MIN_LENGTH = 100
-CLEAN = False
+FILTER = False
 
-# option to clean away very short texts
-def clean_short_texts(df, min_length=MIN_LENGTH):
-    # Compute word count per row
-    df = df[df["text"].str.split().apply(len) >= MIN_LENGTH]
+logging.info("Starting classification script.")
+# write out the config
+logging.info(f"DF_NAME: {DF_NAME}")
+logging.info(f"MIN_LENGTH: {MIN_LENGTH}, filtering: {FILTER}")
+
+# %%
+# GET DATA
+
+if not DF_NAME == "embeddings":
+    # load the data from csv
+    data = pd.read_csv(f"data/{DF_NAME}.csv", sep="\t")
+else:
+    # load the data from parquet
+    data = pd.read_parquet(f"data/{DF_NAME}.parquet")
+
+data.head()
+
+# %%
+
+def filter_df(df, min_length=MIN_LENGTH):
+    # merge with the original dataframe to get the text
+    # get the original feuilleton data from HF
+    dataset = load_dataset("chcaa/feuilleton_dataset")
+    feuilleton_data = dataset["train"].to_pandas()
+    df = df.merge(feuilleton_data[["article_id", "text"]], on="article_id", how="left")
+    # Filter DataFrame for texts longer than min_length words
+    df_cleaned = df[df["text"].str.split().apply(len) >= min_length]
+    # Drop the "text" column
+    df_cleaned = df_cleaned.drop(columns=["text"])
+    print(f"Cleaning done. Removed {len(df) - len(df_cleaned)} texts with fewer than {min_length} words.")
+    logging.info(f"Cleaning done. Removed {len(df) - len(df_cleaned)} texts.")
+    return df_cleaned
+
+def clean_and_process_df(df):
+    # Remove duplicates based on 'article_id' and unwanted columns
+    df = df.drop_duplicates(subset=["article_id"])
+    df = df.loc[:, ~df.columns.str.startswith("Unnamed")]
+
+    # Clean embeddings if present
+    if "embedding" in df.columns:
+        initial_len = len(df)
+        df = df[df['embedding'].apply(lambda x: isinstance(x, np.ndarray) and not np.isnan(x).any())]
+        logging.info(f"Removed {initial_len - len(df)} rows of invalid embeddings.")
+    else:
+        print("No additional filtering of embeddings needed.")
+
+    # Drop the "article_id" column
+    df = df.drop(columns=["article_id"])
+
+    # Final check on category counts
+    print(f"Number of datapoints: All={len(df)}; non-fiction={len(df[df['label'] == 'non-fiction'])}; fiction={len(df[df['label'] == 'fiction'])}")
+    
     return df
 
+if FILTER:
+    data = filter_df(data, min_length=MIN_LENGTH)
 
-if CLEAN:
-    # Step 1: Filter the cleaned feuilleton to only include longer texts
-    df_cleaned = clean_short_texts(df, min_length=MIN_LENGTH)
-
-    # Step 2: Get the valid article_ids
-    valid_ids = set(df_cleaned["article_id"])
-
-    # Step 3: Filter all feature DataFrames to only include those IDs
-    mfw_df = mfw_df[mfw_df["article_id"].isin(valid_ids)]
-    mfw_500_df = mfw_500_df[mfw_500_df["article_id"].isin(valid_ids)]
-    tfidf_df = tfidf_df[tfidf_df["article_id"].isin(valid_ids)]
-    stylistics = stylistics[stylistics["article_id"].isin(valid_ids)]
-    embeddings = embeddings[embeddings["article_id"].isin(valid_ids)]
-
-    all_dfs = [mfw_df, mfw_500_df, tfidf_df, stylistics, embeddings]
-
-    # check if all dfs are the same len as the df_cleaned
-    for dataf in all_dfs:
-        if len(dataf) != len(df_cleaned):
-            print(f"Length mismatch for {dataf.head(2)}")
-            print(f"Mismatch: {len(dataf)} vs {len(df_cleaned)}")
-
-    print(f"Cleaning done. Removed {len(df) - len(df_cleaned)} texts that had < {MIN_LENGTH} words.")
-    logging.info(f"Cleaning done. Removed {len(df) - len(df_cleaned)} texts.")
-
-
-# --- SETTING UP THE DATAFRAME ---
-# set USE_DF
-use_df = stylistics#tfidf_df#mfw_df.copy()#embeddings
-
-# remove duplicates of article_id
-use_df = use_df.drop_duplicates(subset=["article_id"])
-# and any columns starting "Unnamed"
-use_df = use_df.drop(columns=[col for col in use_df.columns if col.startswith("Unnamed")])
-
-# Additional cleaning if using embeddings
-if "embedding" in use_df.columns:
-    # Drop rows where the embedding is not a proper array or contains any NaN
-    len_before = len(use_df)
-    use_df = use_df[use_df['embedding'].apply(lambda x: isinstance(x, np.ndarray) and not np.isnan(x).any())]
-    len_after = len(use_df)
-    print(f"Removed {len_before - len_after} invalid embeddings.")
-    logging.info(f"Removed {len_before - len_after} rows of invalid embeddings.")
-    print("")
-else:
-    print("No additional filtering needed.")
-
-# finally, remove "article_ID" from use_df
-use_df = use_df.drop(columns=["article_id"])
-# final check
-print("Number of datapoints in each category: All:", len(use_df), "; nonfic:", len(use_df.loc[use_df['label'] == 'non-fiction']), "; fiction:", len(use_df.loc[use_df['label'] == 'fiction']))
+use_df = clean_and_process_df(data)
 use_df.head()
 
 # %%
-drop_cols = ['num_sents', 'sentiment', 'avg_mdd', 'std_mdd', 'noun_count']
-use_df = use_df.drop(columns=drop_cols)
+# drop the sentiment column
+if "sentiment" in use_df.columns:
+    use_df = use_df.drop(columns=["sentiment"])
 # check for NaN values
 print("NaN values in use_df:")
 print(use_df.isna().sum())
+
+# %%
+use_df.columns
+# %%
+
+if "msttr" in use_df.columns:
+    # then we drop some stylistic features
+    use_df = use_df[['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+        'personal_pronoun_ratio', 'function_word_ratio', 
+        'of_ratio',
+        'that_ratio', 
+        #'past_tense_ratio', #'present_tense_ratio', # present tense has a lot of nans sadly
+        'passive_ratio', 'active_ratio', 
+        'adjective_adverb_ratio',
+        'avg_wordlen', 'avg_sentlen',
+        #'num_sents', 
+        'avg_ndd', 'std_ndd', 
+        #'avg_mdd', 'std_mdd',
+        'compression_ratio', 
+        'sentiment_mean', 'sentiment_std',
+        #'apen_sentiment', 
+        'feuilleton_id', 'label']]
 
 # %%
 
@@ -153,10 +163,10 @@ def get_features(df):
         X = np.vstack(df['embedding'].values)
         print("features used: embedding")
         logging.info(f"Features used: EMBEDDING")
-    else:
-        X = df.drop(columns=['label','feuilleton_id'])
-        print("features used:", X.columns)
-        logging.info(f"Features used: {X.columns}")
+
+    X = df.drop(columns=['label','feuilleton_id'])
+    print("features used:", X.columns)
+    logging.info(f"Features used: {X.columns}")
     return X
 
 X = get_features(balanced_df)
@@ -229,6 +239,7 @@ for train_index, test_index in sgkf.split(X, y, groups):
     else:
         # For other features, we can use the DataFrame directly
         X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+
     y_train, y_test = y.iloc[train_index], y.iloc[test_index]
 
     # Train the classifier
@@ -307,6 +318,22 @@ if "embedding" not in balanced_df.columns:
 
 # %%
 
+# if using stylistics, we want to check the collinearity of the features
+# check for collinearity
+def check_collinearity(df):
+    # Calculate the correlation matrix
+    corr = df.corr()
 
-# %%
+    # Set up the matplotlib figure
+    plt.figure(figsize=(12, 10))
+
+    # Draw the heatmap with the mask and correct aspect ratio
+    sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', square=True, cbar_kws={"shrink": .8})
+
+    plt.title('Feature Correlation Matrix')
+    plt.show()
+
+check_collinearity(X_train)
+
+
 # %%

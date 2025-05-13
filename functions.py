@@ -66,6 +66,9 @@ def get_pos_derived_features(text_id):
     words = df[~df["token_pos_"].isin(["PUNCT", "SPACE", "NUM"])]
     nouns = df[pos == "NOUN"]
     verbs = df[pos == "VERB"]
+    adverbs = df[pos == "ADV"]
+    adjectives = df[pos == "ADJ"]
+
     passive_and_active_verbs = df[(pos == "VERB") & (morph.str.contains("Voice=Act") | morph.str.contains("Voice=Pass"))]
     passive_verbs = df[(pos == "VERB") & (morph.str.contains("Voice=Pass"))]
     active_verbs = df[(pos == "VERB") & (morph.str.contains("Voice=Act"))]
@@ -77,9 +80,12 @@ def get_pos_derived_features(text_id):
     of_like = df[(pos == "ADP") & df["token_text"].str.lower().isin(["af"])]
     that_like = df[(pos == "SCONJ") & df["token_text"].str.lower().isin(["at"])]
 
+    # addded: adjectives and adverbs
+    adjective_adverb_ratio = (len(adjectives) + len(adverbs)) / len(words) if len(words) else np.nan
+
     return {
         "nominal_verb_ratio": (len(nominals) + len(nouns)) / len(verbs) if len(verbs) else np.nan,
-        "noun_count": len(nouns),
+        #"noun_count": len(nouns),
         "msttr": ld.msttr(words["token_text"].tolist(), window_length=100),
         "noun_ttr": nouns["token_lemma_"].nunique() / len(nouns) if len(nouns) else np.nan,
         "verb_ttr": verbs["token_lemma_"].nunique() / len(verbs) if len(verbs) else np.nan,
@@ -93,6 +99,7 @@ def get_pos_derived_features(text_id):
         "present_tense_ratio": len(present_tense_verbs) / len(verbs) if len(present_tense_verbs) else np.nan,
         "passive_ratio": len(active_verbs) / len(passive_and_active_verbs) if len(passive_and_active_verbs) else np.nan,
         "active_ratio": len(passive_verbs) / len(passive_and_active_verbs) if len(passive_and_active_verbs) else np.nan,
+        "adjective_adverb_ratio": adjective_adverb_ratio,
     }
 
 
@@ -276,3 +283,5 @@ def get_sentiment(text_id, model, tokenizer):
             sentiment_scores.append(float(converted_score))
 
     return sentiment_scores
+
+# %%

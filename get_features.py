@@ -160,8 +160,7 @@ print(stylistics_features[0].keys())
 # Create a DataFrame from the list of dictionaries
 stylistics_df = pd.DataFrame(stylistics_features)
 # Save the DataFrame to a CSV file
-stylistics_df.to_csv("data/stylistics_new_way.csv", sep="\t", index=False)
-
+stylistics_df.to_csv("data/stylistics.csv", sep="\t", index=False)
 
 # log it
 logging.info(f"Created stylistic features. Colnames: {stylistics_features[0].keys()}")
@@ -172,6 +171,7 @@ for col in stylistics_features[0].keys():
     # print the distribution of the column
     logging.info(f"stylistics_df {col} distribution: {stylistics_df[col].describe()}")
     logging.info("\n")
+
 
 # %%
 

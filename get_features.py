@@ -103,7 +103,7 @@ from functions import get_apen
 # define model
 model_name = "MiMe-MeMo/MeMo-BERT-SA"
 # load SA model
-xlm_model = pipeline("text-classification", model=model_name)
+pipe = pipeline("text-classification", model=model_name)
 # & tokenizer
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
@@ -136,7 +136,8 @@ for i, row in tqdm(df.iterrows(), total=len(df), desc="Processing texts"):
     features["compression_ratio"] = compressrat(text_id)
 
     # Sentiment analysis
-    features["sentiment"] = get_sentiment(text_id, xlm_model, tokenizer)
+    features["sentiment"] = get_sentiment(text_id, pipe, tokenizer)
+    #print(features["sentiment"])
 
     if features["sentiment"] is not None and len(features["sentiment"]) > 1:
         features["sentiment_mean"] = np.mean(features["sentiment"])

@@ -173,28 +173,61 @@ def get_apen(sentiment_list):
     return app_entropy(sentiment_list, order=2)
 
 
-# to convert transformer scores to the same scale as the dictionary-based scores
-def conv_scores(label, score, spec_lab):  # single label and score
-    """
-    Converts transformer-based sentiment scores to a uniform scale based on specified labels.
-    We need to lowercase since sometimes, a model will have as label "Neutral" or "neutral" or "NEUTRAL"
-    """
-    if len(spec_lab) == 2:
-        if label.lower() == spec_lab[0]:  # "positive"
-            return score
-        elif label.lower() == spec_lab[1]:  # "negative"
-            return -score  # return negative score
 
-    elif len(spec_lab) == 3:
-        if label.lower() == spec_lab[0]:  # "positive"
-            return score
-        elif label.lower() == spec_lab[1]:  # "neutral"
-            return 0  # return 0 for neutral
-        elif label.lower() == spec_lab[2]:  # "negative"
-            return -score  # return negative score
 
-    else:
-        raise ValueError("spec_lab must contain either 2 or 3 labels.")
+###
+
+
+LABEL_NORMALIZATION = { 
+    "positive": {"positive", "positiv", "pos"},
+    "neutral": {"neutral", "neutr", "neut"},
+    "negative": {"negative", "negativ", "neg"},}
+
+def normalize_label(label):
+    """
+    Normalizes the model's sentiment label to a standard format.
+    """
+    label = label.lower().strip() # make sure we have a clean label
+    for standard_label, variants in LABEL_NORMALIZATION.items():
+        if label in variants:
+            return standard_label
+    raise ValueError(f"Unrecognized sentiment label: {label}")
+
+def conv_scores(label, score):
+    """
+    Converts the sentiment score to a continuous scale based on (normalized) label.
+    """
+    sentiment = normalize_label(label)
+    if sentiment == "positive":
+        return score
+    elif sentiment == "neutral":
+        return 0
+    elif sentiment == "negative":
+        return -score
+
+
+# # to convert transformer scores to the same scale as the dictionary-based scores
+# def conv_scores(label, score, spec_lab):  # single label and score
+#     """
+#     Converts transformer-based sentiment scores to a uniform scale based on specified labels.
+#     We need to lowercase since sometimes, a model will have as label "Neutral" or "neutral" or "NEUTRAL"
+#     """
+#     if len(spec_lab) == 2:
+#         if label.lower() == spec_lab[0]:  # "positive"
+#             return score
+#         elif label.lower() == spec_lab[1]:  # "negative"
+#             return -score  # return negative score
+
+#     elif len(spec_lab) == 3:
+#         if label.lower() == spec_lab[0]:  # "positive"
+#             return score
+#         elif label.lower() == spec_lab[1]:  # "neutral"
+#             return 0  # return 0 for neutral
+#         elif label.lower() == spec_lab[2]:  # "negative"
+#             return -score  # return negative score
+
+#     else:
+#         raise ValueError("spec_lab must contain either 2 or 3 labels.")
 
 
 # Function to find the maximum allowed tokens for the model
@@ -242,7 +275,7 @@ def split_text_to_chunks(text, tokenizer) -> list:
 
 
 # get SA scores from model
-def get_sentiment(text_id, model, tokenizer):
+def get_sentiment(text_id, pipe, tokenizer):
     """
     Gets the sentiment score per sentence in a text, including splitting long sentences into chunks if needed.
     """
@@ -265,23 +298,40 @@ def get_sentiment(text_id, model, tokenizer):
 
         chunks = split_text_to_chunks(sent, tokenizer)
 
-        if len(chunks) == 0:
-            print(f"Warning: No chunks created for a sentence in '{text_id}'. Skipping.")
-            continue
+        # if len(chunks) == 0:
+        #     print(f"Warning: No chunks created for a sentence in '{text_id}'. Skipping.")
+        #     continue
+        # elif len(chunks) > 1:
+        #     print(f"Note: Sentence split into {len(chunks)} chunks for text: '{text_id}'.")
+
+        if not chunks:
+            print(f"Warning: No chunks created for text: '{text_id}'. Skipping.")
+            return None
+
+        # If there is only one chunk, we can directly use the original text
+        if len(chunks) == 1:
+            chunks = [sent]  # Just use the original sentence
+
+        # If the sentence is split into multiple chunks, print a warning
         elif len(chunks) > 1:
-            print(f"Note: Sentence split into {len(chunks)} chunks for text: '{text_id}'.")
+            print(f"Warning: Sentence split into {len(chunks)} chunks for text: '{text_id}'.")
+
 
         for chunk in chunks:
-            result = model(chunk)
+            result = pipe(chunk)
             if not result:
                 continue
 
             model_label = result[0].get("label")
             model_score = result[0].get("score")
 
-            converted_score = conv_scores(model_label, model_score, ["positive", "neutral", "negative"])
-            sentiment_scores.append(float(converted_score))
+            # Transform score to continuous scale
+            xlm_converted_score = float(conv_scores(model_label, model_score))
+            sentiment_scores.append(xlm_converted_score)
+
+            # converted_score = conv_scores(model_label, model_score, ["positive", "neutral", "negative"])
+            # sentiment_scores.append(float(converted_score))
 
     return sentiment_scores
 
-# %%
+

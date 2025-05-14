@@ -1,6 +1,16 @@
-2025-05-14 18:47:40,238 - INFO - Starting classification script.
-2025-05-14 18:47:40,239 - INFO - DF_NAME: embeddings
-2025-05-14 18:47:40,239 - INFO - MIN_LENGTH: 100, filtering: True
-2025-05-14 18:48:50,257 - INFO - Starting classification script.
-2025-05-14 18:48:50,258 - INFO - DF_NAME: embeddings+stylistics
-2025-05-14 18:48:50,258 - INFO - MIN_LENGTH: 100, filtering: True
+2025-05-14 18:52:50,863 - INFO - Starting classification script.
+2025-05-14 18:52:50,864 - INFO - DF_NAME: embeddings
+2025-05-14 18:52:50,864 - INFO - MIN_LENGTH: 100, filtering: False
+2025-05-14 18:52:56,559 - INFO - Removed 4 rows of invalid embeddings.
+2025-05-14 18:53:00,760 - INFO - Balanced classes, 1292 samples. Fiction: 646, Nonfiction: 646
+2025-05-14 18:53:00,763 - INFO - Features used: EMBEDDING
+2025-05-14 18:53:04,382 - INFO - Balanced classes, 1292 samples. Fiction: 646, Nonfiction: 646
+2025-05-14 18:53:04,385 - INFO - Features used: EMBEDDING
+2025-05-14 18:53:09,635 - INFO - Overall performance across all folds:
+2025-05-14 18:53:09,635 - INFO - Average Accuracy: 0.86
+2025-05-14 18:53:09,635 - INFO - Average Precision for 'y' (fiction): 0.84
+2025-05-14 18:53:09,635 - INFO - Average Recall for 'y' (fiction): 0.89
+2025-05-14 18:53:09,635 - INFO - Average F1 Score for 'y' (fiction): 0.87
+2025-05-14 18:53:09,635 - INFO - Average Precision for 'n' (nonfiction): 0.88
+2025-05-14 18:53:09,635 - INFO - Average Recall for 'n' (nonfiction): 0.83
+2025-05-14 18:53:09,635 - INFO - Average F1 Score for 'n' (nonfiction): 0.86

@@ -33,11 +33,11 @@ logging.basicConfig(
 
 # %%
 # --- DATA CONFIG ---
-DF_NAME = "embeddings+stylistics" #"mfw_100" # "mfw_500", "tfidf_5000", "embeddings", "stylistics"
+DF_NAME = "embeddings" #"mfw_100" # "mfw_500", "tfidf_5000", "embeddings", "stylistics"
 
 # --- CLEANING CONFIG ---
 MIN_LENGTH = 100
-FILTER = True
+FILTER = False
 
 logging.info("Starting classification script.")
 # write out the config
@@ -109,9 +109,6 @@ if "sentiment" in use_df.columns:
 use_df = use_df.dropna(subset=["label"])
 print("NaN values in use_df:")
 print(use_df.isna().sum())
-
-
-# %%
 
 if "msttr" in use_df.columns:
     # then we drop some stylistic features
@@ -284,7 +281,8 @@ for train_index, test_index in sgkf.split(X, y, groups):
     print("-------")
 
 # log features used
-logging.info(f"Features used: {X.columns}")
+if not DF_NAME == "embeddings":
+    logging.info(f"Features used: {X.columns}")
 
 # Calculate overall (mean) performance across all folds
 print("\nOverall performance across all folds:")
@@ -318,25 +316,5 @@ if "embedding" not in balanced_df.columns:
     # log it
     logging.info("\nTop 20 Features by Average Importance:")
     logging.info(mean_importances.head(20))
-
-# %%
-
-# if using stylistics, we want to check the collinearity of the features
-# check for collinearity
-def check_collinearity(df):
-    # Calculate the correlation matrix
-    corr = df.corr()
-
-    # Set up the matplotlib figure
-    plt.figure(figsize=(12, 10))
-
-    # Draw the heatmap with the mask and correct aspect ratio
-    sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', square=True, cbar_kws={"shrink": .8})
-
-    plt.title('Feature Correlation Matrix')
-    plt.show()
-
-check_collinearity(X_train)
-
 
 # %%

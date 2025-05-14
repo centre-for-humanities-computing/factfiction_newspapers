@@ -33,11 +33,11 @@ logging.basicConfig(
 
 # %%
 # --- DATA CONFIG ---
-DF_NAME = "stylistics"#"mfw_100" # "mfw_500", "tfidf_5000", "embeddings", "stylistics"
+DF_NAME = "embeddings+stylistics" #"mfw_100" # "mfw_500", "tfidf_5000", "embeddings", "stylistics"
 
 # --- CLEANING CONFIG ---
 MIN_LENGTH = 100
-FILTER = False
+FILTER = True
 
 logging.info("Starting classification script.")
 # write out the config
@@ -65,6 +65,7 @@ def filter_df(df, min_length=MIN_LENGTH):
     feuilleton_data = dataset["train"].to_pandas()
     df = df.merge(feuilleton_data[["article_id", "text"]], on="article_id", how="left")
     # Filter DataFrame for texts longer than min_length words
+    df = df.dropna(subset=["text"])
     df_cleaned = df[df["text"].str.split().apply(len) >= min_length]
     # Drop the "text" column
     df_cleaned = df_cleaned.drop(columns=["text"])
@@ -104,11 +105,12 @@ use_df.head()
 if "sentiment" in use_df.columns:
     use_df = use_df.drop(columns=["sentiment"])
 # check for NaN values
+# drop nan value in label
+use_df = use_df.dropna(subset=["label"])
 print("NaN values in use_df:")
 print(use_df.isna().sum())
 
-# %%
-use_df.columns
+
 # %%
 
 if "msttr" in use_df.columns:
@@ -162,12 +164,13 @@ def get_features(df):
     if "embedding" in df.columns:
         X = np.vstack(df['embedding'].values)
         print("features used: embedding")
-        logging.info(f"Features used: EMBEDDING")
-
-    X = df.drop(columns=['label','feuilleton_id'])
-    print("features used:", X.columns)
-    logging.info(f"Features used: {X.columns}")
+        logging.info("Features used: EMBEDDING")
+    else:
+        X = df.drop(columns=['label','feuilleton_id'])
+        print("features used:", X.columns)
+        logging.info(f"Features used: {X.columns}")
     return X
+
 
 X = get_features(balanced_df)
 

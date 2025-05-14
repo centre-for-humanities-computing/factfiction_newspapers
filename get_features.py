@@ -179,26 +179,21 @@ for col in stylistics_features[0].keys():
 # get embeddings
 
 from datasets import load_from_disk
-# %%
 
 # Load the dataset from arrow
-path = "data/pooled/2025-04-30_embs_jina"#  "data/pooled/2025-04-29_embs_e5"
+# embeddings need to be extracted via script at https://github.com/centre-for-humanities-computing/feuilleton_novels
+path = "data/pooled/2025-05-14_embs_jina" #  "data/pooled/2025-04-29_embs_e5"
 dataset = load_from_disk(path)
 # Convert to a pandas DataFrame
 embs = dataset.to_pandas()
 # merge feuilleton (y/n) on article_id
-embs_df = pd.merge(embs[['article_id', 'embedding']], df[["article_id", "is_feuilleton", "feuilleton_id"]], on="article_id", how="left")
+embs_df = pd.merge(embs[['article_id', 'embedding']], df[["article_id", "label", "feuilleton_id"]], on="article_id", how="left")
 print(len(embs_df))
 embs_df.head()
 
 # %%
 # save to parquet
-embs_df.to_parquet("data/embeddings_jina.parquet", index=False)
+embs_df.to_parquet("data/embeddings.parquet", index=False)
 logging.info(f"get_mfw: created embeddings dataframe. Saved to data/embeddings.parquet.")
-# %%
 
-from transformers import pipeline
-model_path = "cardiffnlp/twitter-xlm-roberta-base-sentiment"
-sentiment_task = pipeline("sentiment-analysis", model=model_path, tokenizer=model_path)
-sentiment_task("T'estimo!")
 # %%

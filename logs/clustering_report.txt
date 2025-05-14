@@ -1,0 +1,40 @@
+2025-05-14 17:11:38,666 - INFO - ----------------------
+2025-05-14 17:11:38,666 - INFO - Loaded embeddings from 2025-04-29_embs_e5
+2025-05-14 17:11:38,666 - INFO - Number of rows in 2025-04-29_embs_e5: 1459
+2025-05-14 17:11:38,670 - INFO - Number of datapoints after removing no feuilleton_id: 687
+2025-05-14 17:11:38,670 - INFO - Number of rows in 2025-04-29_embs_e5 after filtering: 687
+2025-05-14 17:11:38,946 - INFO - Adjusted Rand Index: 0.117
+2025-05-14 17:11:38,946 - INFO - Normalized Mutual Information Score: 0.68
+2025-05-14 17:11:38,948 - INFO - V-measure Score: 0.68
+2025-05-14 17:11:38,967 - INFO - ----------------------
+2025-05-14 17:11:38,967 - INFO - Loaded embeddings from 2025-04-30_embs_memo
+2025-05-14 17:11:38,968 - INFO - Number of rows in 2025-04-30_embs_memo: 1459
+2025-05-14 17:11:38,974 - INFO - Number of datapoints after removing no feuilleton_id: 687
+2025-05-14 17:11:38,975 - INFO - Number of rows in 2025-04-30_embs_memo after filtering: 687
+2025-05-14 17:11:39,183 - INFO - Adjusted Rand Index: 0.062
+2025-05-14 17:11:39,183 - INFO - Normalized Mutual Information Score: 0.653
+2025-05-14 17:11:39,185 - INFO - V-measure Score: 0.653
+2025-05-14 17:11:39,198 - INFO - ----------------------
+2025-05-14 17:11:39,198 - INFO - Loaded embeddings from 2025-05-14_embs_jina
+2025-05-14 17:11:39,198 - INFO - Number of rows in 2025-05-14_embs_jina: 1459
+2025-05-14 17:11:39,204 - INFO - Number of datapoints after removing no feuilleton_id: 687
+2025-05-14 17:11:39,204 - INFO - Number of rows in 2025-05-14_embs_jina after filtering: 687
+2025-05-14 17:11:39,432 - INFO - Adjusted Rand Index: 0.263
+2025-05-14 17:11:39,432 - INFO - Normalized Mutual Information Score: 0.805
+2025-05-14 17:11:39,433 - INFO - V-measure Score: 0.805
+2025-05-14 17:11:39,448 - INFO - ----------------------
+2025-05-14 17:11:39,448 - INFO - Loaded embeddings from 2025-05-14_embs_bilingual
+2025-05-14 17:11:39,448 - INFO - Number of rows in 2025-05-14_embs_bilingual: 1459
+2025-05-14 17:11:39,451 - INFO - Number of datapoints after removing no feuilleton_id: 687
+2025-05-14 17:11:39,451 - INFO - Number of rows in 2025-05-14_embs_bilingual after filtering: 687
+2025-05-14 17:11:39,821 - INFO - Adjusted Rand Index: 0.134
+2025-05-14 17:11:39,821 - INFO - Normalized Mutual Information Score: 0.706
+2025-05-14 17:11:39,823 - INFO - V-measure Score: 0.706
+2025-05-14 17:11:39,839 - INFO - ----------------------
+2025-05-14 17:11:39,839 - INFO - Loaded embeddings from 2025-05-14_embs_solon
+2025-05-14 17:11:39,839 - INFO - Number of rows in 2025-05-14_embs_solon: 1459
+2025-05-14 17:11:39,847 - INFO - Number of datapoints after removing no feuilleton_id: 687
+2025-05-14 17:11:39,847 - INFO - Number of rows in 2025-05-14_embs_solon after filtering: 687
+2025-05-14 17:11:40,297 - INFO - Adjusted Rand Index: 0.127
+2025-05-14 17:11:40,297 - INFO - Normalized Mutual Information Score: 0.688
+2025-05-14 17:11:40,299 - INFO - V-measure Score: 0.688

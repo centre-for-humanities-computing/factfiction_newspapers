@@ -50,3 +50,15 @@ TXTs of the English originals available: https://www.historicnavalfiction.com/ge
 ## interesting
 
 "En literair Proces, svæver i denne Tid for Retter ere i Paris: Veron og Gerardin Medeiere af BladeConstitutionel have indklaget den verdensberømte Romanforfatter Alexander Dumas, der leverer deres Feuilleton, fordi han ved Contrakt havde forpligtet sig til i 5 Aar ikke at levere mere end 18 Bind, Romaner og Aaret; da han indgik denne Contract havde han endnu 175,000 Linier at levere til andre Blade; denne enorme Frugtbarhed paa literaire Frembringelser, synes dog at have generet den aandrige Mand, siden han for Retten erklærede, at han i 18 Maaneder havde produceret 158000 Linier, men var blevet saa træt deraf, at han forat recreere sig, maatte foretage en Reise til Spanien og Afrika." (thi_065889)
+
+
+| Label      | Description                                                                               | Annotation Rule                                               | Notes                                                             |
+| ---------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `y`        | Fiction, narrative texts, or stories (even if based on real events)                       | Annotate as `y` if it has a narrative structure               | Includes memoirs/confessions with strong internal focalization    |
+| `n`        | Nonfiction, reportage, news articles                                                      | Annotate as `n` even if they use storytelling elements        | Label applies even when narrative structure is present            |
+| `anecdote` | Short, often humorous or moralistic stories (e.g., in “anekdoter” or miscellany sections) | Annotate as `anecdote` based on brevity and tone              | Usually < 1 page; resembles `y` but lacks depth                   |
+| `speech`   | Reported political or religious speeches                                                  | Annotate as `speech` if majority of text is the quoted speech | Initial reporting allowed, but main content must be speech        |
+| `bio`      | Biographies or autobiographical accounts of notable figures                               | Annotate as `bio`                                             | Use `y` instead if highly narrative (e.g., internal focalization) |
+| `essay`    | Personal essays, opinion pieces, cultural or landscape descriptions                       | Annotate as `essay`                                           | Use `y` instead if characters and internal states are present     |
+| `poem`     | Any text arranged in verse form, regardless of literary quality                           | Annotate as `poem`                                            | Includes embedded poems in other texts                            |
+

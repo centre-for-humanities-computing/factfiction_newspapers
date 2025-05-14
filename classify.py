@@ -33,7 +33,7 @@ logging.basicConfig(
 
 # %%
 # --- DATA CONFIG ---
-DF_NAME = "embeddings" #"mfw_100" # "mfw_500", "tfidf_5000", "embeddings", "stylistics"
+DF_NAME = "stylistics" #"mfw_100" # "mfw_500", "tfidf_5000", "embeddings", "stylistics"
 
 # --- CLEANING CONFIG ---
 MIN_LENGTH = 100
@@ -124,8 +124,10 @@ if "msttr" in use_df.columns:
         'avg_ndd', 'std_ndd', 
         #'avg_mdd', 'std_mdd',
         'compression_ratio', 
-        'sentiment_mean', 'sentiment_std',
-        #'apen_sentiment', 
+        'sentiment_mean', 
+        'sentiment_std',
+        #'sentiment_abs', 
+        # 'apen_sentiment',
         'feuilleton_id', 'label']]
 
 # %%

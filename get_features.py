@@ -135,13 +135,15 @@ for i, row in tqdm(df.iterrows(), total=len(df), desc="Processing texts"):
     # Compression ratio
     features["compression_ratio"] = compressrat(text_id)
 
-    # Sentiment analysis
+    # Sentiment analysis with our MeMo-BERT model
     features["sentiment"] = get_sentiment(text_id, pipe, tokenizer)
     #print(features["sentiment"])
 
     if features["sentiment"] is not None and len(features["sentiment"]) > 1:
         features["sentiment_mean"] = np.mean(features["sentiment"])
         features["sentiment_std"] = np.std(features["sentiment"])
+        # we also want an "absolute" strenght
+        features["sentiment_abs"] = np.sum(np.abs(features["sentiment"])) / len(features["sentiment"])
         features["apen_sentiment"] = get_apen(features["sentiment"])
     else:
         features["sentiment_mean"] = np.nan

@@ -126,7 +126,7 @@ if "msttr" in use_df.columns:
         'compression_ratio', 
         'sentiment_mean', 
         'sentiment_std',
-        #'sentiment_abs', 
+        'sentiment_abs', 
         # 'apen_sentiment',
         'feuilleton_id', 'label']]
 

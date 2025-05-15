@@ -6,21 +6,13 @@
 # we want to test 4 different embeddings on how they can determine clusters
 # the gold standard is the feuilleton_id
 
-# we will use the following embeddings:
-# 1. e5 large
-# 2. MeMo-BERT
-# 3. 
-# 4. 
-
-# we will use the KMeans clustering algorithms:
+# we will use the KMeans clustering algorithm
 
 # %%
 
 from sklearn.metrics.cluster import v_measure_score
 
-import pandas as pd
 import numpy as np
-
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -30,7 +22,6 @@ from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
 
 from datasets import load_from_disk, load_dataset
 import logging
-import os
 
 # %%
 # CONFIGURE
@@ -68,18 +59,18 @@ df.head()
 
 # %%
 
+# f to retun the clusters
 def get_clusters(df):
     X = np.vstack(df["embedding"].values)
     y = df["feuilleton_id"].values
 
     # Set number of clusters to number of unique feuilleton_ids
     n_clusters = np.unique(y).shape[0]
+    # kmeans
     kmeans = KMeans(n_clusters=n_clusters, random_state=42)
     clusters = kmeans.fit_predict(X)
-
     return clusters
 
-# %%
 
 for path in embeddings_paths:
     # Load the embeddings
@@ -89,30 +80,29 @@ for path in embeddings_paths:
     logging.info(f"Loaded embeddings from {path}")
     logging.info(f"Number of rows in {path}: {len(embs)}")
 
-    # merge with df
+    # merge with df to get feuilleton_id
     merged = embs[['article_id', 'embedding']].merge(df, on="article_id")
+    # remove faulty embeddings
     merged = merged[merged['embedding'].apply(lambda x: isinstance(x, np.ndarray) and not np.isnan(x).any())]
+    # remove rows without feuilleton_id
+    # i.e., we are only clustering those that can be clustered (!!)
     merged = merged[~merged['feuilleton_id'].isna()]
-    print("Number of datapoints after removing no feuilleton_id:", len(merged))
-    logging.info(f"Number of datapoints after removing no feuilleton_id: {len(merged)}")
 
-    # Check the number of rows
+    # Check the number of datapoints
     print(f"Number of rows in {path} after filtering: {len(merged)}")
     logging.info(f"Number of rows in {path} after filtering: {len(merged)}")
 
+    # get the clusters
     clusters = get_clusters(merged)
-    print("number of clusters:", len(np.unique(clusters)))
-    print("number of feuilleton_ids:", len(np.unique(merged["feuilleton_id"].values)))
+    # note down the number of clusters
+    print("number of clusters:", len(np.unique(clusters)), ", should be same as:", len(np.unique(merged["feuilleton_id"].values)))
 
     y = merged["feuilleton_id"].values
 
     # get performance metrics
     ari = round(adjusted_rand_score(y, clusters),3)
-    nmi = round(normalized_mutual_info_score(y, clusters),3)
     print("Adjusted Rand Index:", ari)
-    print("Normalized Mutual Information Score:", nmi)
     logging.info(f"Adjusted Rand Index: {ari}")
-    logging.info(f"Normalized Mutual Information Score: {nmi}")
 
     # get v-score
     v_score = round(v_measure_score(y, clusters),3)
@@ -123,29 +113,26 @@ for path in embeddings_paths:
 
 # %%
 
-# get the jina model embeddings and merge with the feuilleton dataset
+# just extra
+
+# we can check out som random clusters
+
+# get jina embeddings
 embs = load_from_disk(f"{embeddings_dir}/2025-05-14_embs_jina")
 embs = embs.to_pandas()
-# see the n_chunks
-embs['n_chunks_orig'].value_counts()
+# merge w df to get feuilleton_id
+merged = embs[['article_id', 'embedding']].merge(df, on="article_id")
 
-# plot it
-sns.histplot(embs['n_chunks_orig'], bins=100)
-plt.xlabel("Number of chunks")
-plt.ylabel("Number of articles")
-plt.title("Distribution of number of chunks per article")
-plt.show()
-
-# %%
 # Separate out the rows with dummy IDs and real feuilleton IDs
-real_feuilletons = merged[~merged['feuilleton_id'].str.contains("noid_")]
+merged = merged[merged['embedding'].apply(lambda x: isinstance(x, np.ndarray) and not np.isnan(x).any())]
+real_feuilletons = merged[~merged['feuilleton_id'].isna()]
+
 # Randomly pick n feuilleton_ids
-n = 20
+n = 50
 sampled_ids = np.random.choice(real_feuilletons["feuilleton_id"].unique(), size=n, replace=False)
 sampled_df = real_feuilletons[real_feuilletons["feuilleton_id"].isin(sampled_ids)]
 
 print("Total samples:", len(sampled_df))
-print("Number of clusters:", sampled_df["feuilleton_id"].nunique())
 
 # Extract embeddings and labels
 X = np.vstack(sampled_df["embedding"].values)

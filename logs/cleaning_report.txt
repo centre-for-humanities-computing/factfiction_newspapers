@@ -1,1 +1,32 @@
-
+2025-05-15 00:12:43,991 - INFO - Cleaning: cleaned sheet. Removed NAs, mixed, usikker. Length of processed df: 1459
+2025-05-15 00:12:44,928 - INFO - Raw categories: is_feuilleton
+n           688
+y           517
+bio         133
+anecdote     51
+essay        46
+poem         14
+speech       10
+Name: count, dtype: int64
+2025-05-15 00:12:44,929 - INFO - Merged categories into binary labels, y/n.
+2025-05-15 00:12:44,929 - INFO - Cleaned categories: is_feuilleton
+x    75
+Name: count, dtype: int64
+2025-05-15 00:13:07,955 - INFO - Cleaning: cleaned sheet. Removed NAs, mixed, usikker. Length of processed df: 1459
+2025-05-15 00:13:16,069 - INFO - Raw categories: is_feuilleton
+n           688
+y           517
+bio         133
+anecdote     51
+essay        46
+poem         14
+speech       10
+Name: count, dtype: int64
+2025-05-15 00:13:16,071 - INFO - Merged categories into binary labels, y/n.
+2025-05-15 00:13:16,071 - INFO - Cleaned categories: is_feuilleton
+n    734
+y    650
+Name: count, dtype: int64
+2025-05-15 00:13:28,305 - INFO - Preprocessed text: lowercased, removed numbers, multiple spaces, etc.
+2025-05-15 00:13:28,337 - INFO - Saved cleaned feuilleton df to data/cleaned_feuilleton.csv
+2025-05-15 00:13:38,961 - INFO - PyTorch version 2.6.0 available.

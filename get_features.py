@@ -1,5 +1,5 @@
-# %%
 
+# %%
 import pandas as pd
 import numpy as np
 from collections import Counter
@@ -193,7 +193,6 @@ embs_df = pd.merge(embs[['article_id', 'embedding']], df[["article_id", "label",
 print(len(embs_df))
 embs_df.head()
 
-# %%
 # save to parquet
 embs_df.to_parquet("data/embeddings.parquet", index=False)
 logging.info(f"get_mfw: created embeddings dataframe. Saved to data/embeddings.parquet.")

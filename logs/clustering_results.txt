@@ -1,0 +1,43 @@
+
+
+Clustering report:
+2025-04-29_embs_e5: {'ari': 0.122, 'v_score': 0.672, 'n_clusters': 161}
+2025-04-30_embs_memo: {'ari': 0.107, 'v_score': 0.665, 'n_clusters': 161}
+2025-05-14_embs_jina: {'ari': 0.249, 'v_score': 0.792, 'n_clusters': 161}
+2025-05-14_embs_bilingual: {'ari': 0.164, 'v_score': 0.702, 'n_clusters': 161}
+2025-05-14_embs_solon: {'ari': 0.124, 'v_score': 0.681, 'n_clusters': 161}
+
+
+
+
+Clustering report:
+2025-04-29_embs_e5: {'ari': 0.122, 'v_score': 0.672, 'n_clusters': 161}
+2025-04-30_embs_memo: {'ari': 0.107, 'v_score': 0.665, 'n_clusters': 161}
+2025-05-14_embs_jina: {'ari': 0.249, 'v_score': 0.792, 'n_clusters': 161}
+2025-05-14_embs_bilingual: {'ari': 0.164, 'v_score': 0.702, 'n_clusters': 161}
+2025-05-14_embs_solon: {'ari': 0.124, 'v_score': 0.681, 'n_clusters': 161}
+2025-05-16_old_news: {'ari': 0.07, 'v_score': 0.682, 'n_clusters': 161}
+
+
+
+
+Clustering report:
+2025-04-29_embs_e5: {'ari': 0.249, 'v_score': 0.792, 'n_clusters': 161}
+2025-04-30_embs_memo: {'ari': 0.249, 'v_score': 0.792, 'n_clusters': 161}
+2025-05-14_embs_jina: {'ari': 0.249, 'v_score': 0.792, 'n_clusters': 161}
+2025-05-14_embs_bilingual: {'ari': 0.249, 'v_score': 0.792, 'n_clusters': 161}
+2025-05-14_embs_solon: {'ari': 0.249, 'v_score': 0.792, 'n_clusters': 161}
+2025-05-16_old_news: {'ari': 0.249, 'v_score': 0.792, 'n_clusters': 161}
+
+
+
+
+Clustering report:
+2025-04-29_embs_e5: {'ari': 0.122, 'v_score': 0.672, 'n_clusters': 161}
+2025-04-30_embs_memo: {'ari': 0.107, 'v_score': 0.665, 'n_clusters': 161}
+2025-05-14_embs_jina: {'ari': 0.249, 'v_score': 0.792, 'n_clusters': 161}
+2025-05-14_embs_bilingual: {'ari': 0.164, 'v_score': 0.702, 'n_clusters': 161}
+2025-05-14_embs_solon: {'ari': 0.124, 'v_score': 0.681, 'n_clusters': 161}
+2025-05-16_old_news: {'ari': 0.07, 'v_score': 0.682, 'n_clusters': 161}
+
+

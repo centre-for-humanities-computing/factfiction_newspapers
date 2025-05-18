@@ -8,12 +8,8 @@ from sklearn.metrics import classification_report
 from sklearn.utils import resample
 from sklearn.model_selection import StratifiedGroupKFold
 
-from sklearn.inspection import PartialDependenceDisplay
-
 import pandas as pd
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 from datasets import load_dataset
 import logging
@@ -33,7 +29,7 @@ logging.basicConfig(
 
 # %%
 # --- DATA CONFIG ---
-DF_NAME = "stylistics" #"mfw_100" # "mfw_500", "tfidf_5000", "embeddings", "stylistics"
+DF_NAME = "tfidf_5000" #"mfw_100" # "mfw_500", "tfidf_5000", "embeddings", "stylistics"
 
 # --- CLEANING CONFIG ---
 MIN_LENGTH = 100
@@ -127,7 +123,6 @@ if "msttr" in use_df.columns:
         'sentiment_mean', 
         'sentiment_std',
         'sentiment_abs', 
-        # 'apen_sentiment',
         'feuilleton_id', 'label']]
 
 # %%
@@ -155,9 +150,6 @@ def balance_classes(df):
 
 # %%
 
-# balance classes
-balanced_df = balance_classes(use_df)
-
 # Define features (bit different if using embeddings)
 def get_features(df):
     if "embedding" in df.columns:
@@ -171,30 +163,6 @@ def get_features(df):
     return X
 
 
-X = get_features(balanced_df)
-
-# Define target
-y = balanced_df["label"]
-
-# Split data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Train classifier
-clf = RandomForestClassifier(n_estimators=100, random_state=42)
-clf.fit(X_train, y_train)
-
-# Predict
-y_pred = clf.predict(X_test)
-
-# Evaluate
-accuracy = accuracy_score(y_test, y_pred)
-print(f"Accuracy: {accuracy:.2f}")
-
-# Get precision, recall, and F1-score
-print(classification_report(y_test, y_pred))
-
-
-# %%
 # Stratified Group K-Fold Cross-Validation
 
 # we want to
@@ -318,5 +286,17 @@ if "embedding" not in balanced_df.columns:
     # log it
     logging.info("\nTop 20 Features by Average Importance:")
     logging.info(mean_importances.head(20))
+
+# %%
+# get std of precision, recall, f1
+print("\nStandard Deviation of Performance Metrics:")
+print(f"Std of Accuracy: {np.std(accuracies):.2f}")
+print(f"Std of Precision for 'y' (fiction): {np.std(precisions_y):.2f}")
+print(f"Std of Recall for 'y' (fiction): {np.std(recalls_y):.2f}")
+print(f"Std of F1 Score for 'y' (fiction): {np.std(f1_scores_y):.2f}")
+
+print(f"Std of Precision for 'n' (nonfiction): {np.std(precisions_n):.2f}")
+print(f"Std of Recall for 'n' (nonfiction): {np.std(recalls_n):.2f}")
+print(f"Std of F1 Score for 'n' (nonfiction): {np.std(f1_scores_n):.2f}")
 
 # %%

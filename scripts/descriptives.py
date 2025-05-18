@@ -131,8 +131,8 @@ for feature in stylistics_features:
         df_nonfiction = df_nonfiction[df_nonfiction[feature] < 12]
 
     plt.figure(figsize=(7, 3))
-    sns.histplot(df_fiction[feature], color='blue', label='Fiction', alpha=0.5, stat='density')
-    sns.histplot(df_nonfiction[feature], color='red', label='Nonfiction', alpha=0.5, stat='density')
+    sns.histplot(df_fiction[feature], color='blue', label='Fiction', alpha=0.5, stat='density', kde=True)
+    sns.histplot(df_nonfiction[feature], color='red', label='Nonfiction', alpha=0.5, stat='density', kde=True)
     plt.xlabel(feature)
     plt.ylabel("Frequency")
     plt.legend()

@@ -1,264 +1,596 @@
-2025-05-15 00:35:38,352 - INFO - Starting classification script.
-2025-05-15 00:35:38,352 - INFO - DF_NAME: stylistics
-2025-05-15 00:35:38,352 - INFO - MIN_LENGTH: 100, filtering: False
-2025-05-15 00:35:43,575 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
-2025-05-15 00:35:43,576 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
-       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
-       'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
-       'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
-       'sentiment_mean', 'sentiment_std'],
-      dtype='object')
-2025-05-15 00:35:45,364 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
-2025-05-15 00:35:45,365 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
-       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
-       'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
-       'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
-       'sentiment_mean', 'sentiment_std'],
-      dtype='object')
-2025-05-15 00:35:46,300 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
-       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
-       'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
-       'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
-       'sentiment_mean', 'sentiment_std'],
-      dtype='object')
-2025-05-15 00:35:46,300 - INFO - Overall performance across all folds:
-2025-05-15 00:35:46,301 - INFO - Average Accuracy: 0.84
-2025-05-15 00:35:46,301 - INFO - Average Precision for 'y' (fiction): 0.84
-2025-05-15 00:35:46,301 - INFO - Average Recall for 'y' (fiction): 0.85
-2025-05-15 00:35:46,301 - INFO - Average F1 Score for 'y' (fiction): 0.84
-2025-05-15 00:35:46,301 - INFO - Average Precision for 'n' (nonfiction): 0.85
-2025-05-15 00:35:46,301 - INFO - Average Recall for 'n' (nonfiction): 0.84
-2025-05-15 00:35:46,301 - INFO - Average F1 Score for 'n' (nonfiction): 0.84
-2025-05-15 00:35:46,301 - INFO - 
-Top 20 Features by Average Importance:
-2025-05-15 00:35:46,302 - INFO - personal_pronoun_ratio    0.221373
-nominal_verb_ratio        0.123342
-avg_wordlen               0.079681
-passive_ratio             0.071787
-sentiment_std             0.068510
-active_ratio              0.061468
-sentiment_mean            0.046553
-function_word_ratio       0.041882
-compression_ratio         0.036537
-adjective_adverb_ratio    0.035237
-avg_sentlen               0.034209
-msttr                     0.031705
-avg_ndd                   0.030983
-of_ratio                  0.029590
-std_ndd                   0.027358
-that_ratio                0.022354
-noun_ttr                  0.021396
-verb_ttr                  0.016033
-dtype: float64
-2025-05-15 00:36:08,815 - INFO - Starting classification script.
-2025-05-15 00:36:08,816 - INFO - DF_NAME: stylistics
-2025-05-15 00:36:08,816 - INFO - MIN_LENGTH: 100, filtering: True
-2025-05-15 00:36:13,894 - INFO - Cleaning done. Removed 486 texts.
-2025-05-15 00:36:13,941 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
-2025-05-15 00:36:13,942 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
-       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
-       'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
-       'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
-       'sentiment_mean', 'sentiment_std'],
-      dtype='object')
-2025-05-15 00:36:14,073 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
-2025-05-15 00:36:14,074 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
-       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
-       'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
-       'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
-       'sentiment_mean', 'sentiment_std'],
-      dtype='object')
-2025-05-15 00:36:14,799 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
-       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
-       'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
-       'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
-       'sentiment_mean', 'sentiment_std'],
-      dtype='object')
-2025-05-15 00:36:14,800 - INFO - Overall performance across all folds:
-2025-05-15 00:36:14,800 - INFO - Average Accuracy: 0.86
-2025-05-15 00:36:14,800 - INFO - Average Precision for 'y' (fiction): 0.87
-2025-05-15 00:36:14,800 - INFO - Average Recall for 'y' (fiction): 0.85
-2025-05-15 00:36:14,800 - INFO - Average F1 Score for 'y' (fiction): 0.86
-2025-05-15 00:36:14,800 - INFO - Average Precision for 'n' (nonfiction): 0.86
-2025-05-15 00:36:14,800 - INFO - Average Recall for 'n' (nonfiction): 0.87
-2025-05-15 00:36:14,800 - INFO - Average F1 Score for 'n' (nonfiction): 0.86
-2025-05-15 00:36:14,801 - INFO - 
-Top 20 Features by Average Importance:
-2025-05-15 00:36:14,801 - INFO - personal_pronoun_ratio    0.254346
-nominal_verb_ratio        0.128264
-avg_wordlen               0.087142
-sentiment_std             0.079308
-passive_ratio             0.066852
-active_ratio              0.065510
-avg_sentlen               0.037035
-function_word_ratio       0.036188
-sentiment_mean            0.033891
-that_ratio                0.030781
-adjective_adverb_ratio    0.027668
-std_ndd                   0.026253
-avg_ndd                   0.022832
-compression_ratio         0.022364
-of_ratio                  0.021024
-noun_ttr                  0.020783
-verb_ttr                  0.019901
-msttr                     0.019858
-dtype: float64
-2025-05-15 00:36:30,284 - INFO - Starting classification script.
-2025-05-15 00:36:30,284 - INFO - DF_NAME: embeddings
-2025-05-15 00:36:30,284 - INFO - MIN_LENGTH: 100, filtering: True
-2025-05-15 00:36:34,753 - INFO - Cleaning done. Removed 485 texts.
-2025-05-15 00:36:34,757 - INFO - Removed 0 rows of invalid embeddings.
-2025-05-15 00:36:34,886 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
-2025-05-15 00:36:34,889 - INFO - Features used: EMBEDDING
-2025-05-15 00:36:35,453 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
-2025-05-15 00:36:35,456 - INFO - Features used: EMBEDDING
-2025-05-15 00:36:38,307 - INFO - Overall performance across all folds:
-2025-05-15 00:36:38,307 - INFO - Average Accuracy: 0.90
-2025-05-15 00:36:38,307 - INFO - Average Precision for 'y' (fiction): 0.89
-2025-05-15 00:36:38,307 - INFO - Average Recall for 'y' (fiction): 0.91
-2025-05-15 00:36:38,307 - INFO - Average F1 Score for 'y' (fiction): 0.90
-2025-05-15 00:36:38,307 - INFO - Average Precision for 'n' (nonfiction): 0.91
-2025-05-15 00:36:38,307 - INFO - Average Recall for 'n' (nonfiction): 0.89
-2025-05-15 00:36:38,307 - INFO - Average F1 Score for 'n' (nonfiction): 0.90
-2025-05-15 00:37:13,340 - INFO - Starting classification script.
-2025-05-15 00:37:13,341 - INFO - DF_NAME: mfw_100
-2025-05-15 00:37:13,341 - INFO - MIN_LENGTH: 100, filtering: True
-2025-05-15 00:37:16,412 - INFO - Cleaning done. Removed 486 texts.
-2025-05-15 00:37:16,456 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
-2025-05-15 00:37:16,457 - INFO - Features used: Index(['og', 'at', 'den', 'af', 'en', 'til', 'de', 'det', 'som', 'for', 'han',
-       'paa', 'med', 'sig', 'var', 'der', 'jeg', 'et', 'ikke', 'er', 'ved',
-       'havde', 'men', 'da', 'hans', 'ham', 'om', 'fra', 'har', 'mig', 'saa',
-       'man', 'denne', 'have', 'efter', 'hun', 'blev', 'nu', 'deres', 'sin',
-       'dem', 'over', 'eller', 'hendes', 'dette', 'under', 'ogsaa', 'alle',
-       'være', 'vi', 'ville', 'min', 'dog', 'hende', 'endnu', 'vare', 'hvor',
-       'vil', 'skulle', 'ere', 'selv', 'skal', 'meget', 'hvad', 'uden', 'mod',
-       'kan', 'kunne', 'rbd', 'os', 'end', 'naar', 'kunde', 'alt', 'disse',
-       'blive', 'tid', 'hele', 'kun', 'anden', 'igjen', 'nogle', 'hr', 'samme',
-       'aar', 'sagde', 'maatte', 'sine', 'allerede', 'tilbage', 'mand', 'sit',
-       'flere', 'derpaa', 'ind', 'kom', 'hvis', 'første', 'mk', 'saaledes'],
-      dtype='object')
-2025-05-15 00:37:16,945 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
-2025-05-15 00:37:16,946 - INFO - Features used: Index(['og', 'at', 'den', 'af', 'en', 'til', 'de', 'det', 'som', 'for', 'han',
-       'paa', 'med', 'sig', 'var', 'der', 'jeg', 'et', 'ikke', 'er', 'ved',
-       'havde', 'men', 'da', 'hans', 'ham', 'om', 'fra', 'har', 'mig', 'saa',
-       'man', 'denne', 'have', 'efter', 'hun', 'blev', 'nu', 'deres', 'sin',
-       'dem', 'over', 'eller', 'hendes', 'dette', 'under', 'ogsaa', 'alle',
-       'være', 'vi', 'ville', 'min', 'dog', 'hende', 'endnu', 'vare', 'hvor',
-       'vil', 'skulle', 'ere', 'selv', 'skal', 'meget', 'hvad', 'uden', 'mod',
-       'kan', 'kunne', 'rbd', 'os', 'end', 'naar', 'kunde', 'alt', 'disse',
-       'blive', 'tid', 'hele', 'kun', 'anden', 'igjen', 'nogle', 'hr', 'samme',
-       'aar', 'sagde', 'maatte', 'sine', 'allerede', 'tilbage', 'mand', 'sit',
-       'flere', 'derpaa', 'ind', 'kom', 'hvis', 'første', 'mk', 'saaledes'],
-      dtype='object')
-2025-05-15 00:37:17,731 - INFO - Features used: Index(['og', 'at', 'den', 'af', 'en', 'til', 'de', 'det', 'som', 'for', 'han',
-       'paa', 'med', 'sig', 'var', 'der', 'jeg', 'et', 'ikke', 'er', 'ved',
-       'havde', 'men', 'da', 'hans', 'ham', 'om', 'fra', 'har', 'mig', 'saa',
-       'man', 'denne', 'have', 'efter', 'hun', 'blev', 'nu', 'deres', 'sin',
-       'dem', 'over', 'eller', 'hendes', 'dette', 'under', 'ogsaa', 'alle',
-       'være', 'vi', 'ville', 'min', 'dog', 'hende', 'endnu', 'vare', 'hvor',
-       'vil', 'skulle', 'ere', 'selv', 'skal', 'meget', 'hvad', 'uden', 'mod',
-       'kan', 'kunne', 'rbd', 'os', 'end', 'naar', 'kunde', 'alt', 'disse',
-       'blive', 'tid', 'hele', 'kun', 'anden', 'igjen', 'nogle', 'hr', 'samme',
-       'aar', 'sagde', 'maatte', 'sine', 'allerede', 'tilbage', 'mand', 'sit',
-       'flere', 'derpaa', 'ind', 'kom', 'hvis', 'første', 'mk', 'saaledes'],
-      dtype='object')
-2025-05-15 00:37:17,732 - INFO - Overall performance across all folds:
-2025-05-15 00:37:17,732 - INFO - Average Accuracy: 0.86
-2025-05-15 00:37:17,732 - INFO - Average Precision for 'y' (fiction): 0.86
-2025-05-15 00:37:17,732 - INFO - Average Recall for 'y' (fiction): 0.86
-2025-05-15 00:37:17,732 - INFO - Average F1 Score for 'y' (fiction): 0.86
-2025-05-15 00:37:17,732 - INFO - Average Precision for 'n' (nonfiction): 0.86
-2025-05-15 00:37:17,732 - INFO - Average Recall for 'n' (nonfiction): 0.86
-2025-05-15 00:37:17,732 - INFO - Average F1 Score for 'n' (nonfiction): 0.86
-2025-05-15 00:37:17,733 - INFO - 
-Top 20 Features by Average Importance:
-2025-05-15 00:37:17,733 - INFO - jeg       0.064727
-ham       0.056437
-han       0.055067
-var       0.042561
-mig       0.037312
-havde     0.033810
-hans      0.032161
-hun       0.022316
-min       0.021414
-har       0.020906
-sagde     0.017506
-de        0.017334
-ere       0.017282
-er        0.015735
-hendes    0.015671
-skal      0.015302
-fra       0.014416
-men       0.013452
-dem       0.012357
-sig       0.011891
-dtype: float64
-2025-05-15 00:41:06,499 - INFO - Starting classification script.
-2025-05-15 00:41:06,500 - INFO - DF_NAME: embeddings
-2025-05-15 00:41:06,500 - INFO - MIN_LENGTH: 100, filtering: False
-2025-05-15 00:41:07,505 - INFO - Removed 4 rows of invalid embeddings.
-2025-05-15 00:41:08,811 - INFO - Balanced classes, 1292 samples. Fiction: 646, Nonfiction: 646
-2025-05-15 00:41:08,815 - INFO - Features used: EMBEDDING
-2025-05-15 00:41:09,793 - INFO - Balanced classes, 1292 samples. Fiction: 646, Nonfiction: 646
-2025-05-15 00:41:09,796 - INFO - Features used: EMBEDDING
-2025-05-15 00:41:14,660 - INFO - Overall performance across all folds:
-2025-05-15 00:41:14,660 - INFO - Average Accuracy: 0.89
-2025-05-15 00:41:14,660 - INFO - Average Precision for 'y' (fiction): 0.87
-2025-05-15 00:41:14,660 - INFO - Average Recall for 'y' (fiction): 0.91
-2025-05-15 00:41:14,661 - INFO - Average F1 Score for 'y' (fiction): 0.89
-2025-05-15 00:41:14,661 - INFO - Average Precision for 'n' (nonfiction): 0.91
-2025-05-15 00:41:14,661 - INFO - Average Recall for 'n' (nonfiction): 0.87
-2025-05-15 00:41:14,661 - INFO - Average F1 Score for 'n' (nonfiction): 0.89
-2025-05-15 00:53:46,978 - INFO - Starting classification script.
-2025-05-15 00:53:46,978 - INFO - DF_NAME: stylistics
-2025-05-15 00:53:46,979 - INFO - MIN_LENGTH: 100, filtering: False
-2025-05-15 00:54:03,899 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
-2025-05-15 00:54:03,906 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+2025-05-15 11:42:20,350 - INFO - Starting classification script.
+2025-05-15 11:42:20,351 - INFO - DF_NAME: stylistics
+2025-05-15 11:42:20,351 - INFO - MIN_LENGTH: 100, filtering: False
+2025-05-15 11:42:34,369 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-15 11:42:34,370 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
        'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
        'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
        'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
        'sentiment_mean', 'sentiment_std', 'sentiment_abs'],
       dtype='object')
-2025-05-15 00:54:04,598 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
-2025-05-15 00:54:04,600 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+2025-05-15 11:42:35,146 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-15 11:42:35,147 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
        'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
        'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
        'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
        'sentiment_mean', 'sentiment_std', 'sentiment_abs'],
       dtype='object')
-2025-05-15 00:54:05,825 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+2025-05-15 11:42:36,568 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
        'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
        'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
        'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
        'sentiment_mean', 'sentiment_std', 'sentiment_abs'],
       dtype='object')
-2025-05-15 00:54:05,825 - INFO - Overall performance across all folds:
-2025-05-15 00:54:05,825 - INFO - Average Accuracy: 0.84
-2025-05-15 00:54:05,825 - INFO - Average Precision for 'y' (fiction): 0.83
-2025-05-15 00:54:05,825 - INFO - Average Recall for 'y' (fiction): 0.84
-2025-05-15 00:54:05,825 - INFO - Average F1 Score for 'y' (fiction): 0.84
-2025-05-15 00:54:05,825 - INFO - Average Precision for 'n' (nonfiction): 0.84
-2025-05-15 00:54:05,825 - INFO - Average Recall for 'n' (nonfiction): 0.83
-2025-05-15 00:54:05,825 - INFO - Average F1 Score for 'n' (nonfiction): 0.83
-2025-05-15 00:54:05,829 - INFO - 
+2025-05-15 11:42:36,569 - INFO - Overall performance across all folds:
+2025-05-15 11:42:36,569 - INFO - Average Accuracy: 0.84
+2025-05-15 11:42:36,569 - INFO - Average Precision for 'y' (fiction): 0.84
+2025-05-15 11:42:36,569 - INFO - Average Recall for 'y' (fiction): 0.85
+2025-05-15 11:42:36,569 - INFO - Average F1 Score for 'y' (fiction): 0.84
+2025-05-15 11:42:36,569 - INFO - Average Precision for 'n' (nonfiction): 0.85
+2025-05-15 11:42:36,569 - INFO - Average Recall for 'n' (nonfiction): 0.83
+2025-05-15 11:42:36,569 - INFO - Average F1 Score for 'n' (nonfiction): 0.84
+2025-05-15 11:42:36,572 - INFO - 
 Top 20 Features by Average Importance:
-2025-05-15 00:54:05,829 - INFO - personal_pronoun_ratio    0.194676
-nominal_verb_ratio        0.117521
-sentiment_abs             0.082923
-avg_wordlen               0.081412
-active_ratio              0.065702
-passive_ratio             0.061001
-sentiment_std             0.051229
-function_word_ratio       0.039696
-sentiment_mean            0.036521
-compression_ratio         0.034306
-avg_sentlen               0.033963
-adjective_adverb_ratio    0.030898
-avg_ndd                   0.030370
-of_ratio                  0.029472
-msttr                     0.028281
-std_ndd                   0.024972
-that_ratio                0.021195
-noun_ttr                  0.020813
-verb_ttr                  0.015050
+2025-05-15 11:42:36,572 - INFO - personal_pronoun_ratio    0.194995
+nominal_verb_ratio        0.114039
+sentiment_abs             0.088947
+avg_wordlen               0.088734
+active_ratio              0.062644
+passive_ratio             0.053520
+sentiment_std             0.051663
+function_word_ratio       0.039067
+sentiment_mean            0.037085
+avg_sentlen               0.036303
+compression_ratio         0.034567
+adjective_adverb_ratio    0.031670
+msttr                     0.030212
+avg_ndd                   0.029429
+of_ratio                  0.026071
+std_ndd                   0.024161
+that_ratio                0.021796
+noun_ttr                  0.019955
+verb_ttr                  0.015141
 dtype: float64
+2025-05-15 11:44:52,992 - INFO - Starting classification script.
+2025-05-15 11:44:52,994 - INFO - DF_NAME: stylistics
+2025-05-15 11:44:52,994 - INFO - MIN_LENGTH: 100, filtering: True
+2025-05-15 11:44:56,913 - INFO - Cleaning done. Removed 486 texts.
+2025-05-15 11:44:56,959 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
+2025-05-15 11:44:56,959 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
+       'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
+       'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
+       'sentiment_mean', 'sentiment_std', 'sentiment_abs'],
+      dtype='object')
+2025-05-15 11:44:57,191 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
+2025-05-15 11:44:57,194 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
+       'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
+       'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
+       'sentiment_mean', 'sentiment_std', 'sentiment_abs'],
+      dtype='object')
+2025-05-15 11:44:57,859 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
+       'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
+       'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
+       'sentiment_mean', 'sentiment_std', 'sentiment_abs'],
+      dtype='object')
+2025-05-15 11:44:57,859 - INFO - Overall performance across all folds:
+2025-05-15 11:44:57,859 - INFO - Average Accuracy: 0.87
+2025-05-15 11:44:57,859 - INFO - Average Precision for 'y' (fiction): 0.86
+2025-05-15 11:44:57,859 - INFO - Average Recall for 'y' (fiction): 0.88
+2025-05-15 11:44:57,859 - INFO - Average F1 Score for 'y' (fiction): 0.87
+2025-05-15 11:44:57,859 - INFO - Average Precision for 'n' (nonfiction): 0.88
+2025-05-15 11:44:57,859 - INFO - Average Recall for 'n' (nonfiction): 0.86
+2025-05-15 11:44:57,859 - INFO - Average F1 Score for 'n' (nonfiction): 0.87
+2025-05-15 11:44:57,860 - INFO - 
+Top 20 Features by Average Importance:
+2025-05-15 11:44:57,860 - INFO - personal_pronoun_ratio    0.201263
+nominal_verb_ratio        0.119389
+avg_wordlen               0.109398
+passive_ratio             0.075877
+active_ratio              0.070031
+sentiment_abs             0.069281
+sentiment_std             0.057195
+avg_sentlen               0.036786
+function_word_ratio       0.030562
+sentiment_mean            0.029551
+that_ratio                0.028864
+adjective_adverb_ratio    0.025624
+std_ndd                   0.024662
+compression_ratio         0.022066
+avg_ndd                   0.021236
+noun_ttr                  0.021016
+of_ratio                  0.019631
+msttr                     0.019396
+verb_ttr                  0.018173
+dtype: float64
+2025-05-15 11:48:33,706 - INFO - Starting classification script.
+2025-05-15 11:48:33,706 - INFO - DF_NAME: embeddings
+2025-05-15 11:48:33,706 - INFO - MIN_LENGTH: 100, filtering: True
+2025-05-15 11:48:38,232 - INFO - Cleaning done. Removed 485 texts.
+2025-05-15 11:48:38,235 - INFO - Removed 0 rows of invalid embeddings.
+2025-05-15 11:48:47,461 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
+2025-05-15 11:48:47,464 - INFO - Features used: EMBEDDING
+2025-05-15 11:48:49,056 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
+2025-05-15 11:48:49,058 - INFO - Features used: EMBEDDING
+2025-05-15 11:48:51,935 - INFO - Overall performance across all folds:
+2025-05-15 11:48:51,935 - INFO - Average Accuracy: 0.90
+2025-05-15 11:48:51,935 - INFO - Average Precision for 'y' (fiction): 0.89
+2025-05-15 11:48:51,935 - INFO - Average Recall for 'y' (fiction): 0.91
+2025-05-15 11:48:51,935 - INFO - Average F1 Score for 'y' (fiction): 0.90
+2025-05-15 11:48:51,935 - INFO - Average Precision for 'n' (nonfiction): 0.91
+2025-05-15 11:48:51,935 - INFO - Average Recall for 'n' (nonfiction): 0.89
+2025-05-15 11:48:51,935 - INFO - Average F1 Score for 'n' (nonfiction): 0.90
+2025-05-15 11:49:52,238 - INFO - Starting classification script.
+2025-05-15 11:49:52,238 - INFO - DF_NAME: embeddings
+2025-05-15 11:49:52,238 - INFO - MIN_LENGTH: 100, filtering: False
+2025-05-15 11:49:53,701 - INFO - Removed 4 rows of invalid embeddings.
+2025-05-15 11:49:54,783 - INFO - Balanced classes, 1292 samples. Fiction: 646, Nonfiction: 646
+2025-05-15 11:49:54,786 - INFO - Features used: EMBEDDING
+2025-05-15 11:49:55,798 - INFO - Balanced classes, 1292 samples. Fiction: 646, Nonfiction: 646
+2025-05-15 11:49:55,801 - INFO - Features used: EMBEDDING
+2025-05-15 11:50:00,780 - INFO - Overall performance across all folds:
+2025-05-15 11:50:00,781 - INFO - Average Accuracy: 0.90
+2025-05-15 11:50:00,781 - INFO - Average Precision for 'y' (fiction): 0.88
+2025-05-15 11:50:00,781 - INFO - Average Recall for 'y' (fiction): 0.93
+2025-05-15 11:50:00,781 - INFO - Average F1 Score for 'y' (fiction): 0.91
+2025-05-15 11:50:00,781 - INFO - Average Precision for 'n' (nonfiction): 0.93
+2025-05-15 11:50:00,781 - INFO - Average Recall for 'n' (nonfiction): 0.88
+2025-05-15 11:50:00,781 - INFO - Average F1 Score for 'n' (nonfiction): 0.90
+2025-05-15 11:51:11,164 - INFO - Starting classification script.
+2025-05-15 11:51:11,165 - INFO - DF_NAME: mfw_100
+2025-05-15 11:51:11,165 - INFO - MIN_LENGTH: 100, filtering: False
+2025-05-15 11:51:13,857 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-15 11:51:13,858 - INFO - Features used: Index(['og', 'at', 'den', 'af', 'en', 'til', 'de', 'det', 'som', 'for', 'han',
+       'paa', 'med', 'sig', 'der', 'var', 'jeg', 'et', 'ikke', 'er', 'ved',
+       'havde', 'men', 'da', 'hans', 'ham', 'om', 'fra', 'har', 'mig', 'saa',
+       'man', 'denne', 'have', 'efter', 'hun', 'blev', 'deres', 'nu', 'sin',
+       'dem', 'over', 'eller', 'dette', 'hendes', 'under', 'alle', 'vi',
+       'ogsaa', 'være', 'ville', 'min', 'dog', 'hende', 'endnu', 'vare', 'vil',
+       'ere', 'hvor', 'skulle', 'selv', 'skal', 'hvad', 'meget', 'uden', 'mod',
+       'kunne', 'kan', 'os', 'end', 'rbd', 'naar', 'kunde', 'alt', 'disse',
+       'blive', 'tid', 'hele', 'anden', 'kun', 'igjen', 'hr', 'nogle', 'samme',
+       'aar', 'sagde', 'maatte', 'sine', 'allerede', 'tilbage', 'sit', 'mand',
+       'flere', 'derpaa', 'ind', 'hvis', 'første', 'kom', 'saaledes', 'hos'],
+      dtype='object')
+2025-05-15 12:12:06,054 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-15 12:12:06,059 - INFO - Features used: Index(['og', 'at', 'den', 'af', 'en', 'til', 'de', 'det', 'som', 'for', 'han',
+       'paa', 'med', 'sig', 'der', 'var', 'jeg', 'et', 'ikke', 'er', 'ved',
+       'havde', 'men', 'da', 'hans', 'ham', 'om', 'fra', 'har', 'mig', 'saa',
+       'man', 'denne', 'have', 'efter', 'hun', 'blev', 'deres', 'nu', 'sin',
+       'dem', 'over', 'eller', 'dette', 'hendes', 'under', 'alle', 'vi',
+       'ogsaa', 'være', 'ville', 'min', 'dog', 'hende', 'endnu', 'vare', 'vil',
+       'ere', 'hvor', 'skulle', 'selv', 'skal', 'hvad', 'meget', 'uden', 'mod',
+       'kunne', 'kan', 'os', 'end', 'rbd', 'naar', 'kunde', 'alt', 'disse',
+       'blive', 'tid', 'hele', 'anden', 'kun', 'igjen', 'hr', 'nogle', 'samme',
+       'aar', 'sagde', 'maatte', 'sine', 'allerede', 'tilbage', 'sit', 'mand',
+       'flere', 'derpaa', 'ind', 'hvis', 'første', 'kom', 'saaledes', 'hos'],
+      dtype='object')
+2025-05-15 12:12:07,166 - INFO - Features used: Index(['og', 'at', 'den', 'af', 'en', 'til', 'de', 'det', 'som', 'for', 'han',
+       'paa', 'med', 'sig', 'der', 'var', 'jeg', 'et', 'ikke', 'er', 'ved',
+       'havde', 'men', 'da', 'hans', 'ham', 'om', 'fra', 'har', 'mig', 'saa',
+       'man', 'denne', 'have', 'efter', 'hun', 'blev', 'deres', 'nu', 'sin',
+       'dem', 'over', 'eller', 'dette', 'hendes', 'under', 'alle', 'vi',
+       'ogsaa', 'være', 'ville', 'min', 'dog', 'hende', 'endnu', 'vare', 'vil',
+       'ere', 'hvor', 'skulle', 'selv', 'skal', 'hvad', 'meget', 'uden', 'mod',
+       'kunne', 'kan', 'os', 'end', 'rbd', 'naar', 'kunde', 'alt', 'disse',
+       'blive', 'tid', 'hele', 'anden', 'kun', 'igjen', 'hr', 'nogle', 'samme',
+       'aar', 'sagde', 'maatte', 'sine', 'allerede', 'tilbage', 'sit', 'mand',
+       'flere', 'derpaa', 'ind', 'hvis', 'første', 'kom', 'saaledes', 'hos'],
+      dtype='object')
+2025-05-15 12:12:07,167 - INFO - Overall performance across all folds:
+2025-05-15 12:12:07,167 - INFO - Average Accuracy: 0.85
+2025-05-15 12:12:07,167 - INFO - Average Precision for 'y' (fiction): 0.84
+2025-05-15 12:12:07,167 - INFO - Average Recall for 'y' (fiction): 0.86
+2025-05-15 12:12:07,167 - INFO - Average F1 Score for 'y' (fiction): 0.85
+2025-05-15 12:12:07,167 - INFO - Average Precision for 'n' (nonfiction): 0.86
+2025-05-15 12:12:07,167 - INFO - Average Recall for 'n' (nonfiction): 0.84
+2025-05-15 12:12:07,167 - INFO - Average F1 Score for 'n' (nonfiction): 0.85
+2025-05-15 12:12:07,171 - INFO - 
+Top 20 Features by Average Importance:
+2025-05-15 12:12:07,171 - INFO - han      0.064448
+jeg      0.055050
+ham      0.055040
+var      0.037346
+mig      0.030144
+de       0.028828
+skal     0.025920
+af       0.024905
+har      0.023655
+hans     0.019686
+hun      0.018351
+er       0.018269
+havde    0.017720
+fra      0.017713
+sagde    0.017336
+og       0.017222
+til      0.016649
+min      0.016537
+den      0.014497
+ere      0.012984
+dtype: float64
+2025-05-15 13:03:16,717 - INFO - Starting classification script.
+2025-05-15 13:03:16,719 - INFO - DF_NAME: mfw_100
+2025-05-15 13:03:16,720 - INFO - MIN_LENGTH: 100, filtering: True
+2025-05-15 13:03:19,810 - INFO - Cleaning done. Removed 486 texts.
+2025-05-15 13:03:21,256 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
+2025-05-15 13:03:21,258 - INFO - Features used: Index(['og', 'at', 'den', 'af', 'en', 'til', 'de', 'det', 'som', 'for', 'han',
+       'paa', 'med', 'sig', 'der', 'var', 'jeg', 'et', 'ikke', 'er', 'ved',
+       'havde', 'men', 'da', 'hans', 'ham', 'om', 'fra', 'har', 'mig', 'saa',
+       'man', 'denne', 'have', 'efter', 'hun', 'blev', 'deres', 'nu', 'sin',
+       'dem', 'over', 'eller', 'dette', 'hendes', 'under', 'alle', 'vi',
+       'ogsaa', 'være', 'ville', 'min', 'dog', 'hende', 'endnu', 'vare', 'vil',
+       'ere', 'hvor', 'skulle', 'selv', 'skal', 'hvad', 'meget', 'uden', 'mod',
+       'kunne', 'kan', 'os', 'end', 'rbd', 'naar', 'kunde', 'alt', 'disse',
+       'blive', 'tid', 'hele', 'anden', 'kun', 'igjen', 'hr', 'nogle', 'samme',
+       'aar', 'sagde', 'maatte', 'sine', 'allerede', 'tilbage', 'sit', 'mand',
+       'flere', 'derpaa', 'ind', 'hvis', 'første', 'kom', 'saaledes', 'hos'],
+      dtype='object')
+2025-05-15 13:03:22,059 - INFO - Features used: Index(['og', 'at', 'den', 'af', 'en', 'til', 'de', 'det', 'som', 'for', 'han',
+       'paa', 'med', 'sig', 'der', 'var', 'jeg', 'et', 'ikke', 'er', 'ved',
+       'havde', 'men', 'da', 'hans', 'ham', 'om', 'fra', 'har', 'mig', 'saa',
+       'man', 'denne', 'have', 'efter', 'hun', 'blev', 'deres', 'nu', 'sin',
+       'dem', 'over', 'eller', 'dette', 'hendes', 'under', 'alle', 'vi',
+       'ogsaa', 'være', 'ville', 'min', 'dog', 'hende', 'endnu', 'vare', 'vil',
+       'ere', 'hvor', 'skulle', 'selv', 'skal', 'hvad', 'meget', 'uden', 'mod',
+       'kunne', 'kan', 'os', 'end', 'rbd', 'naar', 'kunde', 'alt', 'disse',
+       'blive', 'tid', 'hele', 'anden', 'kun', 'igjen', 'hr', 'nogle', 'samme',
+       'aar', 'sagde', 'maatte', 'sine', 'allerede', 'tilbage', 'sit', 'mand',
+       'flere', 'derpaa', 'ind', 'hvis', 'første', 'kom', 'saaledes', 'hos'],
+      dtype='object')
+2025-05-15 13:03:22,060 - INFO - Overall performance across all folds:
+2025-05-15 13:03:22,060 - INFO - Average Accuracy: 0.87
+2025-05-15 13:03:22,060 - INFO - Average Precision for 'y' (fiction): 0.86
+2025-05-15 13:03:22,060 - INFO - Average Recall for 'y' (fiction): 0.88
+2025-05-15 13:03:22,060 - INFO - Average F1 Score for 'y' (fiction): 0.87
+2025-05-15 13:03:22,060 - INFO - Average Precision for 'n' (nonfiction): 0.88
+2025-05-15 13:03:22,060 - INFO - Average Recall for 'n' (nonfiction): 0.86
+2025-05-15 13:03:22,060 - INFO - Average F1 Score for 'n' (nonfiction): 0.87
+2025-05-15 13:03:22,062 - INFO - 
+Top 20 Features by Average Importance:
+2025-05-15 13:03:22,062 - INFO - jeg       0.062758
+ham       0.059722
+han       0.058137
+var       0.043790
+mig       0.037704
+havde     0.033620
+hun       0.027509
+hans      0.025488
+har       0.022842
+sagde     0.018927
+min       0.017557
+er        0.016187
+de        0.016173
+men       0.015364
+skal      0.014932
+hendes    0.014287
+hende     0.013973
+fra       0.013029
+ere       0.012354
+af        0.012244
+dtype: float64
+2025-05-15 13:04:17,598 - INFO - Starting classification script.
+2025-05-15 13:04:17,601 - INFO - DF_NAME: tfidf_5000
+2025-05-15 13:04:17,601 - INFO - MIN_LENGTH: 100, filtering: True
+2025-05-15 13:04:21,654 - INFO - Cleaning done. Removed 486 texts.
+2025-05-15 13:04:21,882 - INFO - Balanced classes, 826 samples. Fiction: 413, Nonfiction: 413
+2025-05-15 13:04:21,893 - INFO - Features used: Index(['aaben', 'aabenbare', 'aabent', 'aabne', 'aabnede', 'aabnes', 'aabnet',
+       'aabning', 'aalb', 'aalborg',
+       ...
+       'ørkenen', 'østen', 'østerrig', 'østerrigske', 'øvede', 'øvelser',
+       'øverste', 'øvrige', 'øvrigheden', 'øvrigt'],
+      dtype='object', length=5000)
+2025-05-15 13:04:23,132 - INFO - Features used: Index(['aaben', 'aabenbare', 'aabent', 'aabne', 'aabnede', 'aabnes', 'aabnet',
+       'aabning', 'aalb', 'aalborg',
+       ...
+       'ørkenen', 'østen', 'østerrig', 'østerrigske', 'øvede', 'øvelser',
+       'øverste', 'øvrige', 'øvrigheden', 'øvrigt'],
+      dtype='object', length=5000)
+2025-05-15 13:04:23,133 - INFO - Overall performance across all folds:
+2025-05-15 13:04:23,133 - INFO - Average Accuracy: 0.87
+2025-05-15 13:04:23,133 - INFO - Average Precision for 'y' (fiction): 0.86
+2025-05-15 13:04:23,133 - INFO - Average Recall for 'y' (fiction): 0.89
+2025-05-15 13:04:23,133 - INFO - Average F1 Score for 'y' (fiction): 0.88
+2025-05-15 13:04:23,133 - INFO - Average Precision for 'n' (nonfiction): 0.89
+2025-05-15 13:04:23,133 - INFO - Average Recall for 'n' (nonfiction): 0.86
+2025-05-15 13:04:23,133 - INFO - Average F1 Score for 'n' (nonfiction): 0.87
+2025-05-15 13:04:24,025 - INFO - 
+Top 20 Features by Average Importance:
+2025-05-15 13:04:24,025 - INFO - han       0.023750
+ham       0.016554
+jeg       0.014841
+hun       0.014682
+var       0.012614
+mig       0.011568
+hans      0.011279
+skal      0.010831
+saae      0.008329
+min       0.008176
+hendes    0.008173
+sagde     0.008160
+havde     0.008021
+har       0.007720
+da        0.006008
+ere       0.006004
+de        0.005978
+hende     0.005531
+saa       0.005359
+fra       0.005351
+dtype: float64
+2025-05-15 13:05:19,678 - INFO - Starting classification script.
+2025-05-15 13:05:19,680 - INFO - DF_NAME: tfidf_5000
+2025-05-15 13:05:19,680 - INFO - MIN_LENGTH: 100, filtering: False
+2025-05-15 13:05:22,128 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-15 13:05:22,139 - INFO - Features used: Index(['aaben', 'aabenbare', 'aabent', 'aabne', 'aabnede', 'aabnes', 'aabnet',
+       'aabning', 'aalb', 'aalborg',
+       ...
+       'ørkenen', 'østen', 'østerrig', 'østerrigske', 'øvede', 'øvelser',
+       'øverste', 'øvrige', 'øvrigheden', 'øvrigt'],
+      dtype='object', length=5000)
+2025-05-15 13:05:24,332 - INFO - Features used: Index(['aaben', 'aabenbare', 'aabent', 'aabne', 'aabnede', 'aabnes', 'aabnet',
+       'aabning', 'aalb', 'aalborg',
+       ...
+       'ørkenen', 'østen', 'østerrig', 'østerrigske', 'øvede', 'øvelser',
+       'øverste', 'øvrige', 'øvrigheden', 'øvrigt'],
+      dtype='object', length=5000)
+2025-05-15 13:05:24,332 - INFO - Overall performance across all folds:
+2025-05-15 13:05:24,332 - INFO - Average Accuracy: 0.86
+2025-05-15 13:05:24,332 - INFO - Average Precision for 'y' (fiction): 0.84
+2025-05-15 13:05:24,332 - INFO - Average Recall for 'y' (fiction): 0.90
+2025-05-15 13:05:24,332 - INFO - Average F1 Score for 'y' (fiction): 0.87
+2025-05-15 13:05:24,332 - INFO - Average Precision for 'n' (nonfiction): 0.89
+2025-05-15 13:05:24,332 - INFO - Average Recall for 'n' (nonfiction): 0.82
+2025-05-15 13:05:24,332 - INFO - Average F1 Score for 'n' (nonfiction): 0.86
+2025-05-15 13:05:24,355 - INFO - 
+Top 20 Features by Average Importance:
+2025-05-15 13:05:24,355 - INFO - han          0.026957
+ham          0.020191
+jeg          0.015809
+skal         0.014016
+var          0.013036
+de           0.011245
+har          0.011194
+mig          0.010225
+af           0.009876
+min          0.009563
+sagde        0.008898
+hun          0.008417
+hans         0.008164
+er           0.007737
+fra          0.007580
+ere          0.006744
+havde        0.006345
+besluttet    0.005714
+til          0.005614
+den          0.005399
+dtype: float64
+2025-05-15 13:22:34,347 - INFO - Starting classification script.
+2025-05-15 13:22:34,348 - INFO - DF_NAME: mfw_100
+2025-05-15 13:22:34,348 - INFO - MIN_LENGTH: 100, filtering: False
+2025-05-15 13:22:36,141 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-15 13:22:36,144 - INFO - Features used: Index(['og', 'at', 'den', 'af', 'en', 'til', 'de', 'det', 'som', 'for', 'han',
+       'paa', 'med', 'sig', 'der', 'var', 'jeg', 'et', 'ikke', 'er', 'ved',
+       'havde', 'men', 'da', 'hans', 'ham', 'om', 'fra', 'har', 'mig', 'saa',
+       'man', 'denne', 'have', 'efter', 'hun', 'blev', 'deres', 'nu', 'sin',
+       'dem', 'over', 'eller', 'dette', 'hendes', 'under', 'alle', 'vi',
+       'ogsaa', 'være', 'ville', 'min', 'dog', 'hende', 'endnu', 'vare', 'vil',
+       'ere', 'hvor', 'skulle', 'selv', 'skal', 'hvad', 'meget', 'uden', 'mod',
+       'kunne', 'kan', 'os', 'end', 'rbd', 'naar', 'kunde', 'alt', 'disse',
+       'blive', 'tid', 'hele', 'anden', 'kun', 'igjen', 'hr', 'nogle', 'samme',
+       'aar', 'sagde', 'maatte', 'sine', 'allerede', 'tilbage', 'sit', 'mand',
+       'flere', 'derpaa', 'ind', 'hvis', 'første', 'kom', 'saaledes', 'hos'],
+      dtype='object')
+2025-05-15 13:22:37,206 - INFO - Features used: Index(['og', 'at', 'den', 'af', 'en', 'til', 'de', 'det', 'som', 'for', 'han',
+       'paa', 'med', 'sig', 'der', 'var', 'jeg', 'et', 'ikke', 'er', 'ved',
+       'havde', 'men', 'da', 'hans', 'ham', 'om', 'fra', 'har', 'mig', 'saa',
+       'man', 'denne', 'have', 'efter', 'hun', 'blev', 'deres', 'nu', 'sin',
+       'dem', 'over', 'eller', 'dette', 'hendes', 'under', 'alle', 'vi',
+       'ogsaa', 'være', 'ville', 'min', 'dog', 'hende', 'endnu', 'vare', 'vil',
+       'ere', 'hvor', 'skulle', 'selv', 'skal', 'hvad', 'meget', 'uden', 'mod',
+       'kunne', 'kan', 'os', 'end', 'rbd', 'naar', 'kunde', 'alt', 'disse',
+       'blive', 'tid', 'hele', 'anden', 'kun', 'igjen', 'hr', 'nogle', 'samme',
+       'aar', 'sagde', 'maatte', 'sine', 'allerede', 'tilbage', 'sit', 'mand',
+       'flere', 'derpaa', 'ind', 'hvis', 'første', 'kom', 'saaledes', 'hos'],
+      dtype='object')
+2025-05-15 13:22:37,207 - INFO - Overall performance across all folds:
+2025-05-15 13:22:37,207 - INFO - Average Accuracy: 0.85
+2025-05-15 13:22:37,207 - INFO - Average Precision for 'y' (fiction): 0.84
+2025-05-15 13:22:37,207 - INFO - Average Recall for 'y' (fiction): 0.86
+2025-05-15 13:22:37,207 - INFO - Average F1 Score for 'y' (fiction): 0.85
+2025-05-15 13:22:37,207 - INFO - Average Precision for 'n' (nonfiction): 0.86
+2025-05-15 13:22:37,207 - INFO - Average Recall for 'n' (nonfiction): 0.84
+2025-05-15 13:22:37,207 - INFO - Average F1 Score for 'n' (nonfiction): 0.85
+2025-05-15 13:22:37,208 - INFO - 
+Top 20 Features by Average Importance:
+2025-05-15 13:22:37,208 - INFO - han      0.064448
+jeg      0.055050
+ham      0.055040
+var      0.037346
+mig      0.030144
+de       0.028828
+skal     0.025920
+af       0.024905
+har      0.023655
+hans     0.019686
+hun      0.018351
+er       0.018269
+havde    0.017720
+fra      0.017713
+sagde    0.017336
+og       0.017222
+til      0.016649
+min      0.016537
+den      0.014497
+ere      0.012984
+dtype: float64
+2025-05-15 13:38:01,139 - INFO - Starting classification script.
+2025-05-15 13:38:01,140 - INFO - DF_NAME: stylistics
+2025-05-15 13:38:01,140 - INFO - MIN_LENGTH: 100, filtering: False
+2025-05-15 13:38:17,751 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-15 13:38:17,754 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
+       'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
+       'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
+       'sentiment_mean', 'sentiment_std', 'sentiment_abs'],
+      dtype='object')
+2025-05-15 13:38:18,723 - INFO - Features used: Index(['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
+       'personal_pronoun_ratio', 'function_word_ratio', 'of_ratio',
+       'that_ratio', 'passive_ratio', 'active_ratio', 'adjective_adverb_ratio',
+       'avg_wordlen', 'avg_sentlen', 'avg_ndd', 'std_ndd', 'compression_ratio',
+       'sentiment_mean', 'sentiment_std', 'sentiment_abs'],
+      dtype='object')
+2025-05-15 13:38:18,723 - INFO - Overall performance across all folds:
+2025-05-15 13:38:18,723 - INFO - Average Accuracy: 0.84
+2025-05-15 13:38:18,723 - INFO - Average Precision for 'y' (fiction): 0.84
+2025-05-15 13:38:18,723 - INFO - Average Recall for 'y' (fiction): 0.85
+2025-05-15 13:38:18,724 - INFO - Average F1 Score for 'y' (fiction): 0.84
+2025-05-15 13:38:18,724 - INFO - Average Precision for 'n' (nonfiction): 0.85
+2025-05-15 13:38:18,724 - INFO - Average Recall for 'n' (nonfiction): 0.83
+2025-05-15 13:38:18,724 - INFO - Average F1 Score for 'n' (nonfiction): 0.84
+2025-05-15 13:38:18,725 - INFO - 
+Top 20 Features by Average Importance:
+2025-05-15 13:38:18,725 - INFO - personal_pronoun_ratio    0.194995
+nominal_verb_ratio        0.114039
+sentiment_abs             0.088947
+avg_wordlen               0.088734
+active_ratio              0.062644
+passive_ratio             0.053520
+sentiment_std             0.051663
+function_word_ratio       0.039067
+sentiment_mean            0.037085
+avg_sentlen               0.036303
+compression_ratio         0.034567
+adjective_adverb_ratio    0.031670
+msttr                     0.030212
+avg_ndd                   0.029429
+of_ratio                  0.026071
+std_ndd                   0.024161
+that_ratio                0.021796
+noun_ttr                  0.019955
+verb_ttr                  0.015141
+dtype: float64
+2025-05-15 13:49:05,717 - INFO - Starting classification script.
+2025-05-15 13:49:05,718 - INFO - DF_NAME: embeddings
+2025-05-15 13:49:05,718 - INFO - MIN_LENGTH: 100, filtering: False
+2025-05-15 13:49:06,694 - INFO - Removed 4 rows of invalid embeddings.
+2025-05-15 13:49:07,867 - INFO - Balanced classes, 1292 samples. Fiction: 646, Nonfiction: 646
+2025-05-15 13:49:07,871 - INFO - Features used: EMBEDDING
+2025-05-15 13:49:12,988 - INFO - Overall performance across all folds:
+2025-05-15 13:49:12,989 - INFO - Average Accuracy: 0.90
+2025-05-15 13:49:12,989 - INFO - Average Precision for 'y' (fiction): 0.88
+2025-05-15 13:49:12,989 - INFO - Average Recall for 'y' (fiction): 0.93
+2025-05-15 13:49:12,989 - INFO - Average F1 Score for 'y' (fiction): 0.91
+2025-05-15 13:49:12,989 - INFO - Average Precision for 'n' (nonfiction): 0.93
+2025-05-15 13:49:12,989 - INFO - Average Recall for 'n' (nonfiction): 0.88
+2025-05-15 13:49:12,989 - INFO - Average F1 Score for 'n' (nonfiction): 0.90
+2025-05-15 13:52:38,304 - INFO - Starting classification script.
+2025-05-15 13:52:38,305 - INFO - DF_NAME: mfw_100
+2025-05-15 13:52:38,305 - INFO - MIN_LENGTH: 100, filtering: False
+2025-05-15 13:52:39,475 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-15 13:52:39,476 - INFO - Features used: Index(['og', 'at', 'den', 'af', 'en', 'til', 'de', 'det', 'som', 'for', 'han',
+       'paa', 'med', 'sig', 'der', 'var', 'jeg', 'et', 'ikke', 'er', 'ved',
+       'havde', 'men', 'da', 'hans', 'ham', 'om', 'fra', 'har', 'mig', 'saa',
+       'man', 'denne', 'have', 'efter', 'hun', 'blev', 'deres', 'nu', 'sin',
+       'dem', 'over', 'eller', 'dette', 'hendes', 'under', 'alle', 'vi',
+       'ogsaa', 'være', 'ville', 'min', 'dog', 'hende', 'endnu', 'vare', 'vil',
+       'ere', 'hvor', 'skulle', 'selv', 'skal', 'hvad', 'meget', 'uden', 'mod',
+       'kunne', 'kan', 'os', 'end', 'rbd', 'naar', 'kunde', 'alt', 'disse',
+       'blive', 'tid', 'hele', 'anden', 'kun', 'igjen', 'hr', 'nogle', 'samme',
+       'aar', 'sagde', 'maatte', 'sine', 'allerede', 'tilbage', 'sit', 'mand',
+       'flere', 'derpaa', 'ind', 'hvis', 'første', 'kom', 'saaledes', 'hos'],
+      dtype='object')
+2025-05-15 13:52:40,531 - INFO - Features used: Index(['og', 'at', 'den', 'af', 'en', 'til', 'de', 'det', 'som', 'for', 'han',
+       'paa', 'med', 'sig', 'der', 'var', 'jeg', 'et', 'ikke', 'er', 'ved',
+       'havde', 'men', 'da', 'hans', 'ham', 'om', 'fra', 'har', 'mig', 'saa',
+       'man', 'denne', 'have', 'efter', 'hun', 'blev', 'deres', 'nu', 'sin',
+       'dem', 'over', 'eller', 'dette', 'hendes', 'under', 'alle', 'vi',
+       'ogsaa', 'være', 'ville', 'min', 'dog', 'hende', 'endnu', 'vare', 'vil',
+       'ere', 'hvor', 'skulle', 'selv', 'skal', 'hvad', 'meget', 'uden', 'mod',
+       'kunne', 'kan', 'os', 'end', 'rbd', 'naar', 'kunde', 'alt', 'disse',
+       'blive', 'tid', 'hele', 'anden', 'kun', 'igjen', 'hr', 'nogle', 'samme',
+       'aar', 'sagde', 'maatte', 'sine', 'allerede', 'tilbage', 'sit', 'mand',
+       'flere', 'derpaa', 'ind', 'hvis', 'første', 'kom', 'saaledes', 'hos'],
+      dtype='object')
+2025-05-15 13:52:40,531 - INFO - Overall performance across all folds:
+2025-05-15 13:52:40,531 - INFO - Average Accuracy: 0.85
+2025-05-15 13:52:40,531 - INFO - Average Precision for 'y' (fiction): 0.84
+2025-05-15 13:52:40,531 - INFO - Average Recall for 'y' (fiction): 0.86
+2025-05-15 13:52:40,531 - INFO - Average F1 Score for 'y' (fiction): 0.85
+2025-05-15 13:52:40,531 - INFO - Average Precision for 'n' (nonfiction): 0.86
+2025-05-15 13:52:40,531 - INFO - Average Recall for 'n' (nonfiction): 0.84
+2025-05-15 13:52:40,531 - INFO - Average F1 Score for 'n' (nonfiction): 0.85
+2025-05-15 13:52:40,533 - INFO - 
+Top 20 Features by Average Importance:
+2025-05-15 13:52:40,533 - INFO - han      0.064448
+jeg      0.055050
+ham      0.055040
+var      0.037346
+mig      0.030144
+de       0.028828
+skal     0.025920
+af       0.024905
+har      0.023655
+hans     0.019686
+hun      0.018351
+er       0.018269
+havde    0.017720
+fra      0.017713
+sagde    0.017336
+og       0.017222
+til      0.016649
+min      0.016537
+den      0.014497
+ere      0.012984
+dtype: float64
+2025-05-15 18:17:22,726 - INFO - Starting classification script.
+2025-05-15 18:17:22,729 - INFO - DF_NAME: tfidf_5000
+2025-05-15 18:17:22,729 - INFO - MIN_LENGTH: 100, filtering: False
+2025-05-15 18:17:24,743 - INFO - Balanced classes, 1300 samples. Fiction: 650, Nonfiction: 650
+2025-05-15 18:17:24,752 - INFO - Features used: Index(['aaben', 'aabenbare', 'aabent', 'aabne', 'aabnede', 'aabnes', 'aabnet',
+       'aabning', 'aalb', 'aalborg',
+       ...
+       'ørkenen', 'østen', 'østerrig', 'østerrigske', 'øvede', 'øvelser',
+       'øverste', 'øvrige', 'øvrigheden', 'øvrigt'],
+      dtype='object', length=5000)
+2025-05-15 18:17:26,932 - INFO - Features used: Index(['aaben', 'aabenbare', 'aabent', 'aabne', 'aabnede', 'aabnes', 'aabnet',
+       'aabning', 'aalb', 'aalborg',
+       ...
+       'ørkenen', 'østen', 'østerrig', 'østerrigske', 'øvede', 'øvelser',
+       'øverste', 'øvrige', 'øvrigheden', 'øvrigt'],
+      dtype='object', length=5000)
+2025-05-15 18:17:26,933 - INFO - Overall performance across all folds:
+2025-05-15 18:17:26,933 - INFO - Average Accuracy: 0.86
+2025-05-15 18:17:26,933 - INFO - Average Precision for 'y' (fiction): 0.84
+2025-05-15 18:17:26,933 - INFO - Average Recall for 'y' (fiction): 0.90
+2025-05-15 18:17:26,933 - INFO - Average F1 Score for 'y' (fiction): 0.87
+2025-05-15 18:17:26,933 - INFO - Average Precision for 'n' (nonfiction): 0.89
+2025-05-15 18:17:26,933 - INFO - Average Recall for 'n' (nonfiction): 0.82
+2025-05-15 18:17:26,933 - INFO - Average F1 Score for 'n' (nonfiction): 0.86
+2025-05-15 18:17:26,958 - INFO - 
+Top 20 Features by Average Importance:
+2025-05-15 18:17:26,958 - INFO - han          0.026957
+ham          0.020191
+jeg          0.015809
+skal         0.014016
+var          0.013036
+de           0.011245
+har          0.011194
+mig          0.010225
+af           0.009876
+min          0.009563
+sagde        0.008898
+hun          0.008417
+hans         0.008164
+er           0.007737
+fra          0.007580
+ere          0.006744
+havde        0.006345
+besluttet    0.005714
+til          0.005614
+den          0.005399
+dtype: float64
+2025-05-16 10:40:36,106 - INFO - ----------------------
+2025-05-16 10:40:36,107 - INFO - Loaded embeddings from 2025-04-29_embs_e5
+2025-05-16 10:40:36,107 - INFO - Number of rows in 2025-04-29_embs_e5: 1459
+2025-05-16 10:40:36,128 - INFO - Number of rows in 2025-04-29_embs_e5 after filtering: 651

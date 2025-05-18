@@ -10,15 +10,14 @@
 
 # %%
 
-from sklearn.metrics.cluster import v_measure_score
-
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from sklearn.decomposition import PCA
+from sklearn.metrics.cluster import v_measure_score
 from sklearn.cluster import KMeans
-from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
+from sklearn.metrics import adjusted_rand_score
 
 from datasets import load_from_disk, load_dataset
 import logging
@@ -38,16 +37,16 @@ logging.basicConfig(
 
 # %%
 
-embeddings_dir = "data/pooled"
+embeddings_dir = "data_all/pooled"
 
 embeddings_paths = [
     "2025-04-29_embs_e5",
     "2025-04-30_embs_memo",
     "2025-05-14_embs_jina",
     "2025-05-14_embs_bilingual",
-    "2025-05-14_embs_solon"
+    "2025-05-14_embs_solon",
+    "2025-05-16_old_news"
     ]
-
 
 # -- Load and prepare data --
 
@@ -57,20 +56,12 @@ df = dataset["train"].to_pandas()
 df = df[["article_id", "label", "feuilleton_id"]]
 df.head()
 
+
 # %%
+# -- Clustering task --
 
-# f to retun the clusters
-def get_clusters(df):
-    X = np.vstack(df["embedding"].values)
-    y = df["feuilleton_id"].values
 
-    # Set number of clusters to number of unique feuilleton_ids
-    n_clusters = np.unique(y).shape[0]
-    # kmeans
-    kmeans = KMeans(n_clusters=n_clusters, random_state=42)
-    clusters = kmeans.fit_predict(X)
-    return clusters
-
+save_dict = {}
 
 for path in embeddings_paths:
     # Load the embeddings
@@ -93,11 +84,16 @@ for path in embeddings_paths:
     logging.info(f"Number of rows in {path} after filtering: {len(merged)}")
 
     # get the clusters
-    clusters = get_clusters(merged)
+    X = np.vstack(merged["embedding"].values)
+    y = merged["feuilleton_id"].values
+    # Set number of clusters to number of unique feuilleton_ids
+    n_clusters = np.unique(y).shape[0]
+    # kmeans
+    kmeans = KMeans(n_clusters=n_clusters, random_state=42)
+    clusters = kmeans.fit_predict(X)
+
     # note down the number of clusters
     print("number of clusters:", len(np.unique(clusters)), ", should be same as:", len(np.unique(merged["feuilleton_id"].values)))
-
-    y = merged["feuilleton_id"].values
 
     # get performance metrics
     ari = round(adjusted_rand_score(y, clusters),3)
@@ -109,32 +105,48 @@ for path in embeddings_paths:
     print("V-measure Score:", v_score)
     logging.info(f"V-measure Score: {v_score}")
 
+    # save 
+    save_dict[path] = {
+        "ari": ari,
+        "v_score": v_score,
+        "n_clusters": n_clusters
+    }
+
+# write savedict to file
+with open("logs/clustering_results.txt", "a") as f:
+    f.write("\n\n")
+    f.write("Clustering report:\n")
+    for path, metrics in save_dict.items():
+        f.write(f"{path}: {metrics}\n")
+    f.write("\n\n")
 
 
 # %%
 
-# just extra
+# just extra checking
+import umap.umap_ as umap
 
-# we can check out som random clusters
-
-# get jina embeddings
+# Load embeddings
 embs = load_from_disk(f"{embeddings_dir}/2025-05-14_embs_jina")
 embs = embs.to_pandas()
-# merge w df to get feuilleton_id
+
+# Merge to get feuilleton_id
 merged = embs[['article_id', 'embedding']].merge(df, on="article_id")
 
-# Separate out the rows with dummy IDs and real feuilleton IDs
+# Filter out bad embeddings
 merged = merged[merged['embedding'].apply(lambda x: isinstance(x, np.ndarray) and not np.isnan(x).any())]
+
+# Keep only real feuilleton entries
 real_feuilletons = merged[~merged['feuilleton_id'].isna()]
 
-# Randomly pick n feuilleton_ids
-n = 50
+# Sample feuilleton_ids
+n = 100
 sampled_ids = np.random.choice(real_feuilletons["feuilleton_id"].unique(), size=n, replace=False)
 sampled_df = real_feuilletons[real_feuilletons["feuilleton_id"].isin(sampled_ids)]
 
 print("Total samples:", len(sampled_df))
 
-# Extract embeddings and labels
+# Prepare data
 X = np.vstack(sampled_df["embedding"].values)
 y = sampled_df["feuilleton_id"].values
 
@@ -143,18 +155,22 @@ n_clusters = np.unique(y).shape[0]
 kmeans = KMeans(n_clusters=n_clusters, random_state=42)
 clusters = kmeans.fit_predict(X)
 
-# Dimensionality reduction
-pca = PCA(n_components=2)
-X_pca = pca.fit_transform(X)
+# UMAP projection
+reducer = umap.UMAP(n_neighbors=15, min_dist=0.1, metric='cosine')
+X_umap = reducer.fit_transform(X)
 
+# Prepare for plotting
+plot_df = pd.DataFrame(X_umap, columns=['x', 'y'])
+plot_df['feuilleton_id'] = y
+plot_df['cluster'] = clusters
+
+sns.set(style="whitegrid")
 # Plot
-sns.set_style("whitegrid")
-plt.figure(figsize=(6, 5))
-scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=clusters, cmap="tab20", s=50, alpha=0.9)
-plt.title("KMeans Clustering of Feuilleton Embeddings (PCA projection)")
-plt.xlabel("PCA Component 1")
-plt.ylabel("PCA Component 2")
+plt.figure(figsize=(10, 10))
+sns.scatterplot(data=plot_df, x='x', y='y', hue='feuilleton_id', palette='Set1', alpha=0.7, s=200, edgecolor='w')
+plt.title('UMAP Projection of Clusters')
 plt.tight_layout()
+plt.legend([],[], frameon=False)
+plt.savefig("figs/umap_clusters_JINA.png", dpi=300)
 plt.show()
-# %%
 # %%

@@ -4,12 +4,11 @@ import spacy
 import numpy as np
 import bz2
 from lexical_diversity import lex_div as ld
-from antropy import app_entropy
 
 # %%
 
 DATA_DIR = Path("data")
-SPACY_DIR = DATA_DIR / "spacy_books"
+SPACY_DIR = "data_all/spacy_books"
 SPACY_MODEL = "da_core_news_sm"
 
 SPACY_DIR.mkdir(parents=True, exist_ok=True)
@@ -163,16 +162,6 @@ def compressrat(text_id):
 
 
 # --- SENTIMENT ANALYSIS ---
-
-def get_apen(sentiment_list):
-    """
-    Computes the approximate entropy of a list of sentiment scores.
-    """
-    if len(sentiment_list) < 10: # should probably be 20
-        return np.nan
-    return app_entropy(sentiment_list, order=2)
-
-
 
 
 ###

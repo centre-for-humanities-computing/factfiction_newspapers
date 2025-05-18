@@ -2,12 +2,11 @@
 # %%
 import pandas as pd
 import numpy as np
-from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 
 from transformers import pipeline, AutoTokenizer
-from datasets import load_dataset
+from datasets import load_dataset, load_from_disk
 import logging
 from tqdm import tqdm
 
@@ -92,13 +91,12 @@ logging.info(f"get_mfw: created tfidf_5000 dataframe. Saved to data/tfidf_5000.c
 # %%
 # 3. get stylistics
 
-from functions import process_text
-from functions import compressrat
-from functions import get_pos_derived_features
-from functions import avg_sentlen, avg_wordlen
-from functions import calculate_dependency_distances
-from functions import get_sentiment
-from functions import get_apen
+from scripts.feature_utils import process_text
+from scripts.feature_utils import compressrat
+from scripts.feature_utils import get_pos_derived_features
+from scripts.feature_utils import avg_sentlen, avg_wordlen
+from scripts.feature_utils import calculate_dependency_distances
+from scripts.feature_utils import get_sentiment
 
 # define model
 model_name = "MiMe-MeMo/MeMo-BERT-SA"
@@ -144,7 +142,6 @@ for i, row in tqdm(df.iterrows(), total=len(df), desc="Processing texts"):
         features["sentiment_std"] = np.std(features["sentiment"])
         # we also want an "absolute" strenght
         features["sentiment_abs"] = np.sum(np.abs(features["sentiment"])) / len(features["sentiment"])
-        features["apen_sentiment"] = get_apen(features["sentiment"])
     else:
         features["sentiment_mean"] = np.nan
         features["sentiment_std"] = np.nan
@@ -180,16 +177,16 @@ for col in stylistics_features[0].keys():
 
 # get embeddings
 
-from datasets import load_from_disk
-
 # Load the dataset from arrow
-# embeddings need to be extracted via script at https://github.com/centre-for-humanities-computing/feuilleton_novels
-path = "data/pooled/2025-05-14_embs_jina" #  "data/pooled/2025-04-29_embs_e5"
+# embeddings need to be extracted via script at https://anonymous.4open.science/r/encode_feuilletons-6922
+path = "data_all/pooled/2025-05-14_embs_jina"
 dataset = load_from_disk(path)
 # Convert to a pandas DataFrame
 embs = dataset.to_pandas()
 # merge feuilleton (y/n) on article_id
 embs_df = pd.merge(embs[['article_id', 'embedding']], df[["article_id", "label", "feuilleton_id"]], on="article_id", how="left")
+# drop anything without label (i.e., not on HF)
+embs_df = embs_df[~embs_df['label'].isna()]
 print(len(embs_df))
 embs_df.head()
 

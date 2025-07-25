@@ -1,10 +1,8 @@
 # %%
 
 
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score, classification_report
 from sklearn.utils import resample
 from sklearn.model_selection import StratifiedGroupKFold
 
@@ -13,6 +11,15 @@ import numpy as np
 
 from datasets import load_dataset
 import logging
+
+# %%
+# see pwd
+import os
+print("Current working directory:", os.getcwd())
+# go up one directory
+if os.getcwd().endswith("scripts"):
+    os.chdir("..")
+    print("Changed working directory to:", os.getcwd())
 
 # %%
 
@@ -29,7 +36,7 @@ logging.basicConfig(
 
 # %%
 # --- DATA CONFIG ---
-DF_NAME = "tfidf_5000" #"mfw_100" # "mfw_500", "tfidf_5000", "embeddings", "stylistics"
+DF_NAME = "embeddings" #"tfidf_5000" #"mfw_100" # "mfw_500", "tfidf_5000", "embeddings + stylistic", "stylistics"
 
 # --- CLEANING CONFIG ---
 MIN_LENGTH = 100
@@ -43,14 +50,21 @@ logging.info(f"MIN_LENGTH: {MIN_LENGTH}, filtering: {FILTER}")
 # %%
 # GET DATA
 
-if not DF_NAME == "embeddings":
-    # load the data from csv
-    data = pd.read_csv(f"data/{DF_NAME}.csv", sep="\t")
-else:
+if DF_NAME == "embeddings":
     # load the data from parquet
     data = pd.read_parquet(f"data/{DF_NAME}.parquet")
+elif DF_NAME == "embeddings + stylistic":
+    data = pd.read_parquet(f"data/embeddings.parquet")
+    stylistics = pd.read_csv("data/stylistics.csv", sep="\t")
+    stylistics = stylistics.drop(columns=["label", "feuilleton_id"])
+    # merge the stylistics features
+    data = data.merge(stylistics, on="article_id", how="left")
+else:
+    # load the data from parquet
+    data = pd.read_csv(f"data/{DF_NAME}.csv", sep="\t")
 
 data.head()
+
 
 # %%
 
@@ -106,25 +120,10 @@ use_df = use_df.dropna(subset=["label"])
 print("NaN values in use_df:")
 print(use_df.isna().sum())
 
+# if we are doing stylistics, we drop the columns that are not used in the classification
 if "msttr" in use_df.columns:
-    # then we drop some stylistic features
-    use_df = use_df[['nominal_verb_ratio', 'msttr', 'noun_ttr', 'verb_ttr',
-        'personal_pronoun_ratio', 'function_word_ratio', 
-        'of_ratio',
-        'that_ratio', 
-        #'past_tense_ratio', #'present_tense_ratio', # present tense has a lot of nans sadly
-        'passive_ratio', 'active_ratio', 
-        'adjective_adverb_ratio',
-        'avg_wordlen', 'avg_sentlen',
-        #'num_sents', 
-        'avg_ndd', 'std_ndd', 
-        #'avg_mdd', 'std_mdd',
-        'compression_ratio', 
-        'sentiment_mean', 
-        'sentiment_std',
-        'sentiment_abs', 
-        'feuilleton_id', 'label']]
-
+    use_df.drop(columns=['avg_mdd', 'std_mdd','past_tense_ratio', 'present_tense_ratio','num_sents'], inplace=True) 
+    print(f"Stylistics features used: {use_df.columns.tolist()}")
 # %%
 
 def balance_classes(df):
@@ -152,16 +151,39 @@ def balance_classes(df):
 
 # Define features (bit different if using embeddings)
 def get_features(df):
-    if "embedding" in df.columns:
+    if DF_NAME == "embeddings":
         X = np.vstack(df['embedding'].values)
         print("features used: embedding")
         logging.info("Features used: EMBEDDING")
+        
+    elif DF_NAME == "embeddings + stylistic":
+        # # Assuming 'embedding' is a vector, turn it into columns before combining
+        # embeddings = np.vstack(df['embedding'].values)
+        # # Drop non-feature columns and the embedding column itself
+        # stylistic_features = df.drop(columns=['label', 'feuilleton_id', 'embedding'])
+        # # Combine embeddings and stylistic features
+        # X = np.hstack([embeddings, stylistic_features.values])
+        # print("features used: embedding + stylistics")
+        # logging.info("Features used: EMBEDDING + STYLISTICS")
+        # Embedding + stylistics
+        embeddings = np.vstack(df['embedding'].values)
+        stylistic = df.drop(columns=['label', 'feuilleton_id', 'embedding'], errors='ignore')
+        # Create column names for embedding dimensions
+        embedding_cols = [f"emb_{i}" for i in range(embeddings.shape[1])]
+        # Combine into one DataFrame
+        X = pd.DataFrame(
+            np.hstack([embeddings, stylistic.values]),
+            columns=embedding_cols + stylistic.columns.tolist()
+        )
+        print(f"features used: {X.columns.tolist()}")
+        logging.info("Features used: EMBEDDING + STYLISTICS")
+        
     else:
-        X = df.drop(columns=['label','feuilleton_id'])
-        print("features used:", X.columns)
-        logging.info(f"Features used: {X.columns}")
-    return X
+        X = df.drop(columns=['label', 'feuilleton_id'])
+        print("features used:", X.columns.tolist())
+        logging.info(f"Features used: {X.columns.tolist()}")
 
+    return X
 
 # Stratified Group K-Fold Cross-Validation
 
@@ -203,7 +225,7 @@ importances = []
 
 # Use GroupKFold to split into train/test while ensuring same feuilleton_id stays in one set
 for train_index, test_index in sgkf.split(X, y, groups):
-    if "embedding" in balanced_df.columns:
+    if DF_NAME == "embeddings":
         # For embeddings, we need to stack the arrays
         X_train, X_test = np.vstack(X[train_index]), np.vstack(X[test_index])
     else:
@@ -251,7 +273,7 @@ for train_index, test_index in sgkf.split(X, y, groups):
     print("-------")
 
 # log features used
-if not DF_NAME == "embeddings":
+if not "embeddings" in DF_NAME:
     logging.info(f"Features used: {X.columns}")
 
 # Calculate overall (mean) performance across all folds

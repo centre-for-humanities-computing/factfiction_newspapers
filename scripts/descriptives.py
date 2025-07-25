@@ -12,6 +12,7 @@ from scipy import stats
 from scipy.stats import spearmanr
 from sklearn.metrics import mutual_info_score
 
+
 # %%
 
 # Some descriptive statistics for the dataset (fiction vs. nonfiction)
@@ -137,6 +138,41 @@ for feature in stylistics_features:
     plt.ylabel("Frequency")
     plt.legend()
     plt.savefig(f"figs/{feature}_distribution.png", dpi=300)
+    plt.show()
+
+# %%
+
+# extra
+
+# does nominal ratio correlate with sentiment sd?
+def get_correlation(df, feature1, feature2):
+    correlation, p_value = spearmanr(df[feature1], df[feature2])
+    return correlation, p_value
+
+x = "nominal_verb_ratio"
+y = "sentiment_std"
+
+# remove nans
+data = df.dropna(subset=[x, y])
+
+df_fiction = data.loc[data["label"] == "fiction"]
+df_nonfiction = data.loc[data["label"] == "non-fiction"]
+all = data.copy()
+
+dfs = [df_fiction, df_nonfiction, all]
+labels = ["Fiction", "Nonfiction", "All"]
+
+
+for i, dataframe in enumerate(dfs):
+    # calculate the correlation
+    correlation, p_value = get_correlation(dataframe, x, y)
+    print(f"{labels[i]}: {correlation:.2f}, p-value: {p_value:.2e}")
+    # visualize it
+    plt.figure(figsize=(5, 3))
+    sns.scatterplot(data=dataframe, x=x, y=y, alpha=0.5)
+    plt.title(f"{labels[i]}: {x} vs {y}\nCorrelation: {correlation:.2f}, p-value: {p_value:.2e}")
+    plt.xlabel(x)
+    plt.ylabel(y)
     plt.show()
 
 # %%

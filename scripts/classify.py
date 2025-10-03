@@ -22,6 +22,7 @@ if os.getcwd().endswith("scripts"):
     print("Changed working directory to:", os.getcwd())
 
 # %%
+# add something
 
 # CONFIGURE
 
